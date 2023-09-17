@@ -65,7 +65,7 @@ class TeachersSubjects(Base):
     subject_id = Column(Integer, ForeignKey('subject.subject_id'))
 
 
-class SubjectsSpecializations:
+class SubjectsSpecializations(Base):
     __tablename__ = 'subjects_specializations'
     __table_args__ = (
         PrimaryKeyConstraint('subject_id', 'specialization_id'),
@@ -75,7 +75,7 @@ class SubjectsSpecializations:
     specialization_id = Column(Integer, ForeignKey('specialization.specialization_id'))
 
 
-class SubjectsAuditoriums:
+class SubjectsAuditoriums(Base):
     __tablename__ = 'subjects_auditoriums'
     __table_args__ = (
         PrimaryKeyConstraint('subject_id', 'auditorium_id'),
