@@ -6,20 +6,77 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1114</width>
+    <height>819</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>255</horstretch>
+     <verstretch>255</verstretch>
+    </sizepolicy>
+   </property>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1111</width>
+      <height>771</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>255</horstretch>
+      <verstretch>255</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="currentIndex">
+     <number>4</number>
+    </property>
+    <widget class="QWidget" name="tabTeachers">
+     <attribute name="title">
+      <string>Преподаватели</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tabSubjects">
+     <attribute name="title">
+      <string>Предметы</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tabStudents">
+     <attribute name="title">
+      <string>Студенты</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tabAuditorium">
+     <attribute name="title">
+      <string>Аудитории</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tabSpec">
+     <attribute name="title">
+      <string>Специальности</string>
+     </attribute>
+    </widget>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1114</width>
      <height>22</height>
     </rect>
    </property>
