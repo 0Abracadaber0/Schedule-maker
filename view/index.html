@@ -9,13 +9,31 @@
     <header id="header">
         <h1><a href="index.html">Schedule maker</a></h1>
         <nav class="tabs">
-            <ul>
-                <li><a href="#">Классы</a></li>
-                <li><a href="#">Уроки</a></li>
-                <li><a href="#">Учителя</a></li>
-                <li><a href="#">Предметы</a></li>
-            </ul>
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'Classes')">Классы</button>
+                <button class="tablinks" onclick="openTab(event, 'Lessons')">Уроки</button>
+                <button class="tablinks" onclick="openTab(event, 'Teachers')">Учителя</button>
+                <button class="tablinks" onclick="openTab(event, 'Subjects')">Предметы</button>
+            </div>
         </nav>
     </header>
+
+    <div id="Classes" class="tabcontent">
+        <h3>Вкладка "Классы"</h3>
+    </div>
+
+    <div id="Lessons" class="tabcontent">
+        <h3>Вкладка "Уроки"</h3>
+    </div>
+
+    <div id="Teachers" class="tabcontent">
+        <h3>Вкладка "Учителя"</h3>
+    </div>
+
+    <div id="Subjects" class="tabcontent">
+        <h3>Вкладка "Предметы"</h3>
+    </div>
+
+    <script src="./assets/js/index.js"></script>
 </body>
 </html>
