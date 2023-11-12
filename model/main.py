@@ -86,4 +86,25 @@ generate_all_lessons()
 
 
 generate_schedule()
-print(schedule)
+# print(schedule)
+
+monday = []
+tuesday = []
+wednesday = []
+thursday = []
+friday = []
+
+for index, row in enumerate(schedule):
+    match index % 5:
+        case 0:
+            monday.append(row)
+        case 1:
+            tuesday.append(row)
+        case 2:
+            wednesday.append(row)
+        case 3:
+            thursday.append(row)
+        case 4:
+            friday.append(row)
+
+print(monday)

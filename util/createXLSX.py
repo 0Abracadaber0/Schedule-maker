@@ -4,12 +4,11 @@ import enum
 
 class Weekdays(enum.Enum):
 
-    monday = 'понедельник'
-    tuesday = 'вторник'
-    wednesday = 'среда'
+    Monday = 'понедельник'
+    Tuesday = 'вторник'
+    Wednesday = 'среда'
     Thursday = 'четверг'
     Friday = 'пятница'
-    Saturday = 'суббота'
 
 
 class Clocks(enum.Enum):
