@@ -80,31 +80,32 @@ def generate_schedule():
                 continue
 
 
-link_all_subjects()
+def schedule_by_groups():
+    link_all_subjects()
 
-generate_all_lessons()
+    generate_all_lessons()
 
+    generate_schedule()
+    # print(schedule)
 
-generate_schedule()
-# print(schedule)
+    groups_lessons = groups
 
-monday = []
-tuesday = []
-wednesday = []
-thursday = []
-friday = []
+    for group in groups_lessons:
+        groups_lessons[group] = []
 
-for index, row in enumerate(schedule):
-    match index % 5:
-        case 0:
-            monday.append(row)
-        case 1:
-            tuesday.append(row)
-        case 2:
-            wednesday.append(row)
-        case 3:
-            thursday.append(row)
-        case 4:
-            friday.append(row)
+    size = 0
+    for row in schedule:
+        size += 1
+        for elem in row:
+            for key, value in elem.items():
+                for group in groups_lessons:
+                    if not value.isdisjoint({group}):
+                        for set_elem in value:
+                            if group != set_elem:
+                                groups_lessons[group].append([key, set_elem])
+        for group in groups_lessons:
+            if len(groups_lessons[group]) < size:
+                groups_lessons[group].append([0])
 
-print(monday)
+    return groups_lessons
+

@@ -1,5 +1,6 @@
 import xlsxwriter
 import enum
+from model.main import schedule_by_groups
 
 
 class Weekdays(enum.Enum):
@@ -53,5 +54,15 @@ for day in Weekdays:
     for time in Clocks:
         worksheet.merge_range(row, column, row + 3, column, time.value, merge_format)
         row += 4
+
+groups = schedule_by_groups()
+print(groups)
+
+row = 10
+column = 2
+for group, lessons in groups.items():
+    worksheet.merge_range(row, column, row + 4, column, group, merge_format)
+    column += 1
+
 
 workbook.close()
