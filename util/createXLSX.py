@@ -24,7 +24,7 @@ class Clocks(enum.Enum):
 workbook = xlsxwriter.Workbook('schedule.xlsx')
 worksheet = workbook.add_worksheet()
 
-worksheet.set_column(1, 14, 18)
+worksheet.set_column(1, 14, 30)
 
 merge_format_flip = workbook.add_format({
     'font_size': 20,
@@ -60,8 +60,26 @@ print(groups)
 
 row = 10
 column = 2
-for group, lessons in groups.items():
+for group, _ in groups.items():
     worksheet.merge_range(row, column, row + 4, column, group, merge_format)
+    column += 1
+
+
+start_row = 15
+column = 2
+for group, lessons in groups.items():
+    row = start_row
+    day, num = 0, 0
+    for lesson in lessons:
+        if day == 0:
+            row = start_row + num * 4
+            num += 1
+        if lesson[0] != 0:
+            worksheet.merge_range(row, column, row + 1, column, lesson[0], merge_format)
+            worksheet.merge_range(row + 2, column, row + 3, column, lesson[1], merge_format)
+        day += 1
+        day %= 5
+        row += 20
     column += 1
 
 
