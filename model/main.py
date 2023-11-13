@@ -1,6 +1,7 @@
 import random
 from itertools import count
 from faker import Faker
+from util.createXLSX import schedule_to_xlsx
 
 faker = Faker()
 
@@ -81,11 +82,6 @@ def generate_schedule():
 
 
 def schedule_by_groups():
-    link_all_subjects()
-
-    generate_all_lessons()
-
-    generate_schedule()
     # print(schedule)
 
     groups_lessons = groups
@@ -109,3 +105,15 @@ def schedule_by_groups():
 
     return groups_lessons
 
+
+def main():
+    link_all_subjects()
+    generate_all_lessons()
+    generate_schedule()
+
+    lessons_by_group = schedule_by_groups()
+    schedule_to_xlsx(lessons_by_group)
+
+
+if __name__ == '__main__':
+    main()
