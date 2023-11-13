@@ -41,6 +41,24 @@ merge_format = workbook.add_format({
     'valign':    'vcenter'
 })
 
+merge_format_lesson = workbook.add_format({
+    'font_size': 15,
+    'top':       5,
+    'left':      5,
+    'right':     5,
+    'align':     'center',
+    'valign':    'vcenter'
+})
+
+merge_format_teacher = workbook.add_format({
+    'font_size': 15,
+    'bottom':       5,
+    'left':      5,
+    'right':     5,
+    'align':     'center',
+    'valign':    'vcenter'
+})
+
 worksheet.merge_range(10, 0, 14, 0, 'Days', merge_format)
 worksheet.merge_range(10, 1, 14, 1, 'Time', merge_format)
 
@@ -77,13 +95,14 @@ for group, lessons in groups.items():
             row = start_row + num * 4
             num += 1
         if lesson[0] != 0:
-            worksheet.merge_range(row, column, row + 3, column, lesson[0] + '\n' + lesson[1], merge_format)
+            worksheet.merge_range(row, column, row + 1, column, lesson[0], merge_format_lesson)
+            worksheet.merge_range(row + 2, column, row + 3, column, lesson[1], merge_format_teacher)
         else:
-            worksheet.merge_range(row, column, row + 3, column, '', merge_format)
+            worksheet.merge_range(row, column, row + 1, column, '', merge_format_lesson)
+            worksheet.merge_range(row + 2, column, row + 3, column, '', merge_format_teacher)
         day += 1
         day %= 5
         row += 20
     column += 1
-
 
 workbook.close()
