@@ -8,7 +8,7 @@ faker = Faker()
 names = (faker.name() for _ in count())
 
 subjects = {
-    'English': 2,
+    'Алгоритмы и структуры данных': 2,
     'math': 2,
     'art': 1,
     'science': 1,
@@ -21,20 +21,21 @@ subjects = {
 }
 
 groups = {
-    '11A': 11,
-    '11B': 11,
-    '11C': 11,
-    '11D': 11,
-    '9B': 9,
-    '9C': 9
+    '10701122': 1,
+    '10701222': 1,
+    '10701322': 1,
+    '10702122': 2,
+    '10702222': 2,
+    '10702322': 2,
+    '10702422': 2
 }
 
 plans = {
-    11: {'English': 3, 'math': 4, 'science': 3, 'geography': 2, 'I.T.': 2, 'biology': 2},
-    9: {'English': 2, 'math': 3, 'art': 1, 'history': 2, 'music': 1, 'P.E.': 2, 'biology': 2}
+    1: {'Алгоритмы и структуры данных': 3, 'math': 4, 'science': 3, 'geography': 2, 'I.T.': 2, 'biology': 2},
+    2: {'Алгоритмы и структуры данных': 2, 'math': 3, 'art': 1, 'history': 2, 'music': 1, 'P.E.': 2, 'biology': 2}
 }
 
-lessons_per_week = 25
+lessons_per_week = 24
 
 teachers = {}
 all_lessons = []
