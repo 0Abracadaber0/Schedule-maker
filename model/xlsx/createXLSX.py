@@ -1,10 +1,10 @@
 import enum
 
 import xlsxwriter
+import model.xlsx.formats as form
 
 
 class Weekdays(enum.Enum):
-
     Monday = 'понедельник'
     Tuesday = 'вторник'
     Wednesday = 'среда'
@@ -14,55 +14,36 @@ class Weekdays(enum.Enum):
 
 
 class Clocks(enum.Enum):
+    """
+    Time of lessons
+    """
     first = '8.00-9.35'
     second = '9.55-11.30'
     third = '11.40-13.15'
     fourth = '13.55-15.30'
 
 
+# Constants
 days_of_study = len(Weekdays)
 lessons_per_day = len(Clocks)
 
 
 def schedule_to_xlsx(groups):
-    print(lessons_per_day)
+    """
+    Output the schedule in xlsx
+    :param groups: dict{number_of_group: [[name_of_subject, teacher], [name_of_subject, teacher], ...]}
+
+    """
     workbook = xlsxwriter.Workbook('../view/assets/xlsx/schedule.xlsx')
     worksheet = workbook.add_worksheet()
 
-    worksheet.set_column(1, 14, 30)
+    # Create formats
+    merge_format = workbook.add_format(form.merge_format)
+    merge_format_flip = workbook.add_format(form.merge_format_flip)
+    merge_format_teacher = workbook.add_format(form.merge_format_teacher)
+    merge_format_lesson = workbook.add_format(form.merge_format_lesson)
 
-    merge_format_flip = workbook.add_format({
-        'font_size': 20,
-        'border':    5,
-        'align':     'center',
-        'valign':    'vcenter',
-        'rotation':  90
-    })
-
-    merge_format = workbook.add_format({
-        'font_size': 15,
-        'border':    5,
-        'align':     'center',
-        'valign':    'vcenter'
-    })
-
-    merge_format_lesson = workbook.add_format({
-        'font_size': 10,
-        'top':       5,
-        'left':      5,
-        'right':     5,
-        'align':     'center',
-        'valign':    'vcenter'
-    })
-
-    merge_format_teacher = workbook.add_format({
-        'font_size': 15,
-        'bottom':    5,
-        'left':      5,
-        'right':     5,
-        'align':     'center',
-        'valign':    'vcenter'
-    })
+    worksheet.set_column(1, 14, 20)
 
     worksheet.merge_range(10, 0, 14, 0, 'День', merge_format)
     worksheet.merge_range(10, 1, 14, 1, 'Время', merge_format)
@@ -83,8 +64,8 @@ def schedule_to_xlsx(groups):
     row = 10
     column = 2
     for group, _ in groups.items():
-        worksheet.merge_range(row, column, row + 4, column, group, merge_format)
-        column += 1
+        worksheet.merge_range(row, column, row + 4, column + 1, group, merge_format)
+        column += 2
 
     start_row = 15
     column = 2
@@ -96,14 +77,14 @@ def schedule_to_xlsx(groups):
                 row = start_row + num * 4
                 num += 1
             if lesson[0] != 0:
-                worksheet.merge_range(row, column, row + 1, column, lesson[0], merge_format_lesson)
-                worksheet.merge_range(row + 2, column, row + 3, column, lesson[1], merge_format_teacher)
+                worksheet.merge_range(row, column, row + 1, column + 1, lesson[0], merge_format_lesson)
+                worksheet.merge_range(row + 2, column, row + 3, column + 1, lesson[1], merge_format_teacher)
             else:
-                worksheet.merge_range(row, column, row + 1, column, '', merge_format_lesson)
-                worksheet.merge_range(row + 2, column, row + 3, column, '', merge_format_teacher)
+                worksheet.merge_range(row, column, row + 1, column + 1, '', merge_format_lesson)
+                worksheet.merge_range(row + 2, column, row + 3, column + 1, '', merge_format_teacher)
             day += 1
             day %= days_of_study
             row += 4*lessons_per_day
-        column += 1
+        column += 2
 
     workbook.close()
