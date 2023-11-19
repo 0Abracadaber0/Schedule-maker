@@ -36,7 +36,7 @@ plans = {
     2: {'Алгоритмы и структуры данных': 2, 'math': 3, 'art': 1, 'history': 2, 'music': 1, 'P.E.': 2, 'biology': 2}
 }
 
-lessons_per_week = 24
+lessons_per_week = xlsx.days_of_study * xlsx.lessons_per_day
 
 teachers = {}
 all_lessons = []

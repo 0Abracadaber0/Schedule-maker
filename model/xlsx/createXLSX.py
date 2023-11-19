@@ -38,10 +38,10 @@ def schedule_to_xlsx(groups):
     worksheet = workbook.add_worksheet()
 
     # Create formats
-    merge_format = workbook.add_format(form.merge_format)
-    merge_format_flip = workbook.add_format(form.merge_format_flip)
-    merge_format_teacher = workbook.add_format(form.merge_format_teacher)
-    merge_format_lesson = workbook.add_format(form.merge_format_lesson)
+    merge_format = workbook.add_format(form.Formats.get_merge_format())
+    merge_format_flip = workbook.add_format(form.Formats.get_merge_format_flip())
+    merge_format_teacher = workbook.add_format(form.Formats.get_format_bot_cell())
+    merge_format_lesson = workbook.add_format(form.Formats.get_format_top_cell())
 
     worksheet.set_column(1, 14, 20)
 
