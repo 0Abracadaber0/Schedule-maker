@@ -5,7 +5,6 @@ import model.xlsx.createXLSX as xlsx
 
 
 faker = Faker()
-
 names = (faker.name() for _ in count())
 
 subjects = {
@@ -32,14 +31,31 @@ groups = {
 }
 
 plans = {
-    1: {'Алгоритмы и структуры данных': 3, 'math': 4, 'science': 3, 'geography': 2, 'I.T.': 2, 'biology': 2},
-    2: {'Алгоритмы и структуры данных': 2, 'math': 3, 'art': 1, 'history': 2, 'music': 1, 'P.E.': 2, 'biology': 2}
+    1: {
+        'Алгоритмы и структуры данных': 3,
+        'math': 4,
+        'science': 3,
+        'geography': 2,
+        'I.T.': 2,
+        'biology': 2
+    },
+    2: {
+        'Алгоритмы и структуры данных': 2,
+        'math': 3,
+        'art': 1,
+        'history': 2,
+        'music': 1,
+        'P.E.': 2,
+        'biology': 2
+    }
 }
 
 lessons_per_week = xlsx.days_of_study * xlsx.lessons_per_day
 
 teachers = {}
 all_lessons = []
+
+free_time = [[0 for j in range(len(groups))] for i in range(lessons_per_week)]
 
 schedule = [[{0: {0, 0}}] * len(groups) for i in range(lessons_per_week)]
 
