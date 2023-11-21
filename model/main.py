@@ -3,9 +3,10 @@ from itertools import count
 from faker import Faker
 import model.xlsx.createXLSX as xlsx
 
-
+# faker for generate teacher's names
 faker = Faker()
 names = (faker.name() for _ in count())
+
 
 subjects = {
     'Алгоритмы и структуры данных': 2,
@@ -32,21 +33,21 @@ groups = {
 
 plans = {
     1: {
-        'Алгоритмы и структуры данных': 3,
-        'math': 4,
-        'science': 3,
-        'geography': 2,
-        'I.T.': 2,
-        'biology': 2
+        'Алгоритмы и структуры данных': [1, 2],
+        'math': [2, 2],
+        'science': [1, 3],
+        'geography': [1, 1],
+        'I.T.': [1, 1],
+        'biology': [1, 1]
     },
     2: {
-        'Алгоритмы и структуры данных': 2,
-        'math': 3,
-        'art': 1,
-        'history': 2,
-        'music': 1,
-        'P.E.': 2,
-        'biology': 2
+        'Алгоритмы и структуры данных': [1, 1],
+        'math': [1, 2],
+        'art': [0, 1],
+        'history': [1, 1],
+        'music': [0, 1],
+        'P.E.': [0, 2],
+        'biology': [1, 1]
     }
 }
 
@@ -55,7 +56,7 @@ lessons_per_week = xlsx.days_of_study * xlsx.lessons_per_day
 teachers = {}
 all_lessons = []
 
-free_time = [[0 for j in range(len(groups))] for i in range(lessons_per_week)]
+free_time = {key: [0] * lessons_per_week for key in groups.keys()}
 
 schedule = [[{0: {0, 0}}] * len(groups) for i in range(lessons_per_week)]
 
@@ -74,8 +75,9 @@ def generate_all_lessons():
         lessons = plans.get(groups.get(group))
         for lesson in lessons:
             teacher = random.choice(teachers[lesson])
-            for i in range(lessons.get(lesson)):
+            for i in range(lessons.get(lesson)[1]):
                 all_lessons.append({lesson: {group, teacher}})
+    print(all_lessons)
 
 
 def generate_schedule():
@@ -115,8 +117,9 @@ def schedule_by_groups():
                 for group in groups_lessons:
                     if not value.isdisjoint({group}):
                         for set_elem in value:
-                            if group != set_elem:
+                            if group != set_elem and free_time[group][size-1] == 0:
                                 groups_lessons[group].append([key, set_elem])
+                                free_time[group][size-1] = 1
         for group in groups_lessons:
             if len(groups_lessons[group]) < size:
                 groups_lessons[group].append([0])

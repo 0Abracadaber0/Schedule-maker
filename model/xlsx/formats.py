@@ -1,3 +1,6 @@
+"""Formats for xlsx's cells"""
+
+
 class Formats:
 
     merge_format_flip = {

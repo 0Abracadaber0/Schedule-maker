@@ -14,9 +14,7 @@ class Weekdays(enum.Enum):
 
 
 class Clocks(enum.Enum):
-    """
-    Time of lessons
-    """
+    """Time of lessons"""
     first = '8.00-9.35'
     second = '9.55-11.30'
     third = '11.40-13.15'
@@ -29,11 +27,11 @@ lessons_per_day = len(Clocks)
 
 
 def schedule_to_xlsx(groups):
-    """
-    Output the schedule in xlsx
-    :param groups: dict{number_of_group: [[name_of_subject, teacher], [name_of_subject, teacher], ...]}
+    """Output the schedule in xlsx
++
+     :param groups: dict{number_of_group: [[name_of_subject, teacher], [name_of_subject, teacher], ...]}
 
-    """
+     """
     workbook = xlsxwriter.Workbook('../view/assets/xlsx/schedule.xlsx')
     worksheet = workbook.add_worksheet()
 
