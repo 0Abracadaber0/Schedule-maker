@@ -1,13 +1,16 @@
+"""Generating schedule"""
 import random
+
 from itertools import count
 from faker import Faker
+
 import model.xlsx.createXLSX as xlsx
 
 # faker for generate teacher's names
 faker = Faker()
 names = (faker.name() for _ in count())
 
-
+# {name of subject: amount of teachers}
 subjects = {
     'Алгоритмы и структуры данных': 2,
     'math': 2,
@@ -21,6 +24,7 @@ subjects = {
     'biology': 2
 }
 
+# {group number: curriculum number}
 groups = {
     '10701122': 1,
     '10701222': 1,
@@ -31,6 +35,7 @@ groups = {
     '10702422': 2
 }
 
+# {curriculum number: {subject name: [amount of lectures, amount of practical lessons]}}
 plans = {
     1: {
         'Алгоритмы и структуры данных': [1, 2],
@@ -53,34 +58,87 @@ plans = {
 
 lessons_per_week = xlsx.days_of_study * xlsx.lessons_per_day
 
-teachers = {}
-all_lessons = []
-
-free_time = {key: [0] * lessons_per_week for key in groups.keys()}
-
-schedule = [[{0: {0, 0}}] * len(groups) for i in range(lessons_per_week)]
-
 
 def generate_teacher():
+    """Generate teacher's names
+    Returns:
+        A fake teacher's name
+    """
     return next(name for name in names)
 
 
 def link_all_subjects():
+    """
+    Returns:
+        A dict mapped subject's name to the list of teacher's names.
+        For example:
+
+        {
+            'math': ['Laura Hill', 'Adam Smith'],
+            'art': ['Heather Galloway'],
+            'biology': ['Martha Allen', 'Lisa Cook']
+        }
+    """
+    teachers = {}
     for subject in subjects:
         teachers.update({subject: [generate_teacher() for _ in range(subjects.get(subject))]})
 
+    return teachers
 
-def generate_all_lessons():
+
+def generate_all_lessons(teachers):
+    """Create a list of unique lessons
+
+    Args:
+        teachers: A dict mapped subject's name to the list of teacher's names.
+
+    Returns:
+        A list of unique lessons.
+        For example:
+
+        [
+            {'P.E.': {'Deanna Newton', '10702222'}},
+            {'biology': {'10702222', 'Kara Romero'}},
+            {'math': {'10702322', 'Rachel Young'}},
+            {'math': {'10702322', 'Rachel Young'}},
+            {'art': {'10702322', 'Jason Mullins'}}
+        ]
+    """
+    all_lessons = []
+    for stream in plans.keys():
+        for lesson in plans[stream]:
+            teacher = random.choice(teachers[lesson])
+            for i in range(len(plans[stream])):
+                all_lessons.append({lesson: {stream, teacher}})
+
     for group in groups:
         lessons = plans.get(groups.get(group))
         for lesson in lessons:
             teacher = random.choice(teachers[lesson])
             for i in range(lessons.get(lesson)[1]):
                 all_lessons.append({lesson: {group, teacher}})
-    print(all_lessons)
+
+    return all_lessons
 
 
-def generate_schedule():
+def generate_schedule(all_lessons):
+    """Distributes lessons in such a way that groups and teachers do not overlap at the same time.
+
+    Args:
+        all_lessons: A list of unique lessons.
+
+    Returns:
+        A two-dimensional array where a row is a time unit and a column is a group or stream.
+        For example:
+
+        [
+            {'science': {1, 'Kelly Davidson'}},
+            {'art': {2, 'John Flores'}},
+            {0: {0}},
+            {'math': {'10702422', 'Tracy Morse'}},
+        ]
+    """
+    schedule = [[{0: {0, 0}}] * len(groups) for _ in range(lessons_per_week)]
     for row in schedule:
         for index, element in enumerate(row):
             f = True
@@ -100,12 +158,28 @@ def generate_schedule():
             if f:
                 continue
 
+    return schedule
 
-def schedule_by_groups():
-    # print(schedule)
+
+def schedule_by_groups(schedule):
+    """Remake a two-dimensional array obtained from the function generate_schedule
+
+    Args:
+        schedule: A two-dimensional array where a row is a time unit and a column is a group or stream.
+
+    Returns: A dict mapped group's number and array of subject's name and teacher's name.
+             For example:
+
+             {
+                '10701122': [['math', 'James Walters'], ['math', 'James Walters'], [0]],
+                '10701222': [['science', 'Charles Farmer'], [0], [0]]
+             }
+
+    """
+    # 0 - time is free, 1 - time isn't free
+    free_time = {key: [0] * lessons_per_week for key in groups.keys()}
 
     groups_lessons = groups
-
     for group in groups_lessons:
         groups_lessons[group] = []
 
@@ -128,11 +202,13 @@ def schedule_by_groups():
 
 
 def main():
-    link_all_subjects()
-    generate_all_lessons()
-    generate_schedule()
+    teachers = link_all_subjects()
 
-    lessons_by_group = schedule_by_groups()
+    lessons = generate_all_lessons(teachers)
+
+    schedule = generate_schedule(lessons)
+
+    lessons_by_group = schedule_by_groups(schedule)
     xlsx.schedule_to_xlsx(lessons_by_group)
 
 

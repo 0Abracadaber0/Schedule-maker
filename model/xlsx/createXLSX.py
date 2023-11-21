@@ -41,7 +41,7 @@ def schedule_to_xlsx(groups):
     merge_format_teacher = workbook.add_format(form.Formats.get_format_bot_cell())
     merge_format_lesson = workbook.add_format(form.Formats.get_format_top_cell())
 
-    worksheet.set_column(1, 14, 20)
+    worksheet.set_column(1, 15, 20)
 
     worksheet.merge_range(10, 0, 14, 0, 'День', merge_format)
     worksheet.merge_range(10, 1, 14, 1, 'Время', merge_format)
