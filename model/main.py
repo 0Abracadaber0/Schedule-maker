@@ -39,7 +39,7 @@ groups = {
 plans = {
     1: {
         'Алгоритмы и структуры данных': [1, 2],
-        'math': [2, 2],
+        'math': [1, 2],
         'science': [1, 3],
         'geography': [1, 1],
         'I.T.': [1, 1],
@@ -48,9 +48,9 @@ plans = {
     2: {
         'Алгоритмы и структуры данных': [1, 1],
         'math': [1, 2],
-        'art': [0, 1],
+        'art': [1, 1],
         'history': [1, 1],
-        'music': [0, 1],
+        'music': [1, 1],
         'P.E.': [0, 2],
         'biology': [1, 1]
     }
@@ -105,11 +105,12 @@ def generate_all_lessons(teachers):
         ]
     """
     all_lessons = []
-    # for stream in plans.keys():
-    #     for lesson in plans[stream]:
-    #         teacher = random.choice(teachers[lesson])
-    #         for i in range(len(plans[stream])):
-    #             all_lessons.append({lesson: [stream, teacher]})
+    for stream in plans.keys():
+        for lesson in plans[stream]:
+            teacher = random.choice(teachers[lesson])
+
+            for i in range(plans[stream][lesson][0]):
+                all_lessons.append({lesson: [stream, teacher]})
 
     for group in groups:
         lessons = plans.get(groups.get(group))
@@ -141,25 +142,69 @@ def generate_schedule(all_lessons):
     schedule = {key: [[0, 0] for _ in range(lessons_per_week)] for key in groups.keys()}
 
     for i in range(lessons_per_week):
-        for group in schedule:
+        for stream in plans.keys():
             for lesson in all_lessons:
-                if lesson[list(lesson.keys())[0]][0] != group:
+
+                if lesson[list(lesson.keys())[0]][0] != stream:
                     continue
+
                 flag = True
                 for key in schedule.keys():
                     if schedule[key][i][1] == lesson[list(lesson.keys())[0]][1]:
                         flag = False
+
                         break
+
                 if flag:
-                    schedule[group][i][0] = list(lesson.keys())[0]
-                    schedule[group][i][1] = list(lesson.values())[0][1]
-                    print('accepted:', group, schedule[group][i])
+                    for group in groups.keys():
+                        if groups[group] == stream:
+                            free_time[group][i] = 1
+
+                            schedule[group][i][0] = list(lesson.keys())[0]
+                            schedule[group][i][1] = list(lesson.values())[0][1]
+
+                            print('accepted:', group, schedule[group][i])
+
                     all_lessons.remove(lesson)
 
                     break
+
                 else:
                     print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
 
+    for i in range(lessons_per_week):
+        for group in schedule:
+            if free_time[group][i] == 1:
+                continue
+
+            for lesson in all_lessons:
+
+                if lesson[list(lesson.keys())[0]][0] != group:
+                    continue
+
+                flag = True
+                for key in schedule.keys():
+                    if schedule[key][i][1] == lesson[list(lesson.keys())[0]][1]:
+                        flag = False
+
+                        break
+
+                if flag:
+                    free_time[group][i] = 1
+
+                    schedule[group][i][0] = list(lesson.keys())[0]
+                    schedule[group][i][1] = list(lesson.values())[0][1]
+
+                    print('accepted:', group, schedule[group][i])
+
+                    all_lessons.remove(lesson)
+
+                    break
+
+                else:
+                    print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
+
+    print(free_time)
     return schedule
 
 
