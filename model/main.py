@@ -12,7 +12,7 @@ names = (faker.name() for _ in count())
 
 # {name of subject: amount of teachers}
 subjects = {
-    'Алгоритмы и структуры данных': 2,
+    'Алгоритмы и структуры данных': 1,
     'math': 2,
     'art': 1,
     'science': 1,
@@ -105,18 +105,18 @@ def generate_all_lessons(teachers):
         ]
     """
     all_lessons = []
-    for stream in plans.keys():
-        for lesson in plans[stream]:
-            teacher = random.choice(teachers[lesson])
-            for i in range(len(plans[stream])):
-                all_lessons.append({lesson: {stream, teacher}})
+    # for stream in plans.keys():
+    #     for lesson in plans[stream]:
+    #         teacher = random.choice(teachers[lesson])
+    #         for i in range(len(plans[stream])):
+    #             all_lessons.append({lesson: [stream, teacher]})
 
     for group in groups:
         lessons = plans.get(groups.get(group))
         for lesson in lessons:
             teacher = random.choice(teachers[lesson])
             for i in range(lessons.get(lesson)[1]):
-                all_lessons.append({lesson: {group, teacher}})
+                all_lessons.append({lesson: [group, teacher]})
 
     return all_lessons
 
@@ -127,46 +127,6 @@ def generate_schedule(all_lessons):
     Args:
         all_lessons: A list of unique lessons.
 
-    Returns:
-        A two-dimensional array where a row is a time unit and a column is a group or stream.
-        For example:
-
-        [
-            {'science': {1, 'Kelly Davidson'}},
-            {'art': {2, 'John Flores'}},
-            {0: {0}},
-            {'math': {'10702422', 'Tracy Morse'}},
-        ]
-    """
-    schedule = [[{0: {0, 0}}] * len(groups) for _ in range(lessons_per_week)]
-    for row in schedule:
-        for index, element in enumerate(row):
-            f = True
-            for lesson in all_lessons:
-                f = True
-                key = next(iter(lesson))
-
-                for i in range(index):
-                    i_key = next(iter(row[i]))
-                    if not lesson[key].isdisjoint(row[i][i_key]):
-                        f = False
-                        break
-                if f:
-                    row[index] = lesson
-                    all_lessons.remove(lesson)
-                    break
-            if f:
-                continue
-
-    return schedule
-
-
-def schedule_by_groups(schedule):
-    """Remake a two-dimensional array obtained from the function generate_schedule
-
-    Args:
-        schedule: A two-dimensional array where a row is a time unit and a column is a group or stream.
-
     Returns: A dict mapped group's number and array of subject's name and teacher's name.
              For example:
 
@@ -174,31 +134,33 @@ def schedule_by_groups(schedule):
                 '10701122': [['math', 'James Walters'], ['math', 'James Walters'], [0]],
                 '10701222': [['science', 'Charles Farmer'], [0], [0]]
              }
-
     """
     # 0 - time is free, 1 - time isn't free
     free_time = {key: [0] * lessons_per_week for key in groups.keys()}
 
-    groups_lessons = groups
-    for group in groups_lessons:
-        groups_lessons[group] = []
+    schedule = {key: [[0, 0] for _ in range(lessons_per_week)] for key in groups.keys()}
 
-    size = 0
-    for row in schedule:
-        size += 1
-        for elem in row:
-            for key, value in elem.items():
-                for group in groups_lessons:
-                    if not value.isdisjoint({group}):
-                        for set_elem in value:
-                            if group != set_elem and free_time[group][size-1] == 0:
-                                groups_lessons[group].append([key, set_elem])
-                                free_time[group][size-1] = 1
-        for group in groups_lessons:
-            if len(groups_lessons[group]) < size:
-                groups_lessons[group].append([0])
+    for i in range(lessons_per_week):
+        for group in schedule:
+            for lesson in all_lessons:
+                if lesson[list(lesson.keys())[0]][0] != group:
+                    continue
+                flag = True
+                for key in schedule.keys():
+                    if schedule[key][i][1] == lesson[list(lesson.keys())[0]][1]:
+                        flag = False
+                        break
+                if flag:
+                    schedule[group][i][0] = list(lesson.keys())[0]
+                    schedule[group][i][1] = list(lesson.values())[0][1]
+                    print('accepted:', group, schedule[group][i])
+                    all_lessons.remove(lesson)
 
-    return groups_lessons
+                    break
+                else:
+                    print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
+
+    return schedule
 
 
 def main():
@@ -208,8 +170,7 @@ def main():
 
     schedule = generate_schedule(lessons)
 
-    lessons_by_group = schedule_by_groups(schedule)
-    xlsx.schedule_to_xlsx(lessons_by_group)
+    xlsx.schedule_to_xlsx(schedule)
 
 
 if __name__ == '__main__':
