@@ -21,7 +21,7 @@ subjects = {
     'geography': 1,
     'P.E.': 1,
     'I.T.': 1,
-    'biology': 2
+    'biology': 1
 }
 
 # {group number: curriculum number}
@@ -138,6 +138,7 @@ def generate_schedule(all_lessons):
     """
     # 0 - time is free, 1 - time isn't free
     free_time = {key: [0] * lessons_per_week for key in groups.keys()}
+    lesson_id = 1
 
     schedule = {key: [[0, 0] for _ in range(lessons_per_week)] for key in groups.keys()}
 
@@ -158,13 +159,13 @@ def generate_schedule(all_lessons):
                 if flag:
                     for group in groups.keys():
                         if groups[group] == stream:
-                            free_time[group][i] = 1
+                            free_time[group][i] = lesson_id
 
                             schedule[group][i][0] = list(lesson.keys())[0]
                             schedule[group][i][1] = list(lesson.values())[0][1]
 
                             print('accepted:', group, schedule[group][i])
-
+                    lesson_id += 1
                     all_lessons.remove(lesson)
 
                     break
@@ -174,7 +175,7 @@ def generate_schedule(all_lessons):
 
     for i in range(lessons_per_week):
         for group in schedule:
-            if free_time[group][i] == 1:
+            if free_time[group][i] != 0:
                 continue
 
             for lesson in all_lessons:
@@ -190,8 +191,8 @@ def generate_schedule(all_lessons):
                         break
 
                 if flag:
-                    free_time[group][i] = 1
-
+                    free_time[group][i] = lesson_id
+                    lesson_id += 1
                     schedule[group][i][0] = list(lesson.keys())[0]
                     schedule[group][i][1] = list(lesson.values())[0][1]
 
@@ -204,8 +205,8 @@ def generate_schedule(all_lessons):
                 else:
                     print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
 
-    print(free_time)
-    return schedule
+    print(schedule)
+    return schedule, free_time
 
 
 def main():
@@ -213,9 +214,9 @@ def main():
 
     lessons = generate_all_lessons(teachers)
 
-    schedule = generate_schedule(lessons)
+    schedule, free_time = generate_schedule(lessons)
 
-    xlsx.schedule_to_xlsx(schedule)
+    xlsx.schedule_to_xlsx(schedule, free_time)
 
 
 if __name__ == '__main__':

@@ -26,12 +26,8 @@ days_of_study = len(Weekdays)
 lessons_per_day = len(Clocks)
 
 
-def schedule_to_xlsx(groups):
-    """Output the schedule in xlsx
-+
-     :param groups: dict{number_of_group: [[name_of_subject, teacher], [name_of_subject, teacher], ...]}
+def schedule_to_xlsx(groups, free_time):
 
-     """
     workbook = xlsxwriter.Workbook('../view/assets/xlsx/schedule.xlsx')
     worksheet = workbook.add_worksheet()
 
@@ -70,13 +66,33 @@ def schedule_to_xlsx(groups):
     for group, lessons in groups.items():
         row = start_row
         day, num = 0, 0
-        for lesson in lessons:
+        for index, lesson in enumerate(lessons):
             if day == 0:
                 row = start_row + num * 4
                 num += 1
             if lesson[0] != 0:
-                worksheet.merge_range(row, column, row + 1, column + 1, lesson[0], merge_format_lesson)
-                worksheet.merge_range(row + 2, column, row + 3, column + 1, lesson[1], merge_format_teacher)
+                curr_column = column - 1
+                keys = groups.keys()
+                key = iter(keys)
+                q = next(key)
+                while q != group:
+                    q = next(key)
+                while True:
+                    if free_time[group][index] == free_time[q][index]:
+                        curr_column += 2
+                    else:
+                        break
+                    try:
+                        q = next(key)
+                    except StopIteration:
+                        break
+
+                try:
+                    print(column, curr_column)
+                    worksheet.merge_range(row, column, row + 1, curr_column, lesson[0], merge_format_lesson)
+                    worksheet.merge_range(row + 2, column, row + 3, curr_column, lesson[1], merge_format_teacher)
+                except:
+                    pass
             else:
                 worksheet.merge_range(row, column, row + 1, column + 1, '', merge_format_lesson)
                 worksheet.merge_range(row + 2, column, row + 3, column + 1, '', merge_format_teacher)
