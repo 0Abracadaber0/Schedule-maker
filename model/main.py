@@ -97,11 +97,11 @@ def generate_all_lessons(teachers):
         For example:
 
         [
-            {'P.E.': {'Deanna Newton', '10702222'}},
-            {'biology': {'10702222', 'Kara Romero'}},
-            {'math': {'10702322', 'Rachel Young'}},
-            {'math': {'10702322', 'Rachel Young'}},
-            {'art': {'10702322', 'Jason Mullins'}}
+            {'P.E.': ['Deanna Newton', '10702222']},
+            {'biology': ['10702222', 'Kara Romero']},
+            {'math': ['10702322', 'Rachel Young']},
+            {'math': ['10702322', 'Rachel Young']},
+            {'art': ['10702322', 'Jason Mullins']}
         ]
     """
     all_lessons = []
@@ -122,10 +122,11 @@ def generate_all_lessons(teachers):
     return all_lessons
 
 
-def generate_schedule(all_lessons):
+def generate_schedule(all_lessons, subjects_teachers):
     """Distributes lessons in such a way that groups and teachers do not overlap at the same time.
 
     Args:
+        subjects_teachers: A dict mapped subjects and arrays of teachers.
         all_lessons: A list of unique lessons.
 
     Returns: A dict mapped group's number and array of subject's name and teacher's name.
@@ -135,10 +136,32 @@ def generate_schedule(all_lessons):
                 '10701122': [['math', 'James Walters'], ['math', 'James Walters'], [0]],
                 '10701222': [['science', 'Charles Farmer'], [0], [0]]
              }
+
+             A dict mapped group's number and array of id of every lesson.
+             For example:
+
+             {
+                '10701122': [1, 3, 4, 0, 6],
+                '10701222': [1, 2, 0, 5, 0]
+             }
+
+             A dict mapped teacher's name and lesson.
+             For example:
+
+             {
+                'Jessica Ward': [['math', '10701122 10701222'], [0, '']],
+                'Linda Short': [['P.E.', '10702122'], ['P.E.', '10702222']]
+             }
+
     """
     # 0 - time is free, 1 - time isn't free
     free_time = {key: [0] * lessons_per_week for key in groups.keys()}
     lesson_id = 1
+
+    teachers = {}
+    for subject in subjects_teachers:
+        for teacher in subjects_teachers[subject]:
+            teachers[teacher] = [[0, ''] for _ in range(lessons_per_week)]
 
     schedule = {key: [[0, 0] for _ in range(lessons_per_week)] for key in groups.keys()}
 
@@ -160,6 +183,9 @@ def generate_schedule(all_lessons):
                     for group in groups.keys():
                         if groups[group] == stream:
                             free_time[group][i] = lesson_id
+
+                            teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
+                            teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
 
                             schedule[group][i][0] = list(lesson.keys())[0]
                             schedule[group][i][1] = list(lesson.values())[0][1]
@@ -193,6 +219,10 @@ def generate_schedule(all_lessons):
                 if flag:
                     free_time[group][i] = lesson_id
                     lesson_id += 1
+
+                    teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
+                    teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+
                     schedule[group][i][0] = list(lesson.keys())[0]
                     schedule[group][i][1] = list(lesson.values())[0][1]
 
@@ -205,8 +235,8 @@ def generate_schedule(all_lessons):
                 else:
                     print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
 
-    print(schedule)
-    return schedule, free_time
+    print(teachers, free_time)
+    return schedule, free_time, teachers
 
 
 def main():
@@ -214,9 +244,9 @@ def main():
 
     lessons = generate_all_lessons(teachers)
 
-    schedule, free_time = generate_schedule(lessons)
+    schedule, free_time, teachers = generate_schedule(lessons, teachers)
 
-    xlsx.schedule_to_xlsx(schedule, free_time)
+    xlsx.schedule_to_xlsx(schedule, free_time, teachers)
 
 
 if __name__ == '__main__':

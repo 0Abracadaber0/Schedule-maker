@@ -25,19 +25,24 @@ class Clocks(enum.Enum):
 days_of_study = len(Weekdays)
 lessons_per_day = len(Clocks)
 
+# Create formats
+workbook = xlsxwriter.Workbook('../view/assets/xlsx/schedule.xlsx')
 
-def schedule_to_xlsx(groups, free_time):
+merge_format = workbook.add_format(form.Formats.get_merge_format())
+merge_format_flip = workbook.add_format(form.Formats.get_merge_format_flip())
+format_bot_cell = workbook.add_format(form.Formats.get_format_bot_cell())
+format_top_cell = workbook.add_format(form.Formats.get_format_top_cell())
 
-    workbook = xlsxwriter.Workbook('../view/assets/xlsx/schedule.xlsx')
-    worksheet = workbook.add_worksheet()
 
-    # Create formats
-    merge_format = workbook.add_format(form.Formats.get_merge_format())
-    merge_format_flip = workbook.add_format(form.Formats.get_merge_format_flip())
-    merge_format_teacher = workbook.add_format(form.Formats.get_format_bot_cell())
-    merge_format_lesson = workbook.add_format(form.Formats.get_format_top_cell())
+def markup(worksheet, data):
+    """Makes the initial layout of the sheet
 
-    worksheet.set_column(1, 15, 20)
+    Args:
+        worksheet: The sheet to mark up
+        data: A dict of data to mark up
+
+    """
+    worksheet.set_column(1, 30, 20)
 
     worksheet.merge_range(10, 0, 14, 0, 'День', merge_format)
     worksheet.merge_range(10, 1, 14, 1, 'Время', merge_format)
@@ -45,8 +50,8 @@ def schedule_to_xlsx(groups, free_time):
     row = 15
     column = 0
     for day in Weekdays:
-        worksheet.merge_range(row, column, row + 4*lessons_per_day-1, column, day.value, merge_format_flip)
-        row += 4*lessons_per_day
+        worksheet.merge_range(row, column, row + 4 * lessons_per_day - 1, column, day.value, merge_format_flip)
+        row += 4 * lessons_per_day
 
     row = 15
     column = 1
@@ -57,9 +62,24 @@ def schedule_to_xlsx(groups, free_time):
 
     row = 10
     column = 2
-    for group, _ in groups.items():
-        worksheet.merge_range(row, column, row + 4, column + 1, group, merge_format)
+    for cell in data:
+        worksheet.merge_range(row, column, row + 4, column + 1, cell, merge_format)
         column += 2
+
+
+def schedule_to_xlsx(groups, free_time, teachers):
+    """Create schedule at xlsx
+    
+    Args:
+        teachers: A dict mapped teacher's name and lesson.
+        groups: A dict mapped group's number and array of subject's name and teacher's name.
+        free_time: A dict mapped group's number and array of id of every lesson.
+
+    """
+
+    worksheet = workbook.add_worksheet('Groups schedule')
+
+    markup(worksheet, groups)
 
     start_row = 15
     column = 2
@@ -88,17 +108,41 @@ def schedule_to_xlsx(groups, free_time):
                         break
 
                 try:
-                    print(column, curr_column)
-                    worksheet.merge_range(row, column, row + 1, curr_column, lesson[0], merge_format_lesson)
-                    worksheet.merge_range(row + 2, column, row + 3, curr_column, lesson[1], merge_format_teacher)
+                    worksheet.merge_range(row, column, row + 1, curr_column, lesson[0], format_top_cell)
+                    worksheet.merge_range(row + 2, column, row + 3, curr_column, lesson[1], format_bot_cell)
                 except:
                     pass
             else:
-                worksheet.merge_range(row, column, row + 1, column + 1, '', merge_format_lesson)
-                worksheet.merge_range(row + 2, column, row + 3, column + 1, '', merge_format_teacher)
+                worksheet.merge_range(row, column, row + 1, column + 1, '', format_top_cell)
+                worksheet.merge_range(row + 2, column, row + 3, column + 1, '', format_bot_cell)
             day += 1
             day %= days_of_study
-            row += 4*lessons_per_day
+            row += 4 * lessons_per_day
+        column += 2
+
+    worksheet = workbook.add_worksheet('Teachers schedule')
+
+    markup(worksheet, teachers)
+
+    row = 10
+    column = 2
+
+    for teacher, lessons in teachers.items():
+        row = start_row
+        day, num = 0, 0
+        for index, lesson in enumerate(lessons):
+            if day == 0:
+                row = start_row + num * 4
+                num += 1
+            if lesson[0] != 0:
+                worksheet.merge_range(row, column, row + 1, column + 1, lesson[0], format_top_cell)
+                worksheet.merge_range(row + 2, column, row + 3, column + 1, lesson[1], format_bot_cell)
+            else:
+                worksheet.merge_range(row, column, row + 1, column + 1, '', format_top_cell)
+                worksheet.merge_range(row + 2, column, row + 3, column + 1, '', format_bot_cell)
+            day += 1
+            day %= days_of_study
+            row += 4 * lessons_per_day
         column += 2
 
     workbook.close()
