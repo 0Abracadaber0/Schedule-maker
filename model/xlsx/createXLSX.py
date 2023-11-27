@@ -141,7 +141,6 @@ def schedule_to_xlsx(groups, free_time, teachers):
 
     markup(worksheet, teachers)
 
-    row = 10
     column = 2
 
     for teacher, lessons in teachers.items():
@@ -161,6 +160,5 @@ def schedule_to_xlsx(groups, free_time, teachers):
             day %= days_of_study
             row += 4 * lessons_per_day
         column += 2
-
 
     workbook.close()
