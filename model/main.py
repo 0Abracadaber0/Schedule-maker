@@ -38,28 +38,28 @@ groups = {
 # {subject name: [amount of lectures, amount of practical lessons, stream's number]}
 plans = {
     1: {
-        'Алгоритмы и структуры данных': [1, 2, 1],
-        'math': [1, 2, 1],
-        'science': [1, 3, 1],
-        'geography': [1, 1, 1],
-        'I.T.': [1, 1, 1],
-        'biology': [1, 1, 1]
+        'Алгоритмы и структуры данных': [1, 2, '1'],
+        'math': [1, 2, '1'],
+        'science': [1, 3, '1'],
+        'geography': [1, 1, '1'],
+        'I.T.': [1, 1, '1'],
+        'biology': [1, 1, '1']
     },
     2: {
-        'Алгоритмы и структуры данных': [1, 1, 2],
-        'math': [1, 2, 2],
-        'art': [1, 1, 2],
-        'history': [1, 1, 2],
-        'music': [1, 1, 2],
-        'P.E.': [2, 0, 2],
-        'biology': [1, 1, 2]
+        'Алгоритмы и структуры данных': [1, 1, '2'],
+        'math': [1, 2, '2'],
+        'art': [1, 1, '2'],
+        'history': [1, 1, '2'],
+        'music': [1, 1, '2'],
+        'P.E.': [2, 0, '2'],
+        'biology': [1, 1, '2']
     },
     3: {
-        'Алгоритмы и структуры данных': [1, 1, 3],
-        'math': [1, 2, 3],
-        'I.T.': [1, 1, 3],
-        'music': [1, 1, 3],
-        'P.E.': [2, 0, 2]
+        'Алгоритмы и структуры данных': [1, 1, '3'],
+        'math': [1, 2, '3'],
+        'I.T.': [1, 1, '3'],
+        'music': [1, 1, '3'],
+        'P.E.': [2, 0, '2']
     }
 }
 
@@ -112,12 +112,12 @@ def generate_all_lessons(teachers):
         ]
     """
     all_lessons = []
-    for stream in plans.keys():
-        for lesson in plans[stream]:
+    for plan in plans:
+        for lesson in plans[plan]:
             teacher = random.choice(teachers[lesson])
 
-            for i in range(plans[stream][lesson][0]):
-                all_lessons.append({lesson: [stream, teacher]})
+            for i in range(plans[plan][lesson][0]):
+                all_lessons.append({lesson: [plans[plan][lesson][2], teacher]})
 
     for group in groups:
         lessons = plans.get(groups.get(group))
@@ -161,7 +161,7 @@ def generate_schedule(all_lessons, subjects_teachers):
              }
 
     """
-    # 0 - time is free, 1 - time isn't free
+    # 0 - time is free, else - not
     free_time = {key: [0] * lessons_per_week for key in groups.keys()}
     lesson_id = 1
 
@@ -173,10 +173,12 @@ def generate_schedule(all_lessons, subjects_teachers):
     schedule = {key: [[0, 0] for _ in range(lessons_per_week)] for key in groups.keys()}
 
     for i in range(lessons_per_week):
-        for stream in plans.keys():
+        for plan in plans:
             for lesson in all_lessons:
-
-                if lesson[list(lesson.keys())[0]][0] != stream:
+                try:
+                    if lesson[list(lesson.keys())[0]][0] != plans[plan][list(lesson.keys())[0]][2]:
+                        continue
+                except KeyError:
                     continue
 
                 flag = True
@@ -188,16 +190,20 @@ def generate_schedule(all_lessons, subjects_teachers):
 
                 if flag:
                     for group in groups.keys():
-                        if groups[group] == stream:
-                            free_time[group][i] = lesson_id
+                        try:
+                            print(plans[groups[group]][list(lesson.keys())[0]][2], plans[plan][list(lesson.keys())[0]][2])
+                            if plans[groups[group]][list(lesson.keys())[0]][2] == plans[plan][list(lesson.keys())[0]][2]:
+                                free_time[group][i] = lesson_id
 
-                            teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
-                            teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+                                teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
+                                teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
 
-                            schedule[group][i][0] = list(lesson.keys())[0]
-                            schedule[group][i][1] = list(lesson.values())[0][1]
+                                schedule[group][i][0] = list(lesson.keys())[0]
+                                schedule[group][i][1] = list(lesson.values())[0][1]
 
-                            print('accepted:', group, schedule[group][i])
+                                print('accepted:', group, schedule[group][i])
+                        except KeyError:
+                            pass
                     lesson_id += 1
                     all_lessons.remove(lesson)
 
@@ -242,7 +248,6 @@ def generate_schedule(all_lessons, subjects_teachers):
                 else:
                     print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
 
-    print(teachers, free_time)
     return schedule, free_time, teachers
 
 
