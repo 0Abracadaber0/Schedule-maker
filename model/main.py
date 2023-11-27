@@ -31,28 +31,35 @@ groups = {
     '10701322': 1,
     '10702122': 2,
     '10702222': 2,
-    '10702322': 2,
-    '10702422': 2
+    '10702322': 3,
+    '10702422': 3
 }
 
-# {curriculum number: {subject name: [amount of lectures, amount of practical lessons]}}
+# {subject name: [amount of lectures, amount of practical lessons, stream's number]}
 plans = {
     1: {
-        'Алгоритмы и структуры данных': [1, 2],
-        'math': [1, 2],
-        'science': [1, 3],
-        'geography': [1, 1],
-        'I.T.': [1, 1],
-        'biology': [1, 1]
+        'Алгоритмы и структуры данных': [1, 2, 1],
+        'math': [1, 2, 1],
+        'science': [1, 3, 1],
+        'geography': [1, 1, 1],
+        'I.T.': [1, 1, 1],
+        'biology': [1, 1, 1]
     },
     2: {
-        'Алгоритмы и структуры данных': [1, 1],
-        'math': [1, 2],
-        'art': [1, 1],
-        'history': [1, 1],
-        'music': [1, 1],
-        'P.E.': [0, 2],
-        'biology': [1, 1]
+        'Алгоритмы и структуры данных': [1, 1, 2],
+        'math': [1, 2, 2],
+        'art': [1, 1, 2],
+        'history': [1, 1, 2],
+        'music': [1, 1, 2],
+        'P.E.': [2, 0, 2],
+        'biology': [1, 1, 2]
+    },
+    3: {
+        'Алгоритмы и структуры данных': [1, 1, 3],
+        'math': [1, 2, 3],
+        'I.T.': [1, 1, 3],
+        'music': [1, 1, 3],
+        'P.E.': [2, 0, 2]
     }
 }
 
@@ -97,7 +104,7 @@ def generate_all_lessons(teachers):
         For example:
 
         [
-            {'P.E.': ['Deanna Newton', '10702222']},
+            {'P.E.': ['10702222', 'Deanna Newton']},
             {'biology': ['10702222', 'Kara Romero']},
             {'math': ['10702322', 'Rachel Young']},
             {'math': ['10702322', 'Rachel Young']},

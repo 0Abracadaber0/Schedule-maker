@@ -32,6 +32,7 @@ merge_format = workbook.add_format(form.Formats.get_merge_format())
 merge_format_flip = workbook.add_format(form.Formats.get_merge_format_flip())
 format_bot_cell = workbook.add_format(form.Formats.get_format_bot_cell())
 format_top_cell = workbook.add_format(form.Formats.get_format_top_cell())
+merge_format_back_flip = workbook.add_format(form.Formats.get_merge_format_back_flip())
 
 
 def markup(worksheet, data):
@@ -65,6 +66,22 @@ def markup(worksheet, data):
     for cell in data:
         worksheet.merge_range(row, column, row + 4, column + 1, cell, merge_format)
         column += 2
+
+    worksheet.merge_range(10, column, 14, column, 'Время', merge_format)
+    worksheet.set_column(column + 1, column + 1, 10)
+    worksheet.merge_range(10, column + 1, 14, column + 1, 'День', merge_format)
+
+    row = 15
+    for _ in Weekdays:
+        for time in Clocks:
+            worksheet.merge_range(row, column, row + 3, column, time.value, merge_format)
+            row += 4
+
+    row = 15
+    column += 1
+    for day in Weekdays:
+        worksheet.merge_range(row, column, row + 4 * lessons_per_day - 1, column, day.value, merge_format_back_flip)
+        row += 4 * lessons_per_day
 
 
 def schedule_to_xlsx(groups, free_time, teachers):
@@ -144,5 +161,6 @@ def schedule_to_xlsx(groups, free_time, teachers):
             day %= days_of_study
             row += 4 * lessons_per_day
         column += 2
+
 
     workbook.close()

@@ -11,6 +11,14 @@ class Formats:
         'rotation':  90
     }
 
+    merge_format_back_flip = {
+        'font_size': 20,
+        'border': 5,
+        'align': 'center',
+        'valign': 'vcenter',
+        'rotation': -90
+    }
+
     merge_format = {
         'font_size': 15,
         'border':    5,
@@ -48,6 +56,10 @@ class Formats:
     @classmethod
     def get_merge_format_flip(cls):
         return cls.merge_format_flip.copy()
+
+    @classmethod
+    def get_merge_format_back_flip(cls):
+        return cls.merge_format_back_flip.copy()
 
     @classmethod
     def get_merge_format(cls):
