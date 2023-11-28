@@ -13,9 +13,9 @@ class Formats:
 
     merge_format_back_flip = {
         'font_size': 20,
-        'border': 5,
-        'align': 'center',
-        'valign': 'vcenter',
+        'border':    5,
+        'align':     'center',
+        'valign':    'vcenter',
         'rotation': -90
     }
 
@@ -76,3 +76,4 @@ class Formats:
     @classmethod
     def get_format_bot_cell(cls):
         return cls.format_bot_cell.copy()
+

@@ -9,9 +9,10 @@ import model.xlsx.createXLSX as xlsx
 
 class ScheduleGenerator:
     class Course:
-        def __init__(self, lectures, practicals, stream):
+        def __init__(self, lectures, practicals, labs, stream):
             self.lectures = lectures
             self.practicals = practicals
+            self.labs = labs
             self.stream = stream
 
     def __init__(self):
@@ -30,7 +31,7 @@ class ScheduleGenerator:
             'geography': 1,
             'P.E.': 1,
             'I.T.': 1,
-            'biology': 1
+            'biology': 2
         }
 
         # {group number: curriculum number}
@@ -47,28 +48,28 @@ class ScheduleGenerator:
         # {subject name: Course object}
         self.plans = {
             1: {
-                'Алгоритмы и структуры данных': self.Course(1, 2, '1'),
-                'math': self.Course(1, 2, '1'),
-                'science': self.Course(1, 3, '1'),
-                'geography': self.Course(1, 1, '1'),
-                'I.T.': self.Course(1, 1, '1'),
-                'biology': self.Course(1, 1, '1')
+                'Алгоритмы и структуры данных': self.Course(1, 0, 2, '1'),
+                'math': self.Course(1, 2, 0, '1'),
+                'science': self.Course(1, 1, 1, '1'),
+                'geography': self.Course(1, 1, 0, '1'),
+                'I.T.': self.Course(1, 0, 1, '1'),
+                'biology': self.Course(1, 1, 0, '1')
             },
             2: {
-                'Алгоритмы и структуры данных': self.Course(1, 1, '2'),
-                'math': self.Course(1, 2, '2'),
-                'art': self.Course(1, 1, '2'),
-                'history': self.Course(1, 1, '2'),
-                'music': self.Course(1, 1, '2'),
-                'P.E.': self.Course(2, 0, '2'),
-                'biology': self.Course(1, 1, '2')
+                'Алгоритмы и структуры данных': self.Course(1, 0, 1, '2'),
+                'math': self.Course(1, 2, 0, '2'),
+                'art': self.Course(1, 1, 0, '2'),
+                'history': self.Course(1, 1, 0, '2'),
+                'music': self.Course(1, 0, 1, '2'),
+                'P.E.': self.Course(2, 0, 0, '2'),
+                'biology': self.Course(1, 1, 0, '2')
             },
             3: {
-                'Алгоритмы и структуры данных': self.Course(1, 1, '3'),
-                'math': self.Course(1, 2, '3'),
-                'I.T.': self.Course(1, 1, '3'),
-                'music': self.Course(1, 1, '3'),
-                'P.E.': self.Course(2, 0, '2')
+                'Алгоритмы и структуры данных': self.Course(1, 0, 1, '3'),
+                'math': self.Course(1, 2, 0, '3'),
+                'I.T.': self.Course(1, 0, 1, '3'),
+                'music': self.Course(1, 1, 0, '3'),
+                'P.E.': self.Course(2, 0, 0, '2')
             }
         }
 
@@ -121,9 +122,9 @@ class ScheduleGenerator:
         for plan in self.plans:
             for lesson in self.plans[plan]:
                 teacher = random.choice(teachers[lesson])
-
-                for i in range(self.plans[plan][lesson].lectures):
-                    all_lessons.append({lesson: [self.plans[plan][lesson].stream, teacher]})
+                if {lesson: [self.plans[plan][lesson].stream, teacher]} not in all_lessons:
+                    for i in range(self.plans[plan][lesson].lectures):
+                        all_lessons.append({lesson: [self.plans[plan][lesson].stream, teacher]})
 
         for group in self.groups:
             lessons = self.plans.get(self.groups.get(group))
@@ -131,7 +132,10 @@ class ScheduleGenerator:
                 teacher = random.choice(teachers[lesson])
                 for i in range(lessons.get(lesson).practicals):
                     all_lessons.append({lesson: [group, teacher]})
+                for i in range(lessons.get(lesson).labs):
+                    all_lessons.append({lesson: [group + 'lab', teacher]})
 
+        print(all_lessons)
         return all_lessons
 
     def generate_schedule(self, all_lessons, subjects_teachers):
@@ -153,8 +157,8 @@ class ScheduleGenerator:
                  For example:
 
                  {
-                    '10701122': [1, 3, 4, 0, 6],
-                    '10701222': [1, 2, 0, 5, 0]
+                    '10701122': [[1, 1], [3, 3], [4, 0], [0, 0] [6, 6]],
+                    '10701222': [[1, 1], [2, 2], [0, 0], [5, 0], [0, 0]]
                  }
 
                  A dict mapped teacher's name and lesson.
@@ -167,7 +171,7 @@ class ScheduleGenerator:
 
         """
         # 0 - time is free, else - not
-        free_time = {key: [0] * self.lessons_per_week for key in self.groups.keys()}
+        free_time = {key: [[0, 0]] * self.lessons_per_week for key in self.groups.keys()}
         lesson_id = 1
 
         teachers = {}
@@ -199,7 +203,7 @@ class ScheduleGenerator:
 
                                 if (self.plans[self.groups[group]][list(lesson.keys())[0]].stream
                                         == self.plans[plan][list(lesson.keys())[0]].stream):
-                                    free_time[group][i] = lesson_id
+                                    free_time[group][i] = [lesson_id, lesson_id]
 
                                     teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
                                     teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
@@ -220,7 +224,7 @@ class ScheduleGenerator:
 
         for i in range(self.lessons_per_week):
             for group in schedule:
-                if free_time[group][i] != 0:
+                if free_time[group][i] != [0, 0]:
                     continue
 
                 for lesson in all_lessons:
@@ -236,7 +240,7 @@ class ScheduleGenerator:
                             break
 
                     if flag:
-                        free_time[group][i] = lesson_id
+                        free_time[group][i] = [lesson_id, lesson_id]
                         lesson_id += 1
 
                         teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
@@ -254,6 +258,7 @@ class ScheduleGenerator:
                     else:
                         print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
 
+        print(schedule)
         return schedule, free_time, teachers
 
     def main(self):
