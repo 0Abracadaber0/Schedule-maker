@@ -1,5 +1,6 @@
+window.onload = checkAuthentication;
 function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
+    let i, tabcontent, tablinks;
 
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -16,4 +17,18 @@ function openTab(evt, tabName) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
+}
+
+function checkAuthentication() {
+    const isUserAuthenticated = true;
+
+    if (isUserAuthenticated) {
+        document.getElementById("Register_button").style.display = "none";
+        document.getElementById("Login_button").style.display = "none";
+    } else {
+        document.getElementById("Classes_button").style.display = "none";
+        document.getElementById("Lessons_button").style.display = "none";
+        document.getElementById("Teachers_button").style.display = "none";
+        document.getElementById("Subjects_button").style.display = "none";
+    }
 }

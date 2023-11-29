@@ -1,9 +1,14 @@
 * {
-    margin: 0;
     padding: 0;
-    border: 0;
-    font: inherit;
-    vertical-align: baseline;
+    margin: 0;
+    color: #1a1f36;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif;
+}
+
+body {
+    background-color: #f2f2f2;
 }
 
 #header {
@@ -83,4 +88,8 @@
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+}
+
+#Register, #Login {
+    display: none;
 }
