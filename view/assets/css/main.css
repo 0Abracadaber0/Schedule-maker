@@ -148,3 +148,25 @@ footer span {
     font-size: 14px;
     text-align: center;
 }
+
+.about {
+    margin-top: 5%;
+
+    display: flex;
+    justify-content: space-evenly;
+    height: 50%;
+}
+
+.about img {
+    width: 100%;
+}
+
+.about div {
+    width: 40%;
+
+    font-size: 20px;
+}
+
+.about .p {
+    margin-top: 5%;
+}
