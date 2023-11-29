@@ -137,6 +137,10 @@ label {
     rgba(0, 0, 0, 0) 0 0 0 0;
 }
 
+input[type="checkbox"] {
+    accent-color: rgb(49, 49, 49);
+}
+
 input[type="submit"] {
     background-color: rgb(49, 49, 49);
     color: #fff;
