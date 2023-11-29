@@ -20,7 +20,7 @@ function openTab(evt, tabName) {
 }
 
 function checkAuthentication() {
-    const isUserAuthenticated = true;
+    const isUserAuthenticated = false;
 
     if (isUserAuthenticated) {
         document.getElementById("Register_button").style.display = "none";

@@ -6,10 +6,46 @@
     <link rel="stylesheet" href="../assets/css/splash_screen.css">
 </head>
 <body>
+<div class="container">
     <h3 class="university">Белорусский национальный технический университет</h3>
     <h4>Факультет информационнных технологий и робототехники</h4>
     <h4>Кафедра программного обеспечения информационных систем и технологий</h4>
-    <h2>Курсовая работа</h2>
 
+    <h2>Курсовая работа</h2>
+    <h4>по дисциплине языки программирования</h4>
+    <h1>Генератор расписания</h1>
+
+    <div class="under">
+        <div class="img">
+            <img src="../images/table_icon.png" alt="иконка">
+        </div>
+
+        <div class="who">
+            <h4>Выполнили: студенты группы 10701122</h4>
+            <h4 class="person">Давыдовский Иван</h4>
+            <h4 class="person">Ханяк Евгений Дмитриевич</h4>
+
+            <h4 class="teacher">Преподаватель: к.ф.-м.н., доц.</h4>
+            <h4 class="person">Сидорик Валерий Владимирович</h4>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button onclick="document.location='../index.html'">Далее</button>
+        <button onclick="window.open('','_self').close()">Выход</button>
+    </div>
+</div>
 </body>
+<script>
+    let idleTime = 0;
+    setInterval(timerIncrement, 1000); // 1 second
+
+    function timerIncrement() {
+        idleTime = idleTime + 1;
+        if (idleTime > 60) { // 60 seconds
+            window.close();
+        }
+    }
+
+</script>
 </html>
