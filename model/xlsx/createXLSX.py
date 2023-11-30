@@ -3,6 +3,8 @@ import enum
 import xlsxwriter
 import model.xlsx.formats as form
 
+from xlsxwriter.exceptions import OverlappingRange
+
 
 class Weekdays(enum.Enum):
     Monday = 'понедельник'
@@ -43,7 +45,7 @@ def markup(worksheet, data):
         data: A dict of data to mark up
 
     """
-    worksheet.set_column(1, 30, 20)
+    worksheet.set_column(1, 100, 20)
 
     worksheet.merge_range(10, 0, 14, 0, 'День', merge_format)
     worksheet.merge_range(10, 1, 14, 1, 'Время', merge_format)
@@ -93,7 +95,7 @@ def schedule_to_xlsx(groups, free_time, teachers):
         free_time: A dict mapped group's number and array of id of every lesson.
 
     """
-
+    print(free_time['10701122'])
     worksheet = workbook.add_worksheet('Groups schedule')
 
     markup(worksheet, groups)
@@ -102,40 +104,68 @@ def schedule_to_xlsx(groups, free_time, teachers):
     column = 2
     for group, lessons in groups.items():
         row = start_row
-        day, num = 0, 0
-        for index, lesson in enumerate(lessons):
-            if day == 0:
-                row = start_row + num * 4
-                num += 1
-            if lesson[0] != 0:
-                curr_column = column - 1
-                keys = groups.keys()
-                key = iter(keys)
-                q = next(key)
-                while q != group:
-                    q = next(key)
-                while True:
-                    if free_time[group][index] == free_time[q][index]:
-                        curr_column += 2
-                    else:
-                        break
-                    try:
-                        q = next(key)
-                    except StopIteration:
-                        break
+        for i in range(2):
+            day, num = 0, 0
+            for index, lesson in enumerate(lessons):
+                if day == 0:
+                    row = start_row + num * lessons_per_day
+                    num += 1
+                if lesson[i][0] != 0:
+                    curr_column = column
 
-                try:
-                    worksheet.merge_range(row, column, row + 1, curr_column, lesson[0], format_top_cell)
-                    worksheet.merge_range(row + 2, column, row + 3, curr_column, lesson[1], format_bot_cell)
-                except:
-                    pass
-            else:
-                worksheet.merge_range(row, column, row + 1, column + 1, '', format_top_cell)
-                worksheet.merge_range(row + 2, column, row + 3, column + 1, '', format_bot_cell)
-            day += 1
-            day %= days_of_study
-            row += 4 * lessons_per_day
-        column += 2
+                    keys = groups.keys()
+                    key = iter(keys)
+                    q = next(key)
+                    while q != group:
+                        q = next(key)
+                    # print(i, group, groups[group][index])
+                    if i == 0:
+                        if free_time[group][index][0] == free_time[group][index][1]:
+                            curr_column += 1
+                            flag = True
+                            try:
+                                q = next(key)
+                            except StopIteration:
+                                flag = False
+                            while flag:
+                                # print(curr_column, free_time[group][index], free_time[q][index])
+                                if free_time[group][index] == free_time[q][index]:
+                                    curr_column += 2
+                                else:
+                                    break
+                                try:
+                                    q = next(key)
+                                except StopIteration:
+                                    break
+
+                        try:
+                            worksheet.merge_range(row, column, row + 1, curr_column, lesson[i][0], format_top_cell)
+                            worksheet.merge_range(row + 2, column, row + 3, curr_column, lesson[i][1], format_bot_cell)
+                        except OverlappingRange:
+                            ...
+
+                    else:
+                        if free_time[group][index][1] != free_time[group][index][0]:
+                            # print(row, column, i, free_time[group][index][1], free_time[group][index][0])
+                            try:
+                                worksheet.merge_range(row, column, row + 1, column, lesson[i][0], format_top_cell)
+                                worksheet.merge_range(row + 2, column, row + 3, column, lesson[i][1], format_bot_cell)
+                            except OverlappingRange:
+                                ...
+
+                    # print(column, curr_column)
+                else:
+                    try:
+                        worksheet.merge_range(row, column, row + 1, column, '', format_top_cell)
+                        worksheet.merge_range(row + 2, column, row + 3, column, '', format_bot_cell)
+                    except OverlappingRange:
+                        pass
+                print(row, column)
+
+                day += 1
+                day %= days_of_study
+                row += 4 * lessons_per_day
+            column += 1
 
     worksheet = workbook.add_worksheet('Teachers schedule')
 

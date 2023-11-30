@@ -7,6 +7,20 @@ from faker import Faker
 import model.xlsx.createXLSX as xlsx
 
 
+def is_end_lab(s):
+    """Checks the string for 'lab' at the end
+
+    Args:
+        s: string for check
+
+    Returns: True/False
+
+    """
+    if len(s) < 3:
+        return False
+    return s[-3:] == 'lab'
+
+
 class ScheduleGenerator:
     class Course:
         def __init__(self, lectures, practicals, labs, stream):
@@ -22,15 +36,15 @@ class ScheduleGenerator:
 
         # {name of subject: amount of teachers}
         self.subjects = {
-            'Алгоритмы и структуры данных': 1,
-            'math': 2,
-            'art': 1,
-            'science': 1,
-            'history': 1,
-            'music': 1,
-            'geography': 1,
-            'P.E.': 1,
-            'I.T.': 1,
+            'Алгоритмы и структуры данных': 2,
+            'math': 3,
+            'art': 2,
+            'science': 2,
+            'history': 2,
+            'music': 2,
+            'geography': 2,
+            'P.E.': 2,
+            'I.T.': 2,
             'biology': 2
         }
 
@@ -135,7 +149,6 @@ class ScheduleGenerator:
                 for i in range(lessons.get(lesson).labs):
                     all_lessons.append({lesson: [group + 'lab', teacher]})
 
-        print(all_lessons)
         return all_lessons
 
     def generate_schedule(self, all_lessons, subjects_teachers):
@@ -171,7 +184,7 @@ class ScheduleGenerator:
 
         """
         # 0 - time is free, else - not
-        free_time = {key: [[0, 0]] * self.lessons_per_week for key in self.groups.keys()}
+        free_time = {key: [[0, 0] for _ in range(self.lessons_per_week)] for key in self.groups.keys()}
         lesson_id = 1
 
         teachers = {}
@@ -179,7 +192,7 @@ class ScheduleGenerator:
             for teacher in subjects_teachers[subject]:
                 teachers[teacher] = [[0, ''] for _ in range(self.lessons_per_week)]
 
-        schedule = {key: [[0, 0] for _ in range(self.lessons_per_week)] for key in self.groups.keys()}
+        schedule = {key: [[[0, 0], [0, 0]] for _ in range(self.lessons_per_week)] for key in self.groups.keys()}
 
         for i in range(self.lessons_per_week):
             for plan in self.plans:
@@ -192,7 +205,7 @@ class ScheduleGenerator:
 
                     flag = True
                     for key in schedule.keys():
-                        if schedule[key][i][1] == lesson[list(lesson.keys())[0]][1]:
+                        if schedule[key][i][1][1] == lesson[list(lesson.keys())[0]][1]:
                             flag = False
 
                             break
@@ -208,10 +221,13 @@ class ScheduleGenerator:
                                     teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
                                     teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
 
-                                    schedule[group][i][0] = list(lesson.keys())[0]
-                                    schedule[group][i][1] = list(lesson.values())[0][1]
+                                    schedule[group][i][0][0] = list(lesson.keys())[0]
+                                    schedule[group][i][0][1] = list(lesson.values())[0][1]
 
-                                    print('accepted:', group, schedule[group][i])
+                                    schedule[group][i][1][0] = list(lesson.keys())[0]
+                                    schedule[group][i][1][1] = list(lesson.values())[0][1]
+
+                                    # print('accepted:', group, schedule[group][i])
                             except KeyError:
                                 pass
                         lesson_id += 1
@@ -219,14 +235,43 @@ class ScheduleGenerator:
 
                         break
 
-                    else:
-                        print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
+        for i in range(self.lessons_per_week):
+            for group in schedule:
+                for j in range(2):
+                    if free_time[group][i][j] != 0:
+                        continue
+                    for lesson in all_lessons:
+                        if not is_end_lab(lesson[list(lesson.keys())[0]][0]):
+                            continue
+                        if lesson[list(lesson.keys())[0]][0][:-3] != group:
+                            continue
+
+                        flag = True
+                        for key in schedule.keys():
+                            if (schedule[key][i][0][1] == lesson[list(lesson.keys())[0]][1]
+                                    or schedule[key][i][1][1] == lesson[list(lesson.keys())[0]][1]):
+                                flag = False
+
+                                break
+
+                        if flag:
+                            free_time[group][i][j] = lesson_id
+                            lesson_id += 1
+
+                            teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
+                            teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+
+                            schedule[group][i][j][0] = list(lesson.keys())[0]
+                            schedule[group][i][j][1] = list(lesson.values())[0][1]
+
+                            all_lessons.remove(lesson)
+
+                            break
 
         for i in range(self.lessons_per_week):
             for group in schedule:
                 if free_time[group][i] != [0, 0]:
                     continue
-
                 for lesson in all_lessons:
 
                     if lesson[list(lesson.keys())[0]][0] != group:
@@ -234,7 +279,8 @@ class ScheduleGenerator:
 
                     flag = True
                     for key in schedule.keys():
-                        if schedule[key][i][1] == lesson[list(lesson.keys())[0]][1]:
+                        if (schedule[key][i][0][1] == lesson[list(lesson.keys())[0]][1]
+                                or schedule[key][i][1][1] == lesson[list(lesson.keys())[0]][1]):
                             flag = False
 
                             break
@@ -246,19 +292,21 @@ class ScheduleGenerator:
                         teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
                         teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
 
-                        schedule[group][i][0] = list(lesson.keys())[0]
-                        schedule[group][i][1] = list(lesson.values())[0][1]
+                        schedule[group][i][0][0] = list(lesson.keys())[0]
+                        schedule[group][i][0][1] = list(lesson.values())[0][1]
 
-                        print('accepted:', group, schedule[group][i])
+                        schedule[group][i][1][0] = list(lesson.keys())[0]
+                        schedule[group][i][1][1] = list(lesson.values())[0][1]
+
+                        # print('accepted:', group, schedule[group][i], i)
 
                         all_lessons.remove(lesson)
 
                         break
 
                     else:
-                        print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
-
-        print(schedule)
+                        pass
+                        # print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
         return schedule, free_time, teachers
 
     def main(self):
