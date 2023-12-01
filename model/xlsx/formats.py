@@ -36,7 +36,7 @@ class Formats:
     }
 
     format_mid_cell = {
-        'font_size': 10,
+        'font_size': 15,
         'top':       5,
         'left':      5,
         'right':     5,
@@ -45,7 +45,7 @@ class Formats:
     }
 
     format_bot_cell = {
-        'font_size': 10,
+        'font_size': 15,
         'bottom':    5,
         'left':      5,
         'right':     5,
