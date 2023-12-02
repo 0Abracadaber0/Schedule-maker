@@ -2,68 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Schedule maker</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="shortcut icon" href="images/Logo_BNTU.png"/>
+    <title>Welcome to Schedule maker</title>
+    <link rel="stylesheet" href="../static/css/splash_screen.css">
+    <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
 </head>
 <body>
-    <header id="header">
-        <h1><a href="index.html">Schedule maker</a></h1>
-        <nav class="tabs">
-            <div class="tab">
-                <button class="tablinks" id="Classes_button" onclick="openTab(event, 'Classes')">Классы</button>
-                <button class="tablinks" id="Lessons_button" onclick="openTab(event, 'Lessons')">Уроки</button>
-                <button class="tablinks" id="Teachers_button" onclick="openTab(event, 'Teachers')">Учителя</button>
-                <button class="tablinks" id="Subjects_button" onclick="openTab(event, 'Subjects')">Предметы</button>
-                <button class="tablinks" id="Register_button" onclick="document.location='./pages/registration.html'">Регистрация</button>
-                <button class="tablinks" id="Login_button" onclick="document.location='./pages/login.html'">Логин</button>
-            </div>
-        </nav>
-    </header>
+<div class="container">
+    <h3 class="university">Белорусский национальный технический университет</h3>
+    <h4>Факультет информационнных технологий и робототехники</h4>
+    <h4>Кафедра программного обеспечения информационных систем и технологий</h4>
 
-    <div id="Classes" class="tabcontent">
-        <h3>Вкладка "Классы"</h3>
+    <h2>Курсовая работа</h2>
+    <h4>по дисциплине языки программирования</h4>
+    <h1>Генератор расписания</h1>
+
+    <div class="under">
+        <div class="img">
+            <img src="../static/images/table_icon.png" alt="иконка">
+        </div>
+
+        <div class="who">
+            <h4>Выполнили: студенты группы 10701122</h4>
+            <h4 class="person">Давыдовский Иван Юрьевич</h4>
+            <h4 class="person">Ханяк Евгений Дмитриевич</h4>
+
+            <h4 class="teacher">Преподаватель: к.ф.-м.н., доц.</h4>
+            <h4 class="person">Сидорик Валерий Владимирович</h4>
+        </div>
     </div>
 
-    <div id="Lessons" class="tabcontent">
-        <h3>Вкладка "Уроки"</h3>
+    <div class="actions">
+        <button onclick="document.location='./main.html'">Далее</button>
+        <button onclick="window.open('','_self').close()">Выход</button>
     </div>
-
-    <div id="Teachers" class="tabcontent">
-        <h3>Вкладка "Учителя"</h3>
-    </div>
-
-    <div id="Subjects" class="tabcontent">
-        <h3>Вкладка "Предметы"</h3>
-    </div>
-
-    <div id="Register" class="tabcontent">
-        <h3>Вкладка "Регистрация"</h3>
-
-        <h3>Вкладка "Регистрация"</h3>
-        <form>
-            <label for="username">Имя пользователя:</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password" required>
-
-            <label for="passwordConfirmation">Подтверждение пароля:</label>
-            <input type="password" id="passwordConfirmation" name="passwordConfirmation" required>
-
-            <input type="submit" value="Зарегистрироваться">
-        </form>
-    </div>
-
-    <footer>
-        <span><a href="./index.html">© Schedule maker</a></span>
-        <span><a href="./pages/about_authors.html">Контакты</a></span>
-        <span><a href="./pages/about_site.html">О сайте</a></span>
-    </footer>
-
-    <script src="./js/index.js"></script>
+</div>
 </body>
+<script>
+    let idleTime = 0;
+    setInterval(timerIncrement, 1000); // 1 second
+
+    function timerIncrement() {
+        idleTime = idleTime + 1;
+        if (idleTime > 60) { // 60 seconds
+            window.close();
+        }
+    }
+
+</script>
 </html>

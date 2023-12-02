@@ -1,9 +1,9 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>Schedule maker: Регистрация</title>
-    <link rel="stylesheet" type="text/css" href="../assets/css/register.css">
-    <link rel="shortcut icon" href="../images/Logo_BNTU.png"/>
+    <title>Schedule maker: Вход</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/register.css">
+    <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
 </head>
 
 <body>
@@ -11,32 +11,30 @@
     <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
         <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
             <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-                <h1><a href="../index.html" rel="dofollow">Schedule maker</a></h1>
+                <h1><a href="./main.html" rel="dofollow">Schedule maker</a></h1>
             </div>
             <div class="formbg-outer">
                 <div class="formbg">
                     <div class="formbg-inner padding-horizontal--48">
-                        <span class="padding-bottom--15">Регистрация</span>
+                        <span class="padding-bottom--15">Вход в аккаунт</span>
                         <form id="stripe-login">
                             <div class="field padding-bottom--24">
                                 <label for="username">Имя пользователя</label>
                                 <input type="text" name="username" id="username">
                             </div>
                             <div class="field padding-bottom--24">
-                                <label for="email">Email</label>
-                                <input type="email" name="email" id="email">
-                            </div>
-                            <div class="field padding-bottom--24">
                                 <div class="grid--50-50">
                                     <label for="password">Пароль</label>
+                                    <div class="reset-pass">
+                                        <a href="#">Забыли пароль?</a>
+                                    </div>
                                 </div>
                                 <input type="password" name="password" id="password">
                             </div>
-                            <div class="field padding-bottom--24">
-                                <div class="grid--50-50">
-                                    <label for="password_confirm">Подтверждение пароля</label>
-                                </div>
-                                <input type="password" name="password" id="password_confirm">
+                            <div class="field field-checkbox padding-bottom--24 flex-flex align-center">
+                                <label for="checkbox">
+                                    <input type="checkbox" name="checkbox" id="checkbox"> Запомнить?
+                                </label>
                             </div>
                             <div class="field padding-bottom--24">
                                 <input type="submit" name="submit" value="Продолжить">
@@ -48,10 +46,11 @@
                     </div>
                 </div>
                 <div class="footer-link padding-top--24">
+                    <span>Нет аккаунта? <a href="registration.html">Регистрация</a></span>
                     <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
-                        <span><a href="../index.html">© Schedule maker</a></span>
+                        <span><a href="./main.html">© Schedule maker</a></span>
                         <span><a href="./about_authors.html">Контакты</a></span>
-                        <span><a href="./about_site.html">О сайте</a></span>
+                        <span><a href="./about_site.html">О программе</a></span>
                     </div>
                 </div>
             </div>

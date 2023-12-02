@@ -1,32 +1,63 @@
-<!DOCTYPE html>
-<!-- Coding By CodingNepal - codingnepalweb.com -->
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Registration or Sign Up form in HTML CSS | CodingLab </title>
-    <link rel="stylesheet" href="../static/css/main.css">
-   </head>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Schedule maker: Регистрация</title>
+  <link rel="stylesheet" type="text/css" href="../static/css/register.css">
+  <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
+</head>
+
 <body>
-  <div class="wrapper">
-    <h2>Registration</h2>
-    <form action="#" method="post">
-      <div class="input-box">
-        <input type="text" placeholder="Enter your name" required name="username">
+<div class="login-root">
+  <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
+    <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
+      <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
+        <h1><a href="./main.html" rel="dofollow">Schedule maker</a></h1>
       </div>
-      <div class="input-box">
-        <input type="text" placeholder="Enter your email" required name="email">
+      <div class="formbg-outer">
+        <div class="formbg">
+          <div class="formbg-inner padding-horizontal--48">
+            <span class="padding-bottom--15">Регистрация</span>
+            <form id="stripe-login">
+              <div class="field padding-bottom--24">
+                <label for="username">Имя пользователя</label>
+                <input type="text" name="username" id="username">
+              </div>
+              <div class="field padding-bottom--24">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email">
+              </div>
+              <div class="field padding-bottom--24">
+                <div class="grid--50-50">
+                  <label for="password">Пароль</label>
+                </div>
+                <input type="password" name="password" id="password">
+              </div>
+              <div class="field padding-bottom--24">
+                <div class="grid--50-50">
+                  <label for="password_confirm">Подтверждение пароля</label>
+                </div>
+                <input type="password" name="password" id="password_confirm">
+              </div>
+              <div class="field padding-bottom--24">
+                <input type="submit" name="submit" value="Продолжить">
+              </div>
+              <div class="field">
+                <a class="ssolink" href="#">Войти с помощью Google</a>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="footer-link padding-top--24">
+          <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
+            <span><a href="./main.html">© Schedule maker</a></span>
+            <span><a href="./about_authors.html">Контакты</a></span>
+            <span><a href="./about_site.html">О сайте</a></span>
+          </div>
+        </div>
       </div>
-      <div class="input-box">
-        <input type="password" placeholder="Create password" required name="password">
-      </div>
-      <div class="input-box button">
-        <input type="Submit" value="Register Now">
-      </div>
-      <div class="text">
-        <h3>Already have an account? <a href="#">Login now</a></h3>
-      </div>
-    </form>
+    </div>
   </div>
+</div>
 </body>
+
 </html>
