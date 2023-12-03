@@ -1,7 +1,7 @@
 import enum
 
 import xlsxwriter
-import model.xlsx.formats as form
+import controller.xlsx.formats as form
 
 from xlsxwriter.exceptions import OverlappingRange
 

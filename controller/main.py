@@ -4,7 +4,7 @@ import random
 from itertools import count
 from faker import Faker
 
-import model.xlsx.createXLSX as xlsx
+import controller.xlsx.createXLSX as xlsx
 
 
 def is_end_lab(s):
