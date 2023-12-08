@@ -1,6 +1,8 @@
 import jwt
 import requests
 
+import uuid
+
 from datetime import timedelta
 from typing import Annotated
 
@@ -88,7 +90,7 @@ class LoginView:
             },
             expires_delta=access_token_expires
         )
-        response = RedirectResponse('/')
+        response = RedirectResponse('/main')
         response.set_cookie("access_token", f"Bearer {access_token}", httponly=True)
         response.status_code = 302
         return response
@@ -123,7 +125,7 @@ class RegistrationView:
             db_.add(user)
             await db_.commit()
             await email_handler.send_verification_email(email, user)
-            response = RedirectResponse('/')
+            response = RedirectResponse('/main')
             response.status_code = 302
             return response
         else:
@@ -137,7 +139,7 @@ class LogoutView:
     @staticmethod
     @router.get('/logout')
     async def logout():
-        response = RedirectResponse('/')
+        response = RedirectResponse('/main')
         response.delete_cookie('access_token')
         response.status_code = 302
         return response
@@ -159,7 +161,7 @@ class GoogleAuthenticationView:
                 },
                 expires_delta=access_token_expires
             )
-            response = RedirectResponse('/')
+            response = RedirectResponse('/main')
             response.set_cookie("access_token", f"Bearer {access_token}", httponly=True)
             response.status_code = 302
             return response
@@ -183,6 +185,7 @@ class GoogleAuthenticationView:
             )
             user.is_google_user = True
             user.is_verified = True
+            user.id = str(uuid.uuid4())
             db_.add(user)
             await db_.commit()
             access_token_expires = timedelta(minutes=60)
@@ -193,7 +196,7 @@ class GoogleAuthenticationView:
                 },
                 expires_delta=access_token_expires
             )
-            response = RedirectResponse('/')
+            response = RedirectResponse('/main')
             response.set_cookie("access_token", f"Bearer {access_token}", httponly=True)
             response.status_code = 302
             return response
@@ -211,7 +214,7 @@ class EmailVerificationView:
         if user and not user.is_verified:
             await db_.execute(update(User).where(User.id == user.id).values(is_verified=True))
             await db_.commit()
-            response = RedirectResponse('/')
+            response = RedirectResponse('/main')
             access_token_expires = timedelta(minutes=60)
             access_token = create_access_token(
                 data={

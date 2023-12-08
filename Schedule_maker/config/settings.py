@@ -18,7 +18,7 @@ class Settings:
         self.CLIENT_ID = os.getenv('CLIENT_ID')
         self.REDIRECT_URI = os.getenv('REDIRECT_URI')
 
-        self.static_files = StaticFiles(directory='static')
+        self.static_files = StaticFiles(directory='/home/yauheni/WebstormProjects/Schedule-maker/Schedule_maker/static')
         self.templates = Jinja2Templates('templates')
 
         self.MAIL_USERNAME = os.getenv('MAIL_USERNAME')

@@ -26,4 +26,3 @@ class Database:
 
 
 db = Database(settings.DATABASE_URI)
-

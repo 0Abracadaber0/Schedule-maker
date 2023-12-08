@@ -10,11 +10,22 @@ router = APIRouter()
 
 class IndexView:
     @staticmethod
-    @router.get('/')
+    @router.get('/main')
     async def index(
             request: Request,
     ):
         return settings.templates.TemplateResponse('main.html', {
             'request': request,
             'user': None
+        })
+
+
+class SplashScreenView:
+    @staticmethod
+    @router.get('/')
+    async def index(
+            request: Request,
+    ):
+        return settings.templates.TemplateResponse('index.html', {
+            'request': request,
         })

@@ -2,24 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Schedule maker</title>
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
 </head>
 <body>
-<form METHOD="post">
-    <label for="full_name"> FULL NAME </label>
-    <input type="text" name="full_name" id="full_name" content="enter teachers full name">
-    <button type="submit">add teacher</button>
-    <table align="center" id="teacher_table">
-        {% for teacher in teachers%}
-                <tr>
-                    <td>
-                        <input type="text" value="{{teacher.full_name}}">
-                        <button>delete</button>
-                        <button>update</button>
-                    </td>
-                </tr>
-        {% endfor %}
-    </table>
-</form>
+<header id="header">
+    <h1><a href="/main">Schedule maker</a></h1>
+    <nav class="tabs">
+        {% if user.is_verified %}
+        <div class="tab">
+            <button class="tablinks" id="Classes_button">Классы</button>
+            <button class="tablinks" id="Lessons_button">Уроки</button>
+            <button class="tablinks" id="Teachers_button">Учителя</button>
+            <button class="tablinks" id="Subjects_button">Предметы</button>
+        </div>
+        {% else %}
+        <div class="tab">
+            <button class="tablinks" id="Register_button" onclick="document.location='./register'">Регистрация</button>
+            <button class="tablinks" id="Login_button" onclick="document.location='./login'">Логин</button>
+        </div>
+        {% endif %}
+    </nav>
+</header>
+W
+<footer>
+    <span><a href="/main">© Schedule maker</a></span>
+    <span><a href="./about_authors.html">Контакты</a></span>
+    <span><a href="./about_site.html">О сайте</a></span>
+</footer>
 </body>
 </html>
