@@ -170,3 +170,13 @@ footer span {
 .about .p {
     margin-top: 5%;
 }
+
+.error404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+
+    font-size: 40px;
+}
