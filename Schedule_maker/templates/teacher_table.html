@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form METHOD="post">
+    <label for="full_name"> FULL NAME </label>
+    <input type="text" name="full_name" id="full_name" content="enter teachers full name">
+    <button type="submit">add teacher</button>
+    <table align="center" id="teacher_table">
+        {% for teacher in teachers%}
+                <tr>
+                    <td>
+                        <input type="text" value="{{teacher.full_name}}">
+                        <button>delete</button>
+                        <button>update</button>
+                    </td>
+                </tr>
+        {% endfor %}
+    </table>
+</form>
+</body>
+</html>
