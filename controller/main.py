@@ -1,10 +1,17 @@
 """Generating schedule"""
+import enum
 import random
 
 from itertools import count
 from faker import Faker
 
 import controller.xlsx.createXLSX as xlsx
+
+
+class Const(enum.Enum):
+    Lecture = 1
+    Practice = 2
+    Lab = 3
 
 
 def is_end_lab(s):
@@ -23,11 +30,23 @@ def is_end_lab(s):
 
 class ScheduleGenerator:
     class Course:
+        """
+        Contains information about a course.
+        """
         def __init__(self, lectures, practicals, labs, stream):
             self.lectures = lectures
             self.practicals = practicals
             self.labs = labs
             self.stream = stream
+
+    class Classroom:
+        """
+        A classroom
+        """
+        def __init__(self, name, type_of_classroom, subjects):
+            self.name = name
+            self.type = type_of_classroom
+            self.subjects = subjects
 
     def __init__(self):
         # faker for generate teacher's names
@@ -86,6 +105,44 @@ class ScheduleGenerator:
                 'P.E.': self.Course(2, 0, 0, '2')
             }
         }
+
+        self.classrooms = []
+
+        classroom = self.Classroom('306', Const.Lecture, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('507', Const.Lecture, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('107', Const.Lecture, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('325', Const.Practice, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('326', Const.Practice, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('327', Const.Practice, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('116', Const.Practice, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('105', Const.Lab, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('313', Const.Lab, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('329', Const.Lab, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('407', Const.Lab, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
+        classroom = self.Classroom('420', Const.Lab, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
 
         self.lessons_per_week = xlsx.days_of_study * xlsx.lessons_per_day
 
@@ -185,6 +242,7 @@ class ScheduleGenerator:
         """
         # 0 - time is free, else - not
         free_time = {key: [[0, 0] for _ in range(self.lessons_per_week)] for key in self.groups.keys()}
+
         lesson_id = 1
 
         teachers = {}
