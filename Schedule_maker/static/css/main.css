@@ -180,3 +180,78 @@ footer span {
 
     font-size: 40px;
 }
+
+table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-collapse: collapse;
+    width: 100%;
+    height: 40%;
+
+    font-size: 25px;
+}
+
+tr {
+    border-bottom: 1px solid #333;
+    height: 50px;
+}
+
+th {
+    padding-bottom: 20px;
+
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-left: 20px;
+    width: 350px;
+    height: 50px;
+
+}
+
+.buttons button {
+    font-size: 25px;
+
+    border-radius: 5px;
+    border-width: 0;
+    background-color: #d7d7d7;
+
+    width: 150px;
+}
+
+.buttons button:hover {
+    transition: background-color 0.3s ease-in;
+    background-color: #838383;
+}
+
+.add_new {
+    border-bottom: 0;
+}
+
+.add_new input[type="text"] {
+    padding-left: 10px;
+    height: 30px;
+    width: 300px;
+
+    border-radius: 5px;
+    border-width: 0;
+}
+
+.add_new input[type="submit"] {
+    height: 30px;
+    width: 100px;
+
+    border-radius: 5px;
+    border-width: 0;
+    background-color: #d7d7d7;
+}
+
+.add_new input[type="submit"]:hover {
+    transition: background-color 0.3s ease-in;
+    background-color: #838383;
+}

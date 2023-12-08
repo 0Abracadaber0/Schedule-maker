@@ -10,22 +10,36 @@
 <header id="header">
     <h1><a href="/main">Schedule maker</a></h1>
     <nav class="tabs">
-        {% if user.is_verified %}
         <div class="tab">
             <button class="tablinks" id="Classes_button">Классы</button>
             <button class="tablinks" id="Lessons_button">Уроки</button>
             <button class="tablinks" id="Teachers_button">Учителя</button>
             <button class="tablinks" id="Subjects_button">Предметы</button>
         </div>
-        {% else %}
-        <div class="tab">
-            <button class="tablinks" id="Register_button" onclick="document.location='./register'">Регистрация</button>
-            <button class="tablinks" id="Login_button" onclick="document.location='./login'">Логин</button>
-        </div>
-        {% endif %}
     </nav>
 </header>
-W
+
+<table>
+    <tr>
+        <th colspan="2">Преподаватели</th>
+    </tr>
+    {% for teacher in teachers%}
+    <tr>
+        <td contenteditable='true'>{{teacher.full_name}}</td>
+        <td class="buttons"><button>Изменить</button><button>Удалить</button></td>
+    </tr>
+    {% endfor %}
+
+    <tr class="add_new">
+        <td colspan="2">
+            <form action="" method="post">
+                <label><input type="text" name="full_name" id="" placeholder="Введите ФИО преподавателя"></label>
+                <input type="submit" value="Добавить">
+            </form>
+        </td>
+    </tr>
+</table>
+
 <footer>
     <span><a href="/main">© Schedule maker</a></span>
     <span><a href="./about_authors.html">Контакты</a></span>
