@@ -1,7 +1,6 @@
 import jwt
 
 from typing import Annotated
-from uuid import UUID
 from fastapi import Depends, HTTPException
 from sqlalchemy import select, update
 from starlette import status
@@ -9,8 +8,8 @@ from starlette import status
 from Schedule_maker.config.settings import Settings, settings
 from Schedule_maker.security.pwd import oauth2_scheme
 from Schedule_maker.security.PasswordManager import PasswordManager, password_manager
-from .db import Database, db
-from .core import User
+from Schedule_maker.models.db import Database, db
+from Schedule_maker.models.core import User
 
 
 class UserManager:
@@ -22,20 +21,12 @@ class UserManager:
         self.password_manager = password_manager
         self.settings = _settings
 
-    async def get_user_by_username(self, username: str) -> User | None:
-        async with self.db.engine.connect() as session:
-            coroutine_user = await session.execute(select(User).where(User.username == username))
-        user = coroutine_user.first()
-        if not user:
-            return None
-        return user
-
     async def update_user(
-            self, _id: UUID, username: str = None,
+            self, _id: str, username: str = None,
             password: str = None, email: str = None
     ) -> None:
         try:
-            user = await self.get_user_by_username(username)
+            user = await self.get_user_by_id(_id)
             if not user:
                 raise Exception('User doesnt exist')
             if username is not None:
@@ -76,8 +67,8 @@ class UserManager:
             return None
         return user
 
-    async def authenticate_user(self, username: str, password: str):
-        user = await self.get_user_by_username(username)
+    async def authenticate_user(self, email: str, password: str):
+        user = await self.get_user_by_email(email)
         if not user:
             return False
         if not self.password_manager.verify_password(password, user.hashed_password):
@@ -86,7 +77,7 @@ class UserManager:
 
     async def get_current_user(self, token: Annotated[str, Depends(oauth2_scheme)]):
         payload = jwt.decode(token, self.settings.SECRET_KEY, algorithms=[self.settings.ALGORITHM])
-        user: User = await self.get_user_by_username(username=payload.get('username'))
+        user: User = await self.get_user_by_email(email=payload.get('email'))
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -97,7 +88,7 @@ class UserManager:
 
     async def get_current_verified_user(self, token: Annotated[str, Depends(oauth2_scheme)]):
         payload = jwt.decode(token, self.settings.SECRET_KEY, algorithms=[self.settings.ALGORITHM])
-        user: User = await self.get_user_by_username(username=payload.get('username'))
+        user: User = await self.get_user_by_email(email=payload.get('email'))
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

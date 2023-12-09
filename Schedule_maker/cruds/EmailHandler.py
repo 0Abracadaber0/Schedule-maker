@@ -18,7 +18,7 @@ class EmailHandler:
     async def send_verification_email(self, email: str, user: User) -> None:
         token_data = {
             "id": user.id,
-            "username": user.username
+            "username": user.email
         }
 
         token = jwt.encode(token_data, self.settings.SECRET_KEY)

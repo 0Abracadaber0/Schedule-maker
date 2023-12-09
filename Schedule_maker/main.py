@@ -1,16 +1,13 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from uvicorn import run
-
-from sqlalchemy import select
 
 from starlette.middleware.sessions import SessionMiddleware
 
 from routers.routers import router
 from config.settings import settings
-from models.db import db
-from models import User
+
 
 app = FastAPI(debug=True)
 app.include_router(
