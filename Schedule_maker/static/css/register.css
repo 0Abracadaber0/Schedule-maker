@@ -217,3 +217,9 @@ a.ssolink {
         transform: translateX(0px);
     }
 }
+
+#alert {
+    display: none;
+    color: red;
+    margin-top: 10px;
+}

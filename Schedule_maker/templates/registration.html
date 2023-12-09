@@ -20,23 +20,26 @@
             <form id="stripe-login" method="post">
               <div class="field padding-bottom--24">
                 <label for="username">Имя пользователя</label>
-                <input type="text" name="username" id="username">
+                <input type="text" name="username" id="username" required>
               </div>
               <div class="field padding-bottom--24">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email">
+                <input type="email" name="email" id="email" required>
               </div>
               <div class="field padding-bottom--24">
                 <div class="grid--50-50">
                   <label for="password">Пароль</label>
                 </div>
-                <input type="password" name="password" id="password">
+                <input type="password" name="password" id="password" required>
               </div>
               <div class="field padding-bottom--24">
                 <div class="grid--50-50">
                   <label for="password_confirm">Подтверждение пароля</label>
                 </div>
-                <input type="password" name="password" id="password_confirm">
+                <input type="password" name="password_confirm" id="password_confirm" required>
+                <div id="alert">
+                  Пароли не совпадают. Пожалуйста, попробуйте еще раз.
+                </div>
               </div>
               <div class="field padding-bottom--24">
                 <input type="submit" name="submit" value="Продолжить">
@@ -45,6 +48,7 @@
                 <a class="ssolink" href="{{ url }}">Войти с помощью Google</a>
               </div>
             </form>
+
           </div>
         </div>
         <div class="footer-link padding-top--24">
@@ -59,5 +63,5 @@
   </div>
 </div>
 </body>
-
+<script src="../static/js/index.js"></script>
 </html>
