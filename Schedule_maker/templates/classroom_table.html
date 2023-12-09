@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule maker</title>
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
+</head>
+<body>
+<header id="header">
+    <h1><a href="/main">Schedule maker</a></h1>
+    <nav class="tabs">
+        <div class="tab">
+            <button class="tablinks" id="Classes_button">Классы</button>
+            <button class="tablinks" id="Lessons_button">Уроки</button>
+            <button class="tablinks" id="Teachers_button">Учителя</button>
+            <button class="tablinks" id="Subjects_button">Предметы</button>
+        </div>
+    </nav>
+</header>
+
+<div class="table">
+    <table>
+        <tr>
+            <th width="150px">Аудитория</th>
+            <th>Тип</th>
+            <th>Предмет</th>
+        </tr>
+        <tr>
+            <td contenteditable='true'>507</td>
+            <td>
+                <label>
+                    <select>
+                        <option>Лекция</option>
+                        <option>Практика</option>
+                        <option>Лабораторная</option>
+                    </select>
+                </label>
+            </td>
+            <td>
+                <label><input list="subjects" placeholder="Предмет"></label>
+                <datalist id="subjects">
+                    <option>Алгоритмы и структуры данных</option>
+                    <option>Физическая культура</option>
+                    <option>Разработка приложений в визуальных средах</option>
+                    <option>Языки программирования</option>
+                </datalist>
+            </td>
+            <td class="buttons"><button>Изменить</button><button>Удалить</button></td>
+        </tr>
+        <tr>
+            <td contenteditable='true'>507</td>
+            <td>
+                <label>
+                    <select>
+                        <option>Лекция</option>
+                        <option>Практика</option>
+                        <option>Лабораторная</option>
+                    </select>
+                </label>
+            </td>
+            <td>
+                <label><input list="subjects" placeholder="Предмет"></label>
+            </td>
+            <td class="buttons"><button>Изменить</button><button>Удалить</button></td>
+        </tr>
+        <tr class="add_new">
+            <td colspan="5">
+                <form action="" method="post">
+                    <label><input type="text" name="full_name" id="" placeholder="Введите номер аудитории"></label>
+                    <input type="submit" value="Добавить">
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<footer>
+    <span><a href="/main">© Schedule maker</a></span>
+    <span><a href="./about_authors.html">Контакты</a></span>
+    <span><a href="./about_site.html">О сайте</a></span>
+</footer>
+</body>
+</html>
