@@ -243,14 +243,16 @@ class ScheduleGenerator:
         # 0 - time is free, else - not
         free_time = {key: [[0, 0] for _ in range(self.lessons_per_week)] for key in self.groups.keys()}
 
+        free_classrooms = [self.classrooms.copy() for _ in range(self.lessons_per_week)]
+
         lesson_id = 1
 
         teachers = {}
         for subject in subjects_teachers:
             for teacher in subjects_teachers[subject]:
-                teachers[teacher] = [[0, ''] for _ in range(self.lessons_per_week)]
+                teachers[teacher] = [[0, '', ''] for _ in range(self.lessons_per_week)]
 
-        schedule = {key: [[[0, 0], [0, 0]] for _ in range(self.lessons_per_week)] for key in self.groups.keys()}
+        schedule = {key: [[[0, 0, 0], [0, 0, 0]] for _ in range(self.lessons_per_week)] for key in self.groups.keys()}
 
         for i in range(self.lessons_per_week):
             for plan in self.plans:
@@ -269,29 +271,37 @@ class ScheduleGenerator:
                             break
 
                     if flag:
-                        for group in self.groups.keys():
-                            try:
+                        for classroom in free_classrooms[i]:
+                            if (list(lesson.keys())[0] in classroom.subjects and
+                                    classroom.type == Const.Lecture):
+                                for group in self.groups.keys():
+                                    try:
 
-                                if (self.plans[self.groups[group]][list(lesson.keys())[0]].stream
-                                        == self.plans[plan][list(lesson.keys())[0]].stream):
-                                    free_time[group][i] = [lesson_id, lesson_id]
+                                        if (self.plans[self.groups[group]][list(lesson.keys())[0]].stream
+                                                == self.plans[plan][list(lesson.keys())[0]].stream):
 
-                                    teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
-                                    teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+                                            free_time[group][i] = [lesson_id, lesson_id]
 
-                                    schedule[group][i][0][0] = list(lesson.keys())[0]
-                                    schedule[group][i][0][1] = list(lesson.values())[0][1]
+                                            teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
+                                            teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+                                            teachers[list(lesson.values())[0][1]][i][2] = classroom.name
 
-                                    schedule[group][i][1][0] = list(lesson.keys())[0]
-                                    schedule[group][i][1][1] = list(lesson.values())[0][1]
+                                            schedule[group][i][0][0] = list(lesson.keys())[0]
+                                            schedule[group][i][0][1] = list(lesson.values())[0][1]
+                                            schedule[group][i][0][2] = classroom.name
 
-                                    # print('accepted:', group, schedule[group][i])
-                            except KeyError:
-                                pass
-                        lesson_id += 1
-                        all_lessons.remove(lesson)
+                                            schedule[group][i][1][0] = list(lesson.keys())[0]
+                                            schedule[group][i][1][1] = list(lesson.values())[0][1]
+                                            schedule[group][i][1][2] = classroom.name
 
-                        break
+                                            # print('accepted:', group, schedule[group][i])
+                                    except KeyError:
+                                        pass
+                                lesson_id += 1
+                                all_lessons.remove(lesson)
+                                free_classrooms[i].remove(classroom)
+
+                                break
 
         for i in range(self.lessons_per_week):
             for group in schedule:
@@ -313,18 +323,25 @@ class ScheduleGenerator:
                                 break
 
                         if flag:
-                            free_time[group][i][j] = lesson_id
-                            lesson_id += 1
+                            for classroom in free_classrooms[i]:
+                                if (list(lesson.keys())[0] in classroom.subjects and
+                                        classroom.type == Const.Lab):
 
-                            teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
-                            teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+                                    free_time[group][i][j] = lesson_id
+                                    lesson_id += 1
 
-                            schedule[group][i][j][0] = list(lesson.keys())[0]
-                            schedule[group][i][j][1] = list(lesson.values())[0][1]
+                                    teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
+                                    teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+                                    teachers[list(lesson.values())[0][1]][i][2] = classroom.name
 
-                            all_lessons.remove(lesson)
+                                    schedule[group][i][j][0] = list(lesson.keys())[0]
+                                    schedule[group][i][j][1] = list(lesson.values())[0][1]
+                                    schedule[group][i][j][2] = classroom.name
 
-                            break
+                                    all_lessons.remove(lesson)
+                                    free_classrooms[i].remove(classroom)
+
+                                    break
 
         for i in range(self.lessons_per_week):
             for group in schedule:
@@ -344,27 +361,31 @@ class ScheduleGenerator:
                             break
 
                     if flag:
-                        free_time[group][i] = [lesson_id, lesson_id]
-                        lesson_id += 1
+                        for classroom in free_classrooms[i]:
+                            if (list(lesson.keys())[0] in classroom.subjects and
+                                    classroom.type == Const.Practice):
+                                free_time[group][i] = [lesson_id, lesson_id]
+                                lesson_id += 1
 
-                        teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
-                        teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+                                teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
+                                teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+                                teachers[list(lesson.values())[0][1]][i][2] = classroom.name
 
-                        schedule[group][i][0][0] = list(lesson.keys())[0]
-                        schedule[group][i][0][1] = list(lesson.values())[0][1]
+                                schedule[group][i][0][0] = list(lesson.keys())[0]
+                                schedule[group][i][0][1] = list(lesson.values())[0][1]
+                                schedule[group][i][0][2] = classroom.name
 
-                        schedule[group][i][1][0] = list(lesson.keys())[0]
-                        schedule[group][i][1][1] = list(lesson.values())[0][1]
+                                schedule[group][i][1][0] = list(lesson.keys())[0]
+                                schedule[group][i][1][1] = list(lesson.values())[0][1]
+                                schedule[group][i][1][2] = classroom.name
 
-                        # print('accepted:', group, schedule[group][i], i)
+                                # print('accepted:', group, schedule[group][i], i)
 
-                        all_lessons.remove(lesson)
+                                all_lessons.remove(lesson)
+                                free_classrooms[i].remove(classroom)
 
-                        break
+                                break
 
-                    else:
-                        pass
-                        # print('nope:', list(lesson.keys())[0], list(lesson.values())[0][1])
         return schedule, free_time, teachers
 
     def main(self):

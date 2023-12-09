@@ -28,7 +28,7 @@ days_of_study = len(Weekdays)
 lessons_per_day = len(Clocks)
 
 # Create formats
-workbook = xlsxwriter.Workbook('../Schedule-maker/static/xlsx/schedule.xlsx')
+workbook = xlsxwriter.Workbook('../Schedule_maker/static/xlsx/schedule.xlsx')
 
 merge_format = workbook.add_format(form.Formats.get_merge_format())
 merge_format_flip = workbook.add_format(form.Formats.get_merge_format_flip())
@@ -179,7 +179,6 @@ def schedule_to_xlsx(groups, free_time, teachers):
                         worksheet.merge_range(row + 2, column, row + 3, column, '', format_bot_cell_lab)
                     except OverlappingRange:
                         pass
-                print(row, column)
 
                 day += 1
                 day %= days_of_study
