@@ -81,7 +81,6 @@ a {
     float: left;
     border: none;
     outline: none;
-    cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
 }
@@ -289,4 +288,36 @@ th {
 
 ::-webkit-scrollbar-thumb:active {
     background-color: #333;
+}
+
+.group_table {
+    padding-top: 40px;
+    display: flex;
+    justify-content: center;
+    height: 83vh;
+
+    overflow: auto;
+}
+
+.group_table table {
+    width: 90%;
+}
+
+select {
+    border: 0;
+
+    font-size: 25px;
+
+    background-color: #f2f2f2;
+}
+
+button {
+    cursor: pointer;
+}
+td input {
+    font-size: 25px;
+
+    border: 0;
+
+    background-color: #f2f2f2;
 }
