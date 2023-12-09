@@ -181,14 +181,20 @@ footer span {
     font-size: 40px;
 }
 
-table {
+.table {
+    padding-top: 40px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    height: 83vh;
+
+    overflow: auto;
+}
+
+table {
+    min-width: 30%;
 
     border-collapse: collapse;
-    width: 100%;
-    height: 40%;
+    height: 20%;
 
     font-size: 25px;
 }
@@ -199,11 +205,13 @@ tr {
 }
 
 th {
+    text-align: left;
     padding-bottom: 20px;
 
 }
 
 .buttons {
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -235,16 +243,18 @@ th {
 
 .add_new input[type="text"] {
     padding-left: 10px;
-    height: 30px;
-    width: 300px;
+    width: 400px;
+
+    font-size: 25px;
 
     border-radius: 5px;
     border-width: 0;
 }
 
 .add_new input[type="submit"] {
-    height: 30px;
-    width: 100px;
+    width: 150px;
+
+    font-size: 25px;
 
     border-radius: 5px;
     border-width: 0;
@@ -254,4 +264,29 @@ th {
 .add_new input[type="submit"]:hover {
     transition: background-color 0.3s ease-in;
     background-color: #838383;
+}
+
+/* Убираем стрелки */
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* Закругляем углы и задаем цвет полосы прокрутки */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #888;
+}
+
+/* Задаем цвет трека полосы прокрутки */
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* Задаем ширину полосы прокрутки */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: #333;
 }

@@ -18,28 +18,31 @@
         </div>
     </nav>
 </header>
+
 <div class="table">
     <table>
         <tr>
-            <th colspan="2">Преподаватели</th>
+            <th>Предмет</th>
         </tr>
-        {% for teacher in teachers%}
         <tr>
-            <td contenteditable='true'>{{teacher.full_name}}</td>
+            <td contenteditable='true'>Теория вероятности</td>
             <td class="buttons"><button>Изменить</button><button>Удалить</button></td>
         </tr>
-        {% endfor %}
-
+        <tr>
+            <td contenteditable='true'>АСД</td>
+            <td class="buttons"><button>Изменить</button><button>Удалить</button></td>
+        </tr>
         <tr class="add_new">
             <td colspan="2">
                 <form action="" method="post">
-                    <label><input type="text" name="full_name" id="" placeholder="Введите ФИО преподавателя"></label>
+                    <label><input type="text" name="full_name" id="" placeholder="Введите название предмета"></label>
                     <input type="submit" value="Добавить">
                 </form>
             </td>
         </tr>
     </table>
 </div>
+
 
 <footer>
     <span><a href="/main">© Schedule maker</a></span>
