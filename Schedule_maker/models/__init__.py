@@ -15,7 +15,7 @@ from .core import (
     generate_uuid
 )
 
-from .UserManager import (
+from Schedule_maker.cruds.UserManager import (
     UserManager,
     user_manager
 )

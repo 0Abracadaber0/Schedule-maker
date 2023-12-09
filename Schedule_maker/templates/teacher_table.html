@@ -25,8 +25,11 @@
         </tr>
         {% for teacher in teachers%}
         <tr>
-            <td contenteditable='true'>{{teacher.full_name}}</td>
-            <td class="buttons"><button>Изменить</button><button>Удалить</button></td>
+            <td contenteditable='true' content="{{teacher.full_name}}"></td>
+            <td class="buttons">
+                <a><button>Изменить</button></a>
+                <a href="http://127.0.0.1:8000/tables/teacher-delete/{{teacher.id}}"><button>Удалить</button></a>
+            </td>
         </tr>
         {% endfor %}
 

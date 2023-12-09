@@ -4,10 +4,8 @@ import requests
 import uuid
 
 from datetime import timedelta
-from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Form
-from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import RedirectResponse
 
 from sqlalchemy import update
@@ -16,7 +14,7 @@ from sqlalchemy.orm import Session
 from starlette import status
 
 from Schedule_maker.models import User
-from Schedule_maker.models.UserManager import user_manager
+from Schedule_maker.cruds.UserManager import user_manager
 from Schedule_maker.security.pwd import create_access_token
 from Schedule_maker.security.PasswordManager import password_manager
 from Schedule_maker.config import settings
@@ -73,9 +71,9 @@ class LoginView:
     @staticmethod
     @router.post("/login")
     async def login_for_access_token(
-        form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+        email: str = Form(), password: str = Form()
     ):
-        user = await user_manager.authenticate_user(form_data.username, form_data.password)
+        user = await user_manager.authenticate_user(email, password)
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -86,7 +84,7 @@ class LoginView:
         access_token = create_access_token(
             data={
                 'id': user.id,
-                'username': user.username,
+                'email': user.email,
             },
             expires_delta=access_token_expires
         )
@@ -112,13 +110,12 @@ class RegistrationView:
     @staticmethod
     @router.post('/register')
     async def register(
-            username: str = Form(), email: str = Form(),
-            password: str = Form(), db_: Session = Depends(db.get_db)
+            email: str = Form(), password: str = Form(),
+            db_: Session = Depends(db.get_db)
     ):
-        user = await user_manager.get_user_by_username(username)
+        user = await user_manager.get_user_by_email(email)
         if not user:
             user = User(
-                username=username,
                 email=email,
                 hashed_password=password_manager.get_password_hash(password)
             )
@@ -157,7 +154,7 @@ class GoogleAuthenticationView:
             access_token = create_access_token(
                 data={
                     'id': user.id,
-                    'username': user.username,
+                    'email': user.email,
                 },
                 expires_delta=access_token_expires
             )
@@ -179,7 +176,6 @@ class GoogleAuthenticationView:
         user_exists = await user_manager.get_user_by_id(user_json['id'])
         if not user_exists:
             user = User(
-                username=user_json['name'],
                 email=user_json['email'],
                 hashed_password=''
             )
@@ -192,7 +188,7 @@ class GoogleAuthenticationView:
             access_token = create_access_token(
                 data={
                     'id': user.id,
-                    'username': user.username,
+                    'email': user.email,
                 },
                 expires_delta=access_token_expires
             )
@@ -219,7 +215,7 @@ class EmailVerificationView:
             access_token = create_access_token(
                 data={
                     'id': user.id,
-                    'username': user.username,
+                    'email': user.email,
                 },
                 expires_delta=access_token_expires
             )

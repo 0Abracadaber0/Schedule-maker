@@ -22,7 +22,6 @@ class Base(declarative_base()):
 
 
 class User(Base):
-    username: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
     hashed_password: Mapped[str] = mapped_column(nullable=True)
     is_google_user: Mapped[bool] = mapped_column(default=False)
@@ -32,9 +31,8 @@ class User(Base):
     subjects: Mapped[List['Subject']] = relationship(backref='user')
     groups: Mapped[List['Group']] = relationship(backref='user')
 
-    def __init__(self, username, email, hashed_password):
+    def __init__(self, email, hashed_password):
         self.email = email
-        self.username = username
         self.hashed_password = hashed_password
 
 
@@ -59,9 +57,10 @@ class Teacher(Base):
         )
     )
 
-    def __init__(self, user_id, full_name):
+    def __init__(self, full_name, user_id, _id):
         self.full_name = full_name
         self.user_id = user_id
+        self.id = _id
 
 
 class Group(Base):
