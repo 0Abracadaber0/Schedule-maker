@@ -1,19 +1,14 @@
 from typing import List
 from uuid import uuid4
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, Table, Column
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column, declared_attr, relationship
-from sqlalchemy.dialects.postgresql import UUID
-
-
-def generate_uuid():
-    return str(uuid4())
 
 
 class Base(declarative_base()):
     __abstract__ = True
 
-    id: Mapped[str] = mapped_column(primary_key=True, default=generate_uuid())
+    id: Mapped[str] = mapped_column(primary_key=True, default=str(uuid4()))
 
     @classmethod
     @declared_attr.directive
@@ -30,6 +25,7 @@ class User(Base):
     teachers: Mapped[List['Teacher']] = relationship(backref='user')
     subjects: Mapped[List['Subject']] = relationship(backref='user')
     groups: Mapped[List['Group']] = relationship(backref='user')
+    classrooms: Mapped[List['Classroom']] = relationship(backref='user')
 
     def __init__(self, email, hashed_password):
         self.email = email
@@ -65,6 +61,8 @@ class Teacher(Base):
 
 class Group(Base):
     group_name: Mapped[str]
+    stream: Mapped[str]
+    type: Mapped[str]
 
     user_id: Mapped[str] = mapped_column(
         ForeignKey(
@@ -72,3 +70,30 @@ class Group(Base):
             ondelete='CASCADE'
         )
     )
+
+
+class Classroom(Base):
+    name: Mapped[str]
+    type: Mapped[str]
+
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='user.id',
+            ondelete='CASCADE'
+        )
+    )
+
+
+teacher_group_table = Table(
+    "teacher_group_table",
+    Base.metadata,
+    Column("group_id", ForeignKey("group.id")),
+    Column("teacher_id", ForeignKey("teacher.id")),
+)
+
+classroom_subject_table = Table(
+    "classroom_subject_table",
+    Base.metadata,
+    Column("classroom_id", ForeignKey("classroom.id")),
+    Column("subject_id", ForeignKey("subject.id"))
+)

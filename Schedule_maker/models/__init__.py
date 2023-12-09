@@ -3,7 +3,6 @@ __all__ = (
     'User',
     'UserManager',
     'user_manager',
-    'generate_uuid'
 )
 
 from .db import (
@@ -12,7 +11,6 @@ from .db import (
 
 from .core import (
     User,
-    generate_uuid
 )
 
 from Schedule_maker.cruds.UserManager import (

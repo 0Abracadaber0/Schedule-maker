@@ -2,7 +2,7 @@ import jwt
 
 from typing import Annotated
 from fastapi import Depends, HTTPException
-from sqlalchemy import select, update
+from sqlalchemy import select
 from starlette import status
 
 from Schedule_maker.config.settings import Settings, settings
@@ -20,36 +20,6 @@ class UserManager:
         self.db = db
         self.password_manager = password_manager
         self.settings = _settings
-
-    async def update_user(
-            self, _id: str, username: str = None,
-            password: str = None, email: str = None
-    ) -> None:
-        try:
-            user = await self.get_user_by_id(_id)
-            if not user:
-                raise Exception('User doesnt exist')
-            if username is not None:
-                user.username = username
-            if username is None:
-                username = user.username
-            if password is not None:
-                user.hashed_password = self.password_manager.get_password_hash(password)
-            if password is None:
-                password = user.hashed_password
-            if email is not None:
-                user.email = email
-            if email is None:
-                email = user.email
-            async with self.db.engine.connect() as session:
-                session.execute(update(User).where(User.id == _id).values(
-                    username=username,
-                    hashed_password=password,
-                    email=email
-                ))
-                await session.commit()
-        except Exception as err:
-            print(err)
 
     async def get_user_by_email(self, email: str) -> User | None:
         async with self.db.engine.connect() as session:

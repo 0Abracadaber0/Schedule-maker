@@ -26,51 +26,34 @@
             <th>Тип</th>
             <th>Предмет</th>
         </tr>
-        <tr>
-            <td contenteditable='true'>507</td>
+        <tr class="add_new">
+            {% for classroom in classrooms %}
+                <tr>
+                    <th>{{classroom.name}}</th>
+                    <th>{{classroom.type}}</th>
+                    <th></th>
+                </tr>
+            {% endfor %}
+            <form method="post">
+                <td><input name="name" placeholder="Enter the"></td>
             <td>
                 <label>
-                    <select>
+                    <select name="_type">
                         <option>Лекция</option>
                         <option>Практика</option>
                         <option>Лабораторная</option>
                     </select>
                 </label>
-            </td>
             <td>
-                <label><input list="subjects" placeholder="Предмет"></label>
+                <label><input list="subjects" name="subject" placeholder="Предмет"></label>
                 <datalist id="subjects">
-                    <option>Алгоритмы и структуры данных</option>
-                    <option>Физическая культура</option>
-                    <option>Разработка приложений в визуальных средах</option>
-                    <option>Языки программирования</option>
+                    {% for subject in subjects%}
+                        <option>{{subject.subject_name}}</option>
+                    {% endfor %}
                 </datalist>
             </td>
-            <td class="buttons"><button>Изменить</button><button>Удалить</button></td>
-        </tr>
-        <tr>
-            <td contenteditable='true'>507</td>
-            <td>
-                <label>
-                    <select>
-                        <option>Лекция</option>
-                        <option>Практика</option>
-                        <option>Лабораторная</option>
-                    </select>
-                </label>
-            </td>
-            <td>
-                <label><input list="subjects" placeholder="Предмет"></label>
-            </td>
-            <td class="buttons"><button>Изменить</button><button>Удалить</button></td>
-        </tr>
-        <tr class="add_new">
-            <td colspan="5">
-                <form action="" method="post">
-                    <label><input type="text" name="full_name" id="" placeholder="Введите номер аудитории"></label>
-                    <input type="submit" value="Добавить">
-                </form>
-            </td>
+            <td class="buttons"><button type="submit">Add</button></td>
+            </form>
         </tr>
     </table>
 </div>
