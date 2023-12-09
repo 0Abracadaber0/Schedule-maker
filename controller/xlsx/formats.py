@@ -37,7 +37,6 @@ class Formats:
 
     format_mid_cell = {
         'font_size': 15,
-        'top':       5,
         'left':      5,
         'right':     5,
         'align':     'center',

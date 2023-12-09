@@ -35,12 +35,15 @@ merge_format_flip = workbook.add_format(form.Formats.get_merge_format_flip())
 merge_format_back_flip = workbook.add_format(form.Formats.get_merge_format_back_flip())
 
 format_top_cell_lecture = workbook.add_format({**form.Formats.get_format_top_cell(), 'font_size': 20})
+format_mid_cell_lecture = workbook.add_format({**form.Formats.get_format_mid_cell(), 'font_size': 20})
 format_bot_cell_lecture = workbook.add_format({**form.Formats.get_format_bot_cell(), 'font_size': 20})
 
 format_top_cell_practice = workbook.add_format(form.Formats.get_format_top_cell())
+format_mid_cell_practice = workbook.add_format(form.Formats.get_format_mid_cell())
 format_bot_cell_practice = workbook.add_format(form.Formats.get_format_bot_cell())
 
 format_top_cell_lab = workbook.add_format({**form.Formats.get_format_top_cell(), 'font_size': 8})
+format_mid_cell_lab = workbook.add_format({**form.Formats.get_format_mid_cell(), 'font_size': 8})
 format_bot_cell_lab = workbook.add_format({**form.Formats.get_format_bot_cell(), 'font_size': 8})
 
 
@@ -149,17 +152,21 @@ def schedule_to_xlsx(groups, free_time, teachers):
                             if curr_column == column:
                                 worksheet.merge_range(row, column, row + 1, curr_column, lesson[i][0],
                                                       format_top_cell_lab)
-                                worksheet.merge_range(row + 2, column, row + 3, curr_column, lesson[i][1],
-                                                      format_bot_cell_lab)
+                                worksheet.write(row + 2, column, lesson[i][1], format_mid_cell_lab)
+                                worksheet.write(row + 3, column, lesson[i][2], format_bot_cell_lab)
                             elif curr_column - column == 1:
                                 worksheet.merge_range(row, column, row + 1, curr_column, lesson[i][0],
                                                       format_top_cell_practice)
-                                worksheet.merge_range(row + 2, column, row + 3, curr_column, lesson[i][1],
+                                worksheet.merge_range(row + 2, column, row + 2, curr_column, lesson[i][1],
+                                                      format_mid_cell_practice)
+                                worksheet.merge_range(row + 3, column, row + 3, curr_column, lesson[i][2],
                                                       format_bot_cell_practice)
                             else:
                                 worksheet.merge_range(row, column, row + 1, curr_column, lesson[i][0],
                                                       format_top_cell_lecture)
-                                worksheet.merge_range(row + 2, column, row + 3, curr_column, lesson[i][1],
+                                worksheet.merge_range(row + 2, column, row + 2, curr_column, lesson[i][1],
+                                                      format_mid_cell_lecture)
+                                worksheet.merge_range(row + 3, column, row + 3, curr_column, lesson[i][2],
                                                       format_bot_cell_lecture)
                         except OverlappingRange:
                             ...
@@ -168,8 +175,8 @@ def schedule_to_xlsx(groups, free_time, teachers):
                         if free_time[group][index][1] != free_time[group][index][0]:
                             try:
                                 worksheet.merge_range(row, column, row + 1, column, lesson[i][0], format_top_cell_lab)
-                                worksheet.merge_range(row + 2, column, row + 3, column, lesson[i][1],
-                                                      format_bot_cell_lab)
+                                worksheet.write(row + 2, column, lesson[i][1], format_mid_cell_lab)
+                                worksheet.write(row + 3, column, lesson[i][2], format_bot_cell_lab)
                             except OverlappingRange:
                                 ...
 
@@ -178,7 +185,7 @@ def schedule_to_xlsx(groups, free_time, teachers):
                         worksheet.merge_range(row, column, row + 1, column, '', format_top_cell_lab)
                         worksheet.merge_range(row + 2, column, row + 3, column, '', format_bot_cell_lab)
                     except OverlappingRange:
-                        pass
+                        ...
 
                 day += 1
                 day %= days_of_study

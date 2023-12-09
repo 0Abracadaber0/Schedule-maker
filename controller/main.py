@@ -394,6 +394,7 @@ class ScheduleGenerator:
         lessons = self.generate_all_lessons(teachers)
 
         schedule, free_time, teachers = self.generate_schedule(lessons, teachers)
+        print(schedule)
 
         xlsx.schedule_to_xlsx(schedule, free_time, teachers)
 
