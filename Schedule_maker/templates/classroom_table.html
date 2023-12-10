@@ -26,15 +26,15 @@
             <th width="250px">Тип</th>
             <th>Предмет</th>
         </tr>
-<!--        Вывод таблицы из бд-->
-<!--        {% for classroom in classrooms %}-->
-<!--            <tr>-->
-<!--                <td>{{classroom.name}}</td>-->
-<!--                <td>{{classroom.type}}</td>-->
-<!--                <td>предмет.имя_предмета</td>-->
-<!--                <td class="buttons"><button>Удалить</button></td>-->
-<!--            </tr>-->
-<!--        {% endfor %}-->
+        {% for subject, classroom in subjects_classrooms.items() %}
+            <tr>
+                <td>{{classroom.name}}</td>
+                <td>{{classroom.type}}</td>
+                <td>{{subject.subject_name}}</td>
+                <td class="buttons"><a href="http://127.0.0.1:8000/tables/classroom-delete/{{subject.id}}/{{classroom.id}}">
+                    <button>Удалить</button></a></td>
+            </tr>
+        {% endfor %}
         <tr class="add_new">
             <form method="post">
                 <td><label><input name="name" placeholder="Аудитория"></label></td>

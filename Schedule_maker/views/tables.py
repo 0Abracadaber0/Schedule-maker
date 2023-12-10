@@ -5,6 +5,7 @@ from fastapi.responses import RedirectResponse
 
 from typing import Annotated
 
+from starlette import status
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_403_FORBIDDEN
 
@@ -125,12 +126,16 @@ class ClassroomTableView:
     ):
         subjects = await subject_manager.get_all_objects_by_user_id(current_user.id)
         classrooms = await classroom_manager.get_all_objects_by_user_id(current_user.id)
+        subjects_classrooms = await subject_classroom_manager.get_all_associations_by_user_id(current_user.id)
+        for subject, classroom in subjects_classrooms.items():
+            print(subject.subject_name, classroom.type)
         return settings.templates.TemplateResponse(
             'classroom_table.html',
             {
                 'request': request,
                 'subjects': subjects,
-                'classrooms': classrooms
+                'classrooms': classrooms,
+                'subjects_classrooms': subjects_classrooms
             }
         )
 
@@ -151,15 +156,41 @@ class ClassroomTableView:
                 'id': classroom_id
             }
         )
-
         subjects = await subject_manager.get_all_objects_by_user_id(current_user.id)
         for _subject in subjects:
             if _subject.subject_name == subject:
-                print("YAAAAAY")
                 await subject_classroom_manager.create_association(
                     subject_id=_subject.id,
-                    classroom_id=classroom_id
+                    classroom_id=classroom_id,
+                    user_id=current_user.id,
+                    _id=str(uuid.uuid4())
                 )
-        response = RedirectResponse('/tables/classroom')
-        response.status_code = 302
-        return response
+                response = RedirectResponse('/tables/classroom')
+                response.status_code = 302
+                return response
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Relation not found'
+        )
+
+    @staticmethod
+    @router.get('/classroom-delete/{subject_id}/{classroom_id}')
+    async def delete_classroom(
+            subject_id: str,
+            classroom_id: str,
+            current_user: Annotated[User, Depends(user_manager.get_current_verified_user)],
+    ):
+        current_classroom = await classroom_manager.get_object_by_id(classroom_id)
+        if current_classroom.user_id == current_user.id:
+            await classroom_manager.delete_object_by_id(current_classroom.id)
+            await subject_classroom_manager.delete_association(
+                classroom_id=classroom_id,
+                subject_id=subject_id
+            )
+            response = RedirectResponse('/tables/classroom')
+            response.status_code = 302
+            return response
+        raise HTTPException(
+            status_code=HTTP_403_FORBIDDEN,
+            detail='You do not have permission to delete this classroom'
+        )
