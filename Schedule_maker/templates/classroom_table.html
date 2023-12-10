@@ -47,12 +47,13 @@
                         </select>
                     </label>
                 <td>
-                <label><input list="subjects" name="subject" placeholder="Предмет" required></label>
-                <datalist id="subjects">
-                    {% for subject in subjects%}
-                        <option>{{subject.subject_name}}</option>
-                    {% endfor %}
-                </datalist>
+                <label>
+                    <select name="subject">
+                        {% for subject in subjects%}
+                            <option>{{subject.subject_name}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
             </td>
             <td class="buttons"><button type="submit">Добавить</button></td>
             </form>
