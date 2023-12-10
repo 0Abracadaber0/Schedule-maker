@@ -25,8 +25,10 @@ class TableObjectManager:
 
     async def get_object_by_id(self, _id: str) -> object | None:
         async with self.db.engine.connect() as session:
-            coroutine_table_object = await session.execute(select(self.table_object).where(self.table_object.id == _id))
-        table_object = coroutine_table_object.first()
+            coroutine_table_object = await session.execute(select(self.table_object).filter(
+                self.table_object.id == _id)
+            )
+        table_object = coroutine_table_object.fetchone()
         if not table_object:
             return None
         return table_object

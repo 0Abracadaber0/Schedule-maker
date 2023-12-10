@@ -1,16 +1,13 @@
-from typing import List
 from abc import abstractmethod
 
 from sqlalchemy import select, delete
 from sqlalchemy.dialects.postgresql import insert
-from starlette.exceptions import HTTPException
-from starlette.status import HTTP_404_NOT_FOUND
 
 from Schedule_maker.config.settings import Settings, settings
 from Schedule_maker.models.db import Database, db
-from Schedule_maker.models.core import classroom_subject_table
+from Schedule_maker.models.core import ClassroomSubject, Classroom, Subject
 from Schedule_maker.security.PasswordManager import PasswordManager, password_manager
-from Schedule_maker.models.core import Teacher, Subject, Classroom
+from Schedule_maker.cruds.TableObjectManager import classroom_manager, subject_manager
 
 
 class BaseAssociationTableManager:
@@ -18,10 +15,12 @@ class BaseAssociationTableManager:
                  _db: Database,
                  _password_manager: PasswordManager,
                  _settings: Settings,
+                 association_object
                  ):
         self.db = _db
         self.password_manager = _password_manager
         self.settings = _settings
+        self.association_object = association_object
 
     @abstractmethod
     async def create_association(self, *args, **kwargs):
@@ -33,33 +32,50 @@ class BaseAssociationTableManager:
 
 
 class SubjectClassroomAssociationManger(BaseAssociationTableManager):
-    async def create_association(self, classroom_id, subject_id) -> None:
+    async def create_association(self, classroom_id: str, subject_id: str, user_id: str, _id: str) -> None:
         async with db.engine.connect() as session:
             await session.execute(
-                insert(classroom_subject_table).values(classroom_id=classroom_id, subject_id=subject_id)
+                insert(self.association_object).values(
+                    classroom_id=classroom_id,
+                    subject_id=subject_id,
+                    user_id=user_id,
+                    id=_id
+                )
             )
             await session.commit()
 
-    async def delete_association(self, classroom_id, subject_id) -> None:
+    async def delete_association(self, classroom_id: str, subject_id: str) -> None:
         async with db.engine.connect() as session:
             await session.execute(
-                delete(classroom_subject_table).where(classroom_id=classroom_id, subject_id=subject_id)
+                delete(self.association_object).where(
+                    self.association_object.classroom_id == classroom_id,
+                    self.association_object.subject_id == subject_id
+                )
             )
             await session.commit()
 
-    async def get_association_by_classroom_id(self, classroom_id=None, subject_id=None):
-        async with db.engine.connect() as session:
+    async def get_all_associations_by_user_id(self, user_id: str):
+        async with self.db.engine.connect() as session:
             coroutine_association = await session.execute(
-                select(classroom_subject_table).where(classroom_id=classroom_id)
+                select(self.association_object).where(self.association_object.user_id == user_id)
             )
-            association = coroutine_association.first()
-            if association is None:
+            associations = coroutine_association.fetchall()
+            if associations is None:
                 return None
-            return association
+            subject_classroom_dict = {}
+            for association in associations:
+                subject_classroom_dict.update(
+                    {
+                        await subject_manager.get_object_by_id(association.subject_id):
+                        await classroom_manager.get_object_by_id(association.classroom_id)
+                    }
+                )
+            return subject_classroom_dict
 
 
 subject_classroom_manager = SubjectClassroomAssociationManger(
     _db=db,
     _password_manager=password_manager,
-    _settings=settings
+    _settings=settings,
+    association_object=ClassroomSubject
 )

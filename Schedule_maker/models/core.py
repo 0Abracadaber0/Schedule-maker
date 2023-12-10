@@ -84,16 +84,42 @@ class Classroom(Base):
     )
 
 
+class ClassroomSubject(Base):
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='user.id',
+            ondelete='CASCADE'
+        )
+    )
+
+    subject_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='subject.id',
+            ondelete='CASCADE'
+        )
+    )
+
+    classroom_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='classroom.id',
+            ondelete='CASCADE'
+        )
+    )
+
+
 teacher_group_table = Table(
     "teacher_group_table",
     Base.metadata,
-    Column("group_id", ForeignKey("group.id")),
-    Column("teacher_id", ForeignKey("teacher.id")),
-)
-
-classroom_subject_table = Table(
-    "classroom_subject_table",
-    Base.metadata,
-    Column("classroom_id", ForeignKey("classroom.id")),
-    Column("subject_id", ForeignKey("subject.id"))
+    Column("group_id", ForeignKey(
+        "group.id",
+        ondelete="CASCADE"
+    )),
+    Column("teacher_id", ForeignKey(
+        "teacher.id",
+        ondelete="CASCADE"
+    )),
+    Column("user_id", ForeignKey(
+        "user.id",
+        ondelete="CASCADE"
+    ))
 )
