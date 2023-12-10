@@ -209,13 +209,7 @@ th {
 }
 
 .buttons {
-
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
     margin-left: 20px;
-    width: 150px;
     height: 50px;
 
 }
