@@ -19,23 +19,43 @@
     </nav>
 </header>
 
-<div class="table">
+<div class="curriculum_table">
     <table>
         <tr>
-            <th>Группа</th>
             <th>Учебный план</th>
+            <th>Предмет</th>
+            <th>Кол-во лекций</th>
+            <th>Кол-во практик</th>
+            <th>Кол-во лабораторных</th>
+            <th>Поток</th>
         </tr>
 <!--        <tr>-->
-<!--            <td>группа.имя</td>-->
 <!--            <td>учебный_план.имя</td>-->
+<!--            <td>предмет.имя</td>-->
+<!--            <td>учебный_план.лекции</td>-->
+<!--            <td>учебный_план.практ</td>-->
+<!--            <td>учебный_план.лабы</td>-->
+<!--            <td>учебный_план.поток</td>-->
 <!--            <td class="buttons"><button>Удалить</button></td>-->
 <!--        </tr>-->
 
         <tr class="add_new">
             <form method="post">
-                <td><label><input type="text" placeholder="Группа" required></label></td>
                 <td><label><input type="text" placeholder="Учебный план" required></label></td>
-                <td class="buttons"><button type="submit">Добавить</button></td>
+                <td>
+                    <label><input list="subjects" placeholder="Предмет" required></label>
+                    <datalist id="subjects">
+                        {% for subject in subjects %}
+                        <option>{{subject.subject_name}}</option>
+                        {% endfor %}
+                    </datalist>
+                </td>
+                <td><label><input type="text" placeholder="Лекции" required></label></td>
+                <td><label><input type="text" placeholder="Практики" required></label></td>
+                <td><label><input type="text" placeholder="Лабораторные" required></label></td>
+                <td><label><input type="text" placeholder="Поток" required></label></td>
+
+                <td class="buttons"><input type="submit" value="Добавить"></td>
             </form>
         </tr>
     </table>

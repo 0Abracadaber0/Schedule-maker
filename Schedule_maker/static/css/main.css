@@ -211,22 +211,23 @@ th {
 .buttons {
 
     display: flex;
+    justify-content: flex-end;
     align-items: center;
 
     margin-left: 20px;
-    width: 350px;
+    width: 150px;
     height: 50px;
 
 }
 
 .buttons button {
+    width: 150px;
+
     font-size: 25px;
 
     border-radius: 5px;
     border-width: 0;
     background-color: #d7d7d7;
-
-    width: 150px;
 }
 
 .buttons button:hover {
@@ -239,8 +240,7 @@ th {
 }
 
 .add_new input[type="text"] {
-    padding-left: 10px;
-    width: 400px;
+    width: 200px;
 
     font-size: 25px;
 
@@ -288,7 +288,7 @@ th {
     background-color: #333;
 }
 
-.group_table {
+.curriculum_table {
     padding-top: 40px;
     display: flex;
     justify-content: center;
@@ -297,7 +297,7 @@ th {
     overflow: auto;
 }
 
-.group_table table {
+.curriculum_table table {
     width: 90%;
 }
 
@@ -318,4 +318,8 @@ td input {
     border: 0;
 
     background-color: #f2f2f2;
+}
+
+td, th {
+    padding-left: 10px;
 }

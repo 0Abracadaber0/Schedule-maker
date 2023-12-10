@@ -26,7 +26,7 @@
         </tr>
         {% for subject in subjects %}
             <tr>
-                <td contenteditable='true'>{{ subject.subject_name }}</td>
+                <td>{{ subject.subject_name }}</td>
                 <td class="buttons">
                     <a href="http://127.0.0.1:8000/tables/subject-delete/{{subject.id}}"><button>Удалить</button></a>
                 </td>
@@ -35,7 +35,7 @@
         <tr class="add_new">
             <td colspan="2">
                 <form action="" method="post">
-                    <label><input type="text" name="subject_name" placeholder="Введите название предмета"></label>
+                    <label><input type="text" name="subject_name" placeholder="Предмет" required></label>
                     <input type="submit" value="Добавить">
                 </form>
             </td>

@@ -31,7 +31,7 @@
 <!--            <tr>-->
 <!--                <td>{{classroom.name}}</td>-->
 <!--                <td>{{classroom.type}}</td>-->
-<!--                <td>Здесь выводишь предмет</td>-->
+<!--                <td>предмет.имя_предмета</td>-->
 <!--                <td class="buttons"><button>Удалить</button></td>-->
 <!--            </tr>-->
 <!--        {% endfor %}-->
@@ -47,7 +47,7 @@
                         </select>
                     </label>
                 <td>
-                <label><input list="subjects" name="subject" placeholder="Предмет"></label>
+                <label><input list="subjects" name="subject" placeholder="Предмет" required></label>
                 <datalist id="subjects">
                     {% for subject in subjects%}
                         <option>{{subject.subject_name}}</option>
