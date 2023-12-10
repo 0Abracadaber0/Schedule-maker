@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Schedule makers: Authors</title>
+    <title>Schedule makers: О сайте</title>
     <link rel="stylesheet" href="../static/css/main.css">
     <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
 </head>
@@ -11,32 +11,38 @@
     <h1><a href="/main">Schedule maker</a></h1>
     <nav class="tabs">
         <div class="tab">
-            <button class="tablinks" id="Classes_button" onclick="openTab(event, 'Classes')">Классы</button>
-            <button class="tablinks" id="Lessons_button" onclick="openTab(event, 'Lessons')">Уроки</button>
-            <button class="tablinks" id="Teachers_button" onclick="openTab(event, 'Teachers')">Учителя</button>
-            <button class="tablinks" id="Subjects_button" onclick="openTab(event, 'Subjects')">Предметы</button>
+            <button class="tablinks" id="Classes_button" onclick="">Классы</button>
+            <button class="tablinks" id="Lessons_button" onclick="">Уроки</button>
+            <button class="tablinks" id="Teachers_button" onclick="">Учителя</button>
+            <button class="tablinks" id="Subjects_button" onclick="">Предметы</button>
             <button class="tablinks" id="Register_button" onclick="document.location='./registration.html'">Регистрация</button>
             <button class="tablinks" id="Login_button" onclick="document.location='./login.html'">Логин</button>
         </div>
     </nav>
 </header>
 
+<h2 class="title">Генератор расписания</h2>
 <div class="about">
     <div>
         <img src="../static/images/table_screen.png" alt="">
     </div>
     <div class="p">
         <p>
-            Данный сервис предоставляет возможность
-            генерировать расписание для высших учебных заведений.
-            Для этого необходимо ввести информацию о группах и их
-            учебных программах, о преподавателях и их предметах, а
-            также об аудиториях и их назначениях. Готовое расписание
-            доступно в двух видах: для студентов и для преподавателей.
-            Этот сайт поможет Вам составить расписание, которое будет
-            удобно использовать и позволит легко планировать
-            учебный процесс.
+            Программа позволяет создать расписание для высшего учебного заведения. Для его создания пользователю надо
+            заполнить 4 таблиц:
         </p>
+        <ul>
+            <li>Таблица предметов</li>
+            <li>Таблица аудиторий</li>
+            <li>Таблица учебных планов</li>
+            <li>Таблица групп</li>
+        </ul>
+
+        <p>
+            Каждая из таблиц привязана к базе данных, которая в свою очередь привязана к каждому отдельному
+            пользователю.
+        </p>
+
     </div>
 </div>
 
