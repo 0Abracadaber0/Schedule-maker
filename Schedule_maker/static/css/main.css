@@ -209,13 +209,7 @@ th {
 }
 
 .buttons {
-
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
     margin-left: 20px;
-    width: 150px;
     height: 50px;
 
 }
@@ -335,4 +329,43 @@ ul {
     padding-top: 10px;
     padding-left: 40px;
     padding-bottom: 10px;
+}
+
+.order {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-size: 25px;
+
+    margin-left: 35%;
+    margin-top: 5%;
+    width: 30%;
+}
+
+.order input[type="submit"] {
+    font-size: 25px;
+
+    border-radius: 5px;
+    border-width: 0;
+    background-color: #d7d7d7;
+}
+
+.order input[type="submit"]:hover {
+    cursor: pointer;
+
+    transition: background-color 0.3s ease-in;
+    background-color: #838383;
+}
+
+.order label, input[type="submit"] {
+    margin-top: 10px;
+}
+
+input[type="checkbox"] {
+    accent-color: #333333;
+}
+
+input[type="checkbox"]:checked + span {
+    text-decoration: line-through;
 }
