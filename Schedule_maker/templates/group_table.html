@@ -25,18 +25,22 @@
             <th>Группа</th>
             <th>Учебный план</th>
         </tr>
-<!--        <tr>-->
-<!--            <td>группа.имя</td>-->
-<!--            <td>учебный_план.имя</td>-->
-<!--            <td class="buttons"><button>Удалить</button></td>-->
-<!--        </tr>-->
+        {% for group_curriculum in groups_curriculums %}
+        <tr>
+            <td>{{ group_curriculum[0].group_name }}</td>
+            <td>{{ group_curriculum[1].name }}</td>
+            <td class="buttons">
+                <a href="http://127.0.0.1:8000/tables/group-delete/{{group_curriculum[0].id}}"><button>Удалить</button></a>
+            </td>
+        </tr>
+        {% endfor %}
 
         <tr class="add_new">
             <form method="post">
-                <td><label><input type="text" placeholder="Группа" required></label></td>
+                <td><label><input type="text" name="group_name" placeholder="Группа" required></label></td>
                 <td>
                     <label>
-                        <select>
+                        <select name="curriculum">
                             {% for curriculum in curriculums %}
                             <option>{{curriculum.curriculum_name}}</option>
                             {% endfor %}

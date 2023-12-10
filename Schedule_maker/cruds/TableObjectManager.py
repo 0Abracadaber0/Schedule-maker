@@ -8,7 +8,7 @@ from starlette.status import HTTP_404_NOT_FOUND
 from Schedule_maker.config.settings import Settings, settings
 from Schedule_maker.models.db import Database, db
 from Schedule_maker.security.PasswordManager import PasswordManager, password_manager
-from Schedule_maker.models.core import Teacher, Subject, Classroom
+from Schedule_maker.models.core import Teacher, Subject, Classroom, Curriculum, Group
 
 
 class TableObjectManager:
@@ -59,6 +59,18 @@ class TableObjectManager:
             return table_objects
 
 
+class CurriculumTableManager(TableObjectManager):
+    async def get_object_by_name(self, name: str):
+        async with self.db.engine.connect() as session:
+            coroutine_group = await session.execute(
+                select(self.table_object).where(self.table_object.name == name)
+            )
+            group = coroutine_group.fetchone()
+            if group:
+                return group
+            return None
+
+
 teacher_manager = TableObjectManager(
     _db=db,
     _password_manager=password_manager,
@@ -78,4 +90,18 @@ classroom_manager = TableObjectManager(
     _password_manager=password_manager,
     _settings=settings,
     table_object=Classroom
+)
+
+curriculum_manager = CurriculumTableManager(
+    _db=db,
+    _password_manager=password_manager,
+    _settings=settings,
+    table_object=Curriculum
+)
+
+group_manager = TableObjectManager(
+    _db=db,
+    _password_manager=password_manager,
+    _settings=settings,
+    table_object=Group
 )
