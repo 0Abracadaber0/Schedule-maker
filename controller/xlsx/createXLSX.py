@@ -56,7 +56,7 @@ def markup(worksheet, data):
 
     """
     worksheet.set_column(1, 100, 20)
-
+    worksheet.set_default_row(20)
     worksheet.merge_range(10, 0, 14, 0, 'День', merge_format)
     worksheet.merge_range(10, 1, 14, 1, 'Время', merge_format)
 
@@ -206,7 +206,8 @@ def schedule_to_xlsx(groups, free_time, teachers):
                 num += 1
             if lesson[0] != 0:
                 worksheet.merge_range(row, column, row + 1, column + 1, lesson[0], format_top_cell_practice)
-                worksheet.merge_range(row + 2, column, row + 3, column + 1, lesson[1], format_bot_cell_practice)
+                worksheet.merge_range(row + 2, column, row + 2, column + 1, lesson[1], format_mid_cell_practice)
+                worksheet.merge_range(row + 3, column, row + 3, column + 1, lesson[2], format_bot_cell_practice)
             else:
                 worksheet.merge_range(row, column, row + 1, column + 1, '', format_top_cell_practice)
                 worksheet.merge_range(row + 2, column, row + 3, column + 1, '', format_bot_cell_practice)
