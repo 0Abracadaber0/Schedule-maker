@@ -105,7 +105,6 @@ def schedule_to_xlsx(groups, free_time, teachers):
         free_time: A dict mapped group's number and array of id of every lesson.
 
     """
-    print(free_time['10701122'])
     worksheet = workbook.add_worksheet('Groups schedule')
 
     markup(worksheet, groups)

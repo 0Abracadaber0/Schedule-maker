@@ -33,6 +33,7 @@ class ScheduleGenerator:
         """
         Contains information about a course.
         """
+
         def __init__(self, lectures, practicals, labs, stream):
             self.lectures = lectures
             self.practicals = practicals
@@ -43,6 +44,7 @@ class ScheduleGenerator:
         """
         A classroom
         """
+
         def __init__(self, name, type_of_classroom, subjects):
             self.name = name
             self.type = type_of_classroom
@@ -62,7 +64,7 @@ class ScheduleGenerator:
             'history': 2,
             'music': 2,
             'geography': 2,
-            'P.E.': 2,
+            'P.E.': 1,
             'I.T.': 2,
             'biology': 2
         }
@@ -144,6 +146,9 @@ class ScheduleGenerator:
         classroom = self.Classroom('420', Const.Lab, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
+        classroom = self.Classroom('512', Const.Lab, list(self.subjects.keys()))
+        self.classrooms.append(classroom)
+
         self.lessons_per_week = xlsx.days_of_study * xlsx.lessons_per_day
 
     def generate_teacher(self):
@@ -193,9 +198,24 @@ class ScheduleGenerator:
         for plan in self.plans:
             for lesson in self.plans[plan]:
                 teacher = random.choice(teachers[lesson])
-                if {lesson: [self.plans[plan][lesson].stream, teacher]} not in all_lessons:
+                found = False
+                for amount in range(6):
+                    if {lesson: [self.plans[plan][lesson].stream, teacher, amount]} in all_lessons:
+                        found = True
+                        break
+                if not found:
                     for i in range(self.plans[plan][lesson].lectures):
-                        all_lessons.append({lesson: [self.plans[plan][lesson].stream, teacher]})
+                        amount = 0
+                        for stream in self.plans:
+                            try:
+                                if self.plans[stream][lesson].stream == self.plans[plan][lesson].stream:
+                                    for group in self.groups:
+                                        if self.groups[group] == stream:
+                                            amount += 1
+                            except KeyError:
+                                ...
+                        # print({lesson: [self.plans[plan][lesson].stream, teacher, amount]})
+                        all_lessons.append({lesson: [self.plans[plan][lesson].stream, teacher, amount]})
 
         for group in self.groups:
             lessons = self.plans.get(self.groups.get(group))
@@ -206,6 +226,7 @@ class ScheduleGenerator:
                 for i in range(lessons.get(lesson).labs):
                     all_lessons.append({lesson: [group + 'lab', teacher]})
 
+        # print(all_lessons)
         return all_lessons
 
     def generate_schedule(self, all_lessons, subjects_teachers):
@@ -274,34 +295,46 @@ class ScheduleGenerator:
                         for classroom in free_classrooms[i]:
                             if (list(lesson.keys())[0] in classroom.subjects and
                                     classroom.type == Const.Lecture):
+                                amount = 0
                                 for group in self.groups.keys():
                                     try:
-
+                                        # print(i, group)
                                         if (self.plans[self.groups[group]][list(lesson.keys())[0]].stream
-                                                == self.plans[plan][list(lesson.keys())[0]].stream):
+                                                == self.plans[plan][list(lesson.keys())[0]].stream
+                                                and free_time[group][i] == [0, 0]):
+                                            amount += 1
 
-                                            free_time[group][i] = [lesson_id, lesson_id]
-
-                                            teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
-                                            teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
-                                            teachers[list(lesson.values())[0][1]][i][2] = classroom.name
-
-                                            schedule[group][i][0][0] = list(lesson.keys())[0]
-                                            schedule[group][i][0][1] = list(lesson.values())[0][1]
-                                            schedule[group][i][0][2] = classroom.name
-
-                                            schedule[group][i][1][0] = list(lesson.keys())[0]
-                                            schedule[group][i][1][1] = list(lesson.values())[0][1]
-                                            schedule[group][i][1][2] = classroom.name
-
-                                            # print('accepted:', group, schedule[group][i])
                                     except KeyError:
-                                        pass
-                                lesson_id += 1
-                                all_lessons.remove(lesson)
-                                free_classrooms[i].remove(classroom)
+                                        ...
+                                if amount == list(lesson.values())[0][2]:
+                                    for group in self.groups.keys():
+                                        try:
+                                            # print(i, group)
+                                            if (self.plans[self.groups[group]][list(lesson.keys())[0]].stream
+                                                    == self.plans[plan][list(lesson.keys())[0]].stream
+                                                    and free_time[group][i] == [0, 0]):
+                                                amount += 1
+                                                free_time[group][i] = [lesson_id, lesson_id]
 
-                                break
+                                                teachers[list(lesson.values())[0][1]][i][0] = list(lesson.keys())[0]
+                                                teachers[list(lesson.values())[0][1]][i][1] += ' ' + group
+                                                teachers[list(lesson.values())[0][1]][i][2] = classroom.name
+
+                                                schedule[group][i][0][0] = list(lesson.keys())[0]
+                                                schedule[group][i][0][1] = list(lesson.values())[0][1]
+                                                schedule[group][i][0][2] = classroom.name
+
+                                                schedule[group][i][1][0] = list(lesson.keys())[0]
+                                                schedule[group][i][1][1] = list(lesson.values())[0][1]
+                                                schedule[group][i][1][2] = classroom.name
+
+                                                # print(schedule)
+
+                                        except KeyError:
+                                            ...
+                                    lesson_id += 1
+                                    all_lessons.remove(lesson)
+                                    free_classrooms[i].remove(classroom)
 
         for i in range(self.lessons_per_week):
             for group in schedule:
@@ -322,7 +355,7 @@ class ScheduleGenerator:
 
                                 break
 
-                        if flag:
+                        if flag and free_time[group][i][j] == 0:
                             for classroom in free_classrooms[i]:
                                 if (list(lesson.keys())[0] in classroom.subjects and
                                         classroom.type == Const.Lab):
@@ -360,10 +393,11 @@ class ScheduleGenerator:
 
                             break
 
-                    if flag:
+                    if flag and free_time[group][i] == [0, 0]:
                         for classroom in free_classrooms[i]:
                             if (list(lesson.keys())[0] in classroom.subjects and
                                     classroom.type == Const.Practice):
+
                                 free_time[group][i] = [lesson_id, lesson_id]
                                 lesson_id += 1
 
