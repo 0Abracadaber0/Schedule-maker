@@ -23,28 +23,30 @@
     <table>
         <tr>
             <th width="150px">Аудитория</th>
-            <th>Тип</th>
+            <th width="250px">Тип</th>
             <th>Предмет</th>
         </tr>
+<!--        Вывод таблицы из бд-->
+<!--        {% for classroom in classrooms %}-->
+<!--            <tr>-->
+<!--                <td>{{classroom.name}}</td>-->
+<!--                <td>{{classroom.type}}</td>-->
+<!--                <td>Здесь выводишь предмет</td>-->
+<!--                <td class="buttons"><button>Удалить</button></td>-->
+<!--            </tr>-->
+<!--        {% endfor %}-->
         <tr class="add_new">
-            {% for classroom in classrooms %}
-                <tr>
-                    <th>{{classroom.name}}</th>
-                    <th>{{classroom.type}}</th>
-                    <th></th>
-                </tr>
-            {% endfor %}
             <form method="post">
-                <td><input name="name" placeholder="Enter the"></td>
-            <td>
-                <label>
-                    <select name="_type">
-                        <option>Лекция</option>
-                        <option>Практика</option>
-                        <option>Лабораторная</option>
-                    </select>
-                </label>
-            <td>
+                <td><label><input name="name" placeholder="Аудитория"></label></td>
+                <td>
+                    <label>
+                        <select name="_type">
+                            <option>Лекция</option>
+                            <option>Практика</option>
+                            <option>Лабораторная</option>
+                        </select>
+                    </label>
+                <td>
                 <label><input list="subjects" name="subject" placeholder="Предмет"></label>
                 <datalist id="subjects">
                     {% for subject in subjects%}
@@ -52,7 +54,7 @@
                     {% endfor %}
                 </datalist>
             </td>
-            <td class="buttons"><button type="submit">Add</button></td>
+            <td class="buttons"><button type="submit">Добавить</button></td>
             </form>
         </tr>
     </table>

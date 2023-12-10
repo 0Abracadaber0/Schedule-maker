@@ -190,7 +190,6 @@ footer span {
 }
 
 table {
-    min-width: 30%;
 
     border-collapse: collapse;
     height: 20%;
@@ -212,7 +211,6 @@ th {
 .buttons {
 
     display: flex;
-    justify-content: space-between;
     align-items: center;
 
     margin-left: 20px;
