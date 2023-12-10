@@ -34,7 +34,15 @@
         <tr class="add_new">
             <form method="post">
                 <td><label><input type="text" placeholder="Группа" required></label></td>
-                <td><label><input type="text" placeholder="Учебный план" required></label></td>
+                <td>
+                    <label>
+                        <select>
+                            {% for curriculum in curriculums %}
+                            <option>{{curriculum.curriculum_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </td>
                 <td class="buttons"><button type="submit">Добавить</button></td>
             </form>
         </tr>
