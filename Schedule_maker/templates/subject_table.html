@@ -23,22 +23,29 @@
     <table>
         <tr>
             <th>Предмет</th>
+            <th>Преподаватель</th>
         </tr>
         {% for subject in subjects %}
             <tr>
                 <td>{{ subject.subject_name }}</td>
+                <td>{{ teacher.full_name }}</td>
                 <td class="buttons">
                     <a href="http://127.0.0.1:8000/tables/subject-delete/{{subject.id}}"><button>Удалить</button></a>
                 </td>
             </tr>
         {% endfor %}
         <tr class="add_new">
-            <td colspan="2">
-                <form action="" method="post">
+            <form action="" method="post">
+                <td>
                     <label><input type="text" name="subject_name" placeholder="Предмет" required></label>
+                </td>
+                <td>
+                    <label><input type="text" name="full_name" placeholder="Преподаватель" required></label>
+                </td>
+                <td>
                     <input type="submit" value="Добавить">
-                </form>
-            </td>
+                </td>
+            </form>
         </tr>
     </table>
 </div>
