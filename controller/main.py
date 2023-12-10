@@ -1,17 +1,11 @@
 """Generating schedule"""
-import enum
 import random
 
 from itertools import count
 from faker import Faker
 
 import controller.xlsx.createXLSX as xlsx
-
-
-class Const(enum.Enum):
-    Lecture = 1
-    Practice = 2
-    Lab = 3
+from controller.containers import Course, Classroom, Const
 
 
 def is_end_lab(s):
@@ -29,26 +23,6 @@ def is_end_lab(s):
 
 
 class ScheduleGenerator:
-    class Course:
-        """
-        Contains information about a course.
-        """
-
-        def __init__(self, lectures, practicals, labs, stream):
-            self.lectures = lectures
-            self.practicals = practicals
-            self.labs = labs
-            self.stream = stream
-
-    class Classroom:
-        """
-        A classroom
-        """
-
-        def __init__(self, name, type_of_classroom, subjects):
-            self.name = name
-            self.type = type_of_classroom
-            self.subjects = subjects
 
     def __init__(self):
         # faker for generate teacher's names
@@ -83,70 +57,70 @@ class ScheduleGenerator:
         # {subject name: Course object}
         self.plans = {
             1: {
-                'Алгоритмы и структуры данных': self.Course(1, 0, 2, '1'),
-                'math': self.Course(1, 2, 0, '1'),
-                'science': self.Course(1, 1, 1, '1'),
-                'geography': self.Course(1, 1, 0, '1'),
-                'I.T.': self.Course(1, 0, 1, '1'),
-                'biology': self.Course(1, 1, 0, '1')
+                'Алгоритмы и структуры данных': Course(1, 0, 2, '1'),
+                'math': Course(1, 2, 0, '1'),
+                'science': Course(1, 1, 1, '1'),
+                'geography': Course(1, 1, 0, '1'),
+                'I.T.': Course(1, 0, 1, '1'),
+                'biology': Course(1, 1, 0, '1')
             },
             2: {
-                'Алгоритмы и структуры данных': self.Course(1, 0, 1, '2'),
-                'math': self.Course(1, 2, 0, '2'),
-                'art': self.Course(1, 1, 0, '2'),
-                'history': self.Course(1, 1, 0, '2'),
-                'music': self.Course(1, 0, 1, '2'),
-                'P.E.': self.Course(2, 0, 0, '2'),
-                'biology': self.Course(1, 1, 0, '2')
+                'Алгоритмы и структуры данных': Course(1, 0, 1, '2'),
+                'math': Course(1, 2, 0, '2'),
+                'art': Course(1, 1, 0, '2'),
+                'history': Course(1, 1, 0, '2'),
+                'music': Course(1, 0, 1, '2'),
+                'P.E.': Course(2, 0, 0, '2'),
+                'biology': Course(1, 1, 0, '2')
             },
             3: {
-                'Алгоритмы и структуры данных': self.Course(1, 0, 1, '3'),
-                'math': self.Course(1, 2, 0, '3'),
-                'I.T.': self.Course(1, 0, 1, '3'),
-                'music': self.Course(1, 1, 0, '3'),
-                'P.E.': self.Course(2, 0, 0, '2')
+                'Алгоритмы и структуры данных': Course(1, 0, 1, '3'),
+                'math': Course(1, 2, 0, '3'),
+                'I.T.': Course(1, 0, 1, '3'),
+                'music': Course(1, 1, 0, '3'),
+                'P.E.': Course(2, 0, 0, '2')
             }
         }
 
         self.classrooms = []
 
-        classroom = self.Classroom('306', Const.Lecture, list(self.subjects.keys()))
+        classroom = Classroom('306', Const.Lecture, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('507', Const.Lecture, list(self.subjects.keys()))
+        classroom = Classroom('507', Const.Lecture, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('107', Const.Lecture, list(self.subjects.keys()))
+        classroom = Classroom('107', Const.Lecture, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('325', Const.Practice, list(self.subjects.keys()))
+        classroom = Classroom('325', Const.Practice, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('326', Const.Practice, list(self.subjects.keys()))
+        classroom = Classroom('326', Const.Practice, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('327', Const.Practice, list(self.subjects.keys()))
+        classroom = Classroom('327', Const.Practice, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('116', Const.Practice, list(self.subjects.keys()))
+        classroom = Classroom('116', Const.Practice, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('105', Const.Lab, list(self.subjects.keys()))
+        classroom = Classroom('105', Const.Lab, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('313', Const.Lab, list(self.subjects.keys()))
+        classroom = Classroom('313', Const.Lab, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('329', Const.Lab, list(self.subjects.keys()))
+        classroom = Classroom('329', Const.Lab, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('407', Const.Lab, list(self.subjects.keys()))
+        classroom = Classroom('407', Const.Lab, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('420', Const.Lab, list(self.subjects.keys()))
+        classroom = Classroom('420', Const.Lab, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
-        classroom = self.Classroom('512', Const.Lab, list(self.subjects.keys()))
+        classroom = Classroom('512', Const.Lab, list(self.subjects.keys()))
         self.classrooms.append(classroom)
 
         self.lessons_per_week = xlsx.days_of_study * xlsx.lessons_per_day

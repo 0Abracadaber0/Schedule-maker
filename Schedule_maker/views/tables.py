@@ -120,14 +120,14 @@ class ClassroomTableView:
     async def classroom_table(
             current_user: Annotated[User, Depends(user_manager.get_current_verified_user)],
             name: str = Form(),
-            _type: str = Form(),
+            type: str = Form(),
             subject: str = Form(),
     ):
         classroom_id = str(uuid.uuid4())
         await classroom_manager.create_object(
             {
                 'name': name,
-                'type': _type,
+                'type': type,
                 'user_id': current_user.id,
                 'id': classroom_id
             }
