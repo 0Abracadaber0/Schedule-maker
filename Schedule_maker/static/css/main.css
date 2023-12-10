@@ -323,3 +323,16 @@ td input {
 td, th {
     padding-left: 10px;
 }
+
+.title {
+    padding-top: 50px;
+    text-align: center;
+
+    font-size: 40px;
+}
+
+ul {
+    padding-top: 10px;
+    padding-left: 40px;
+    padding-bottom: 10px;
+}
