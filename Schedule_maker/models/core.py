@@ -26,6 +26,7 @@ class User(Base):
     subjects: Mapped[List['Subject']] = relationship(backref='user')
     groups: Mapped[List['Group']] = relationship(backref='user')
     classrooms: Mapped[List['Classroom']] = relationship(backref='user')
+    curriculums: Mapped[List['Curriculum']] = relationship(backref='user')
 
     def __init__(self, email, hashed_password):
         self.email = email
@@ -60,13 +61,18 @@ class Teacher(Base):
 
 
 class Group(Base):
-    group_name: Mapped[str]
-    stream: Mapped[str]
-    type: Mapped[str]
+    group_name: Mapped[str] = mapped_column(unique=True)
 
     user_id: Mapped[str] = mapped_column(
         ForeignKey(
             column='user.id',
+            ondelete='CASCADE'
+        )
+    )
+
+    curriculum_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='curriculum.id',
             ondelete='CASCADE'
         )
     )
@@ -82,6 +88,24 @@ class Classroom(Base):
             ondelete='CASCADE'
         )
     )
+
+
+class Curriculum(Base):
+    name: Mapped[str] = mapped_column(unique=True)
+    stream: Mapped[str]
+
+    amount_lectures: Mapped[int]
+    amount_practices: Mapped[int]
+    amount_labs: Mapped[int]
+
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='user.id',
+            ondelete='CASCADE'
+        )
+    )
+
+    groups: Mapped[List['Group']] = relationship(backref='curriculum')
 
 
 class ClassroomSubject(Base):
@@ -107,19 +131,47 @@ class ClassroomSubject(Base):
     )
 
 
-teacher_group_table = Table(
-    "teacher_group_table",
-    Base.metadata,
-    Column("group_id", ForeignKey(
-        "group.id",
-        ondelete="CASCADE"
-    )),
-    Column("teacher_id", ForeignKey(
-        "teacher.id",
-        ondelete="CASCADE"
-    )),
-    Column("user_id", ForeignKey(
-        "user.id",
-        ondelete="CASCADE"
-    ))
-)
+class SubjectTeacher(Base):
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='user.id',
+            ondelete='CASCADE'
+        )
+    )
+
+    subject_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='subject.id',
+            ondelete='CASCADE'
+        )
+    )
+
+    teacher_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='teacher.id',
+            ondelete='CASCADE'
+        )
+    )
+
+
+class CurriculumSubject(Base):
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='user.id',
+            ondelete='CASCADE'
+        )
+    )
+
+    subject_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='subject.id',
+            ondelete='CASCADE'
+        )
+    )
+
+    curriculum_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='curriculum.id',
+            ondelete='CASCADE'
+        )
+    )

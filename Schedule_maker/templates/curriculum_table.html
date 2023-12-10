@@ -29,32 +29,38 @@
             <th>Кол-во лабораторных</th>
             <th>Поток</th>
         </tr>
-<!--        <tr>-->
-<!--            <td>учебный_план.имя</td>-->
-<!--            <td>предмет.имя</td>-->
-<!--            <td>учебный_план.лекции</td>-->
-<!--            <td>учебный_план.практ</td>-->
-<!--            <td>учебный_план.лабы</td>-->
-<!--            <td>учебный_план.поток</td>-->
-<!--            <td class="buttons"><button>Удалить</button></td>-->
-<!--        </tr>-->
+        {% for subject_curriculum in subjects_curriculums %}
+            <tr>
+                <td>{{ subject_curriculum[1].name}}</td>
+                <td>{{ subject_curriculum[0].subject_name}}</td>
+                <td>{{ subject_curriculum[1].amount_lectures}}</td>
+                <td>{{ subject_curriculum[1].amount_practices}}</td>
+                <td>{{ subject_curriculum[1].amount_labs}}</td>
+                <td>{{ subject_curriculum[1].stream}}</td>
+                <td class="buttons">
+                    <a href="http://127.0.0.1:8000/tables/curriculum-delete/{{subject_curriculum[0].id}}/{{subject_curriculum[1].id}}">
+                        <button>Удалить</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
 
         <tr class="add_new">
             <form method="post">
-                <td><label><input type="text" placeholder="Учебный план" required></label></td>
+                <td><label><input type="text" name="name" placeholder="Учебный план" required></label></td>
                 <td>
                     <label>
-                        <select>
+                        <select name="subject_name">
                             {% for subject in subjects %}
                             <option>{{subject.subject_name}}</option>
                             {% endfor %}
                         </select>
                     </label>
                 </td>
-                <td><label><input type="text" placeholder="Лекции" required></label></td>
-                <td><label><input type="text" placeholder="Практики" required></label></td>
-                <td><label><input type="text" placeholder="Лабораторные" required></label></td>
-                <td><label><input type="text" placeholder="Поток" required></label></td>
+                <td><label><input type="text" name="lectures" placeholder="Лекции" required></label></td>
+                <td><label><input type="text" name="practices" placeholder="Практики" required></label></td>
+                <td><label><input type="text" name="labs" placeholder="Лабораторные" required></label></td>
+                <td><label><input type="text" name="stream" placeholder="Поток" required></label></td>
 
                 <td class="buttons"><input type="submit" value="Добавить"></td>
             </form>

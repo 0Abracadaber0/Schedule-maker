@@ -25,12 +25,12 @@
             <th>Предмет</th>
             <th>Преподаватель</th>
         </tr>
-        {% for subject in subjects %}
+        {% for subject_teacher in subjects_teachers %}
             <tr>
-                <td>{{ subject.subject_name }}</td>
-                <td>{{ teacher.full_name }}</td>
+                <td>{{ subject_teacher[0].subject_name }}</td>
+                <td>{{ subject_teacher[1].full_name }}</td>
                 <td class="buttons">
-                    <a href="http://127.0.0.1:8000/tables/subject-delete/{{subject.id}}"><button>Удалить</button></a>
+                    <a href="http://127.0.0.1:8000/tables/subject-delete/{{subject_teacher[0].id}}/{{subject_teacher[1].id}}"><button>Удалить</button></a>
                 </td>
             </tr>
         {% endfor %}

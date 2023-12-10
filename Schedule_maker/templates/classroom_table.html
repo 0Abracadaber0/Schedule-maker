@@ -26,14 +26,15 @@
             <th width="250px">Тип</th>
             <th>Предмет</th>
         </tr>
-        {% for subject, classroom in subjects_classrooms.items() %}
-            <tr>
-                <td>{{classroom.name}}</td>
-                <td>{{classroom.type}}</td>
-                <td>{{subject.subject_name}}</td>
-                <td class="buttons"><a href="http://127.0.0.1:8000/tables/classroom-delete/{{subject.id}}/{{classroom.id}}">
-                    <button>Удалить</button></a></td>
-            </tr>
+        {% for subject_classroom in subjects_classrooms %}
+                <tr>
+                    <td>{{subject_classroom[1].name}}</td>
+                    <td>{{subject_classroom[1].type}}</td>
+                    <td>{{subject_classroom[0].subject_name}}</td>
+                    <td class="buttons">
+                        <a href="http://127.0.0.1:8000/tables/classroom-delete/{{subject_classroom[0].id}}/{{subject_classroom[1].id}}">
+                        <button>Удалить</button></a></td>
+                </tr>
         {% endfor %}
         <tr class="add_new">
             <form method="post">
