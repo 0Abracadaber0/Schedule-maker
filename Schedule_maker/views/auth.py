@@ -219,7 +219,6 @@ class EmailVerificationView:
                 },
                 expires_delta=access_token_expires
             )
-            print(f"Bearer {access_token}")
             response.delete_cookie('Pycharm-c9023144')
             response.set_cookie('access_token', f'Bearer {access_token}', httponly=True)
             response.status_code = 302
