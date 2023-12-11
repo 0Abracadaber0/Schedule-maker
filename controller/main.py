@@ -1,11 +1,10 @@
 """Generating schedule"""
 import random
-
-from itertools import count
-from faker import Faker
+import asyncio
 
 import controller.xlsx.createXLSX as xlsx
-from controller.containers import Course, Classroom, Const
+from controller.containers import Course
+from serializer.Serializer import serializer
 
 
 def is_end_lab(s):
@@ -24,133 +23,30 @@ def is_end_lab(s):
 
 class ScheduleGenerator:
 
-    def __init__(self):
-        # faker for generate teacher's names
-        self.faker = Faker()
-        self.names = (self.faker.name() for _ in count())
+    def __init__(self, subjects, groups, plans, classrooms):
 
         # {name of subject: amount of teachers}
-        self.subjects = {
-            'Алгоритмы и структуры данных': 2,
-            'math': 3,
-            'art': 2,
-            'science': 2,
-            'history': 2,
-            'music': 2,
-            'geography': 2,
-            'P.E.': 1,
-            'I.T.': 2,
-            'biology': 2
-        }
+        self.subjects = subjects
+        print(self.subjects)
 
         # {group number: curriculum number}
-        self.groups = {
-            '10701122': 1,
-            '10701222': 1,
-            '10701322': 1,
-            '10702122': 2,
-            '10702222': 2,
-            '10702322': 3,
-            '10702422': 3
-        }
-
+        self.groups = groups
+        print(groups)
         # {subject name: Course object}
-        self.plans = {
-            1: {
-                'Алгоритмы и структуры данных': Course(1, 0, 2, '1'),
-                'math': Course(1, 2, 0, '1'),
-                'science': Course(1, 1, 1, '1'),
-                'geography': Course(1, 1, 0, '1'),
-                'I.T.': Course(1, 0, 1, '1'),
-                'biology': Course(1, 1, 0, '1')
-            },
-            2: {
-                'Алгоритмы и структуры данных': Course(1, 0, 1, '2'),
-                'math': Course(1, 2, 0, '2'),
-                'art': Course(1, 1, 0, '2'),
-                'history': Course(1, 1, 0, '2'),
-                'music': Course(1, 0, 1, '2'),
-                'P.E.': Course(2, 0, 0, '2'),
-                'biology': Course(1, 1, 0, '2')
-            },
-            3: {
-                'Алгоритмы и структуры данных': Course(1, 0, 1, '3'),
-                'math': Course(1, 2, 0, '3'),
-                'I.T.': Course(1, 0, 1, '3'),
-                'music': Course(1, 1, 0, '3'),
-                'P.E.': Course(2, 0, 0, '2')
-            }
-        }
+        self.plans = plans
+        for plan in plans:
+            print(plan, ":")
+            for subject in plans[plan]:
+                print(subject, ":", plans[plan][subject].lectures, plans[plan][subject].practicals,
+                        plans[plan][subject].labs, plans[plan][subject].stream)
 
-        self.classrooms = []
-
-        classroom = Classroom('306', Const.Lecture, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('507', Const.Lecture, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('107', Const.Lecture, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('325', Const.Practice, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('326', Const.Practice, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('327', Const.Practice, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('116', Const.Practice, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('105', Const.Lab, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('313', Const.Lab, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('329', Const.Lab, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('407', Const.Lab, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('420', Const.Lab, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
-
-        classroom = Classroom('512', Const.Lab, list(self.subjects.keys()))
-        self.classrooms.append(classroom)
+        self.classrooms = classrooms
+        for classroom in classrooms:
+            print(classroom.name, classroom.type, classroom.subjects)
 
         self.lessons_per_week = xlsx.days_of_study * xlsx.lessons_per_day
 
-    def generate_teacher(self):
-        """Generate teacher's names
-        Returns:
-            A fake teacher's name
-        """
-        return next(name for name in self.names)
-
-    def link_all_subjects(self):
-        """
-        Returns:
-            A dict mapped subject's name to the list of teacher's names.
-            For example:
-
-            {
-                'math': ['Laura Hill', 'Adam Smith'],
-                'art': ['Heather Galloway'],
-                'biology': ['Martha Allen', 'Lisa Cook']
-            }
-        """
-        teachers = {}
-        for subject in self.subjects:
-            teachers.update({subject: [self.generate_teacher() for _ in range(self.subjects.get(subject))]})
-
-        return teachers
-
-    def generate_all_lessons(self, teachers):
+    def generate_all_lessons(self):
         """Create a list of unique lessons
 
         Args:
@@ -171,7 +67,7 @@ class ScheduleGenerator:
         all_lessons = []
         for plan in self.plans:
             for lesson in self.plans[plan]:
-                teacher = random.choice(teachers[lesson])
+                teacher = random.choice(self.subjects[lesson])
                 found = False
                 for amount in range(6):
                     if {lesson: [self.plans[plan][lesson].stream, teacher, amount]} in all_lessons:
@@ -194,16 +90,16 @@ class ScheduleGenerator:
         for group in self.groups:
             lessons = self.plans.get(self.groups.get(group))
             for lesson in lessons:
-                teacher = random.choice(teachers[lesson])
+                teacher = random.choice(self.subjects[lesson])
                 for i in range(lessons.get(lesson).practicals):
                     all_lessons.append({lesson: [group, teacher]})
                 for i in range(lessons.get(lesson).labs):
                     all_lessons.append({lesson: [group + 'lab', teacher]})
 
-        # print(all_lessons)
+        print(all_lessons)
         return all_lessons
 
-    def generate_schedule(self, all_lessons, subjects_teachers):
+    def generate_schedule(self, all_lessons):
         """Distributes lessons in such a way that groups and teachers do not overlap at the same time.
 
         Args:
@@ -243,8 +139,8 @@ class ScheduleGenerator:
         lesson_id = 1
 
         teachers = {}
-        for subject in subjects_teachers:
-            for teacher in subjects_teachers[subject]:
+        for subject in self.subjects:
+            for teacher in self.subjects[subject]:
                 teachers[teacher] = [[0, '', ''] for _ in range(self.lessons_per_week)]
 
         schedule = {key: [[[0, 0, 0], [0, 0, 0]] for _ in range(self.lessons_per_week)] for key in self.groups.keys()}
@@ -268,7 +164,7 @@ class ScheduleGenerator:
                     if flag:
                         for classroom in free_classrooms[i]:
                             if (list(lesson.keys())[0] in classroom.subjects and
-                                    classroom.type == Const.Lecture):
+                                    classroom.type == 'Лекция'):
                                 amount = 0
                                 for group in self.groups.keys():
                                     try:
@@ -332,7 +228,7 @@ class ScheduleGenerator:
                         if flag and free_time[group][i][j] == 0:
                             for classroom in free_classrooms[i]:
                                 if (list(lesson.keys())[0] in classroom.subjects and
-                                        classroom.type == Const.Lab):
+                                        classroom.type == 'Лабораторная'):
 
                                     free_time[group][i][j] = lesson_id
                                     lesson_id += 1
@@ -370,7 +266,7 @@ class ScheduleGenerator:
                     if flag and free_time[group][i] == [0, 0]:
                         for classroom in free_classrooms[i]:
                             if (list(lesson.keys())[0] in classroom.subjects and
-                                    classroom.type == Const.Practice):
+                                    classroom.type == 'Практика'):
 
                                 free_time[group][i] = [lesson_id, lesson_id]
                                 lesson_id += 1
@@ -397,16 +293,19 @@ class ScheduleGenerator:
         return schedule, free_time, teachers
 
     def main(self):
-        teachers = self.link_all_subjects()
+        lessons = self.generate_all_lessons()
 
-        lessons = self.generate_all_lessons(teachers)
-
-        schedule, free_time, teachers = self.generate_schedule(lessons, teachers)
+        schedule, free_time, teachers = self.generate_schedule(lessons)
         print(schedule)
 
         xlsx.schedule_to_xlsx(schedule, free_time, teachers)
 
 
 if __name__ == '__main__':
-    generator = ScheduleGenerator()
+    generator = ScheduleGenerator(
+        asyncio.run(serializer.get_subject()),
+        asyncio.run(serializer.get_group()),
+        asyncio.run(serializer.get_curriculum()),
+        asyncio.run(serializer.get_classroom())
+    )
     generator.main()

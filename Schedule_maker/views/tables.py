@@ -179,6 +179,7 @@ class CurriculumTableView:
             request: Request,
             current_user: Annotated[User, Depends(user_manager.get_current_verified_user)]
     ):
+        print(f'\n\n\n\n{current_user.id}\n\n\n\n')
         subjects_curriculums = await subject_curriculum_manager.get_all_associations_by_user_id(
             user_id=current_user.id
         )

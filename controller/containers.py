@@ -23,8 +23,9 @@ class Classroom:
         self.type = type_of_classroom
         self.subjects = subjects
 
+    def __copy__(self):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        result.__dict__.update(self.__dict__)
+        return result
 
-class Const(enum.Enum):
-    Lecture = 1
-    Practice = 2
-    Lab = 3

@@ -5,7 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from Schedule_maker.config.settings import Settings, settings
 from Schedule_maker.models.db import Database, db
 from Schedule_maker.security.PasswordManager import PasswordManager, password_manager
-from Schedule_maker.models.core import Group, Curriculum, CurriculumSubject, Subject, Classroom, ClassroomSubject
+from Schedule_maker.models.core import (Group, Curriculum, CurriculumSubject, Subject, Classroom, ClassroomSubject,
+                                        SubjectTeacher, Teacher)
 
 from controller.containers import Course
 from controller.containers import Classroom as ContainerClassroom
@@ -50,36 +51,35 @@ class Serializer:
                 select(Curriculum).where(Curriculum.user_id == self.user_id)
             )
             curriculums = coroutine_curriculums.fetchall()
-            print(curriculums)
-            subjects = []
-            for curriculum in curriculums:
-                coroutine_subject_id = await session.execute(
-                    select(CurriculumSubject).where(CurriculumSubject.curriculum_id == curriculum.id)
-                )
-                subject_id = coroutine_subject_id.fetchone().subject_id
 
-                coroutine_subject = await session.execute(
-                    select(Subject).where(Subject.id == subject_id)
-                )
-                subject = coroutine_subject.fetchone()
-                subjects.append(subject.subject_name)
-
-            print(subjects)
             plans = {}
             for curriculum in curriculums:
                 plans[curriculum.name] = {}
 
             for plan in plans:
-                for subject in subjects:
-                    plans[plan][subject] = Course(
-                        curriculum.amount_lectures,
-                        curriculum.amount_practices,
-                        curriculum.amount_labs,
-                        curriculum.stream
-                    )
+                subjects = []
+                for curriculum in curriculums:
+                    if curriculum.name != plan:
+                        continue
+                    print(plan, curriculum)
 
-            print(plans)
+                    coroutine_subject_id = await session.execute(
+                        select(CurriculumSubject).where(CurriculumSubject.curriculum_id == curriculum.id)
+                    )
+                    subject_id = coroutine_subject_id.fetchone().subject_id
+
+                    coroutine_subject = await session.execute(
+                        select(Subject).where(Subject.id == subject_id)
+                    )
+                    subject = coroutine_subject.fetchone()
+                    subjects.append({subject.subject_name: Course(curriculum.amount_lectures, curriculum.amount_practices,
+                                                            curriculum.amount_labs, str(curriculum.stream))})
+
+                for subject in subjects:
+                    plans[plan][list(subject.keys())[0]] = list(subject.values())[0]
+
             return plans
+
 
     async def get_classroom(self):
         async with self.db.engine.begin() as session:
@@ -120,3 +120,40 @@ class Serializer:
 
             return classrooms
 
+    async def get_subject(self):
+        async with self.db.engine.begin() as session:
+            coroutine_subject = await session.execute(
+                select(Subject).where(Subject.user_id == self.user_id)
+            )
+            taken_subjects = coroutine_subject.fetchall()
+            teachers = []
+            for taken_subject in taken_subjects:
+                print(taken_subject)
+                coroutine_teacher_id = await session.execute(
+                    select(SubjectTeacher).where(SubjectTeacher.subject_id == taken_subject.id)
+                )
+                teacher_id = coroutine_teacher_id.fetchone().teacher_id
+                coroutine_teacher = await session.execute(
+                    select(Teacher).where(Teacher.id == teacher_id)
+                )
+                teacher = coroutine_teacher.fetchone()
+                teachers.append(teacher)
+
+            subjects = {}
+            for index, taken_subject in enumerate(taken_subjects):
+                try:
+                    subjects[taken_subject.subject_name].append(teachers[index].full_name)
+                except KeyError:
+                    subjects[taken_subject.subject_name] = [teachers[index].full_name]
+
+            return subjects
+
+
+serializer = Serializer(
+    _db=db,
+    _settings=settings,
+    _password_manager=password_manager,
+    user_id="fd554f73-fb51-4148-8b3e-a96b897d98c3"
+)
+
+run(serializer.get_curriculum())

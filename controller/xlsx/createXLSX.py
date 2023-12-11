@@ -28,7 +28,7 @@ days_of_study = len(Weekdays)
 lessons_per_day = len(Clocks)
 
 # Create formats
-workbook = xlsxwriter.Workbook('../Schedule_maker/static/xlsx/schedule.xlsx')
+workbook = xlsxwriter.Workbook('./schedules/schedule.xlsx')
 
 merge_format = workbook.add_format(form.Formats.get_merge_format())
 merge_format_flip = workbook.add_format(form.Formats.get_merge_format_flip())
