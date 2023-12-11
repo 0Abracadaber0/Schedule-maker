@@ -1,7 +1,7 @@
 from typing import List
 from uuid import uuid4
 
-from sqlalchemy import ForeignKey, Table, Column
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column, declared_attr, relationship
 
 
@@ -27,6 +27,7 @@ class User(Base):
     groups: Mapped[List['Group']] = relationship(backref='user')
     classrooms: Mapped[List['Classroom']] = relationship(backref='user')
     curriculums: Mapped[List['Curriculum']] = relationship(backref='user')
+    schedules: Mapped[List['Schedule']] = relationship(backref='user')
 
     def __init__(self, email, hashed_password):
         self.email = email
@@ -172,6 +173,15 @@ class CurriculumSubject(Base):
     curriculum_id: Mapped[str] = mapped_column(
         ForeignKey(
             column='curriculum.id',
+            ondelete='CASCADE'
+        )
+    )
+
+
+class Schedule(Base):
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            column='user.id',
             ondelete='CASCADE'
         )
     )

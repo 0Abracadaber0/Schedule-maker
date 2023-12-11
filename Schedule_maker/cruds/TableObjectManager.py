@@ -5,22 +5,16 @@ from sqlalchemy.dialects.postgresql import insert
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
 
-from Schedule_maker.config.settings import Settings, settings
 from Schedule_maker.models.db import Database, db
-from Schedule_maker.security.PasswordManager import PasswordManager, password_manager
-from Schedule_maker.models.core import Teacher, Subject, Classroom, Curriculum, Group
+from Schedule_maker.models.core import Teacher, Subject, Classroom, Curriculum, Group, Schedule
 
 
 class TableObjectManager:
     def __init__(self,
                  _db: Database,
-                 _password_manager: PasswordManager,
-                 _settings: Settings,
                  table_object
                  ):
         self.db = _db
-        self.password_manager = _password_manager
-        self.settings = _settings
         self.table_object = table_object
 
     async def get_object_by_id(self, _id: str) -> object | None:
@@ -73,35 +67,30 @@ class CurriculumTableManager(TableObjectManager):
 
 teacher_manager = TableObjectManager(
     _db=db,
-    _password_manager=password_manager,
-    _settings=settings,
     table_object=Teacher
 )
 
 subject_manager = TableObjectManager(
     _db=db,
-    _password_manager=password_manager,
-    _settings=settings,
     table_object=Subject
 )
 
 classroom_manager = TableObjectManager(
     _db=db,
-    _password_manager=password_manager,
-    _settings=settings,
     table_object=Classroom
 )
 
 curriculum_manager = CurriculumTableManager(
     _db=db,
-    _password_manager=password_manager,
-    _settings=settings,
     table_object=Curriculum
 )
 
 group_manager = TableObjectManager(
     _db=db,
-    _password_manager=password_manager,
-    _settings=settings,
     table_object=Group
+)
+
+schedule_manager = TableObjectManager(
+    _db=db,
+    table_object=Schedule
 )

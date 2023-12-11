@@ -27,33 +27,16 @@ class Clocks(enum.Enum):
 days_of_study = len(Weekdays)
 lessons_per_day = len(Clocks)
 
-# Create formats
-workbook = xlsxwriter.Workbook('./schedules/schedule.xlsx')
 
-merge_format = workbook.add_format(form.Formats.get_merge_format())
-merge_format_flip = workbook.add_format(form.Formats.get_merge_format_flip())
-merge_format_back_flip = workbook.add_format(form.Formats.get_merge_format_back_flip())
-
-format_top_cell_lecture = workbook.add_format({**form.Formats.get_format_top_cell(), 'font_size': 20})
-format_mid_cell_lecture = workbook.add_format({**form.Formats.get_format_mid_cell(), 'font_size': 20})
-format_bot_cell_lecture = workbook.add_format({**form.Formats.get_format_bot_cell(), 'font_size': 20})
-
-format_top_cell_practice = workbook.add_format(form.Formats.get_format_top_cell())
-format_mid_cell_practice = workbook.add_format(form.Formats.get_format_mid_cell())
-format_bot_cell_practice = workbook.add_format(form.Formats.get_format_bot_cell())
-
-format_top_cell_lab = workbook.add_format({**form.Formats.get_format_top_cell(), 'font_size': 8})
-format_mid_cell_lab = workbook.add_format({**form.Formats.get_format_mid_cell(), 'font_size': 8})
-format_bot_cell_lab = workbook.add_format({**form.Formats.get_format_bot_cell(), 'font_size': 8})
-
-
-def markup(worksheet, data):
+def markup(worksheet, data, merge_format, merge_format_flip, merge_format_back_flip):
     """Makes the initial layout of the sheet
 
     Args:
         worksheet: The sheet to mark up
         data: A dict of data to mark up
-
+        merge_format
+        merge_format_flip
+        merge_format_back_flip
     """
     worksheet.set_column(1, 100, 20)
     worksheet.set_default_row(20)
@@ -96,18 +79,37 @@ def markup(worksheet, data):
         row += 4 * lessons_per_day
 
 
-def schedule_to_xlsx(groups, free_time, teachers):
+def schedule_to_xlsx(groups, free_time, teachers, path: str):
     """Create schedule at xlsx
     
     Args:
         teachers: A dict mapped teacher's name and lesson.
         groups: A dict mapped group's number and array of subject's name and teacher's name.
         free_time: A dict mapped group's number and array of id of every lesson.
-
+        path
     """
+    # Create formats
+    workbook = xlsxwriter.Workbook(path)
+
+    merge_format = workbook.add_format(form.Formats.get_merge_format())
+    merge_format_flip = workbook.add_format(form.Formats.get_merge_format_flip())
+    merge_format_back_flip = workbook.add_format(form.Formats.get_merge_format_back_flip())
+
+    format_top_cell_lecture = workbook.add_format({**form.Formats.get_format_top_cell(), 'font_size': 20})
+    format_mid_cell_lecture = workbook.add_format({**form.Formats.get_format_mid_cell(), 'font_size': 20})
+    format_bot_cell_lecture = workbook.add_format({**form.Formats.get_format_bot_cell(), 'font_size': 20})
+
+    format_top_cell_practice = workbook.add_format(form.Formats.get_format_top_cell())
+    format_mid_cell_practice = workbook.add_format(form.Formats.get_format_mid_cell())
+    format_bot_cell_practice = workbook.add_format(form.Formats.get_format_bot_cell())
+
+    format_top_cell_lab = workbook.add_format({**form.Formats.get_format_top_cell(), 'font_size': 8})
+    format_mid_cell_lab = workbook.add_format({**form.Formats.get_format_mid_cell(), 'font_size': 8})
+    format_bot_cell_lab = workbook.add_format({**form.Formats.get_format_bot_cell(), 'font_size': 8})
+
     worksheet = workbook.add_worksheet('Groups schedule')
 
-    markup(worksheet, groups)
+    markup(worksheet, groups, merge_format, merge_format_flip, merge_format_back_flip)
 
     start_row = 15
     column = 2
@@ -193,7 +195,7 @@ def schedule_to_xlsx(groups, free_time, teachers):
 
     worksheet = workbook.add_worksheet('Teachers schedule')
 
-    markup(worksheet, teachers)
+    markup(worksheet, teachers, merge_format, merge_format_flip, merge_format_back_flip)
 
     column = 2
 

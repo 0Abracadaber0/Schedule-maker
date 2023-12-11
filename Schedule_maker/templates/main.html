@@ -1,56 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Schedule maker</title>
-  <link rel="stylesheet" href="../static/css/main.css">
-  <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
-</head>
-<body>
-<header id="header">
-  <h1><a href="/main">Schedule maker</a></h1>
-  <nav class="tabs">
-    {% if user.is_verified %}
-    <div class="tab">
-      <button class="tablinks" id="Classes_button">Классы</button>
-      <button class="tablinks" id="Lessons_button">Уроки</button>
-      <button class="tablinks" id="Teachers_button">Учителя</button>
-      <button class="tablinks" id="Subjects_button">Предметы</button>
-    </div>
-    {% else %}
-    <div class="tab">
-      <button class="tablinks" id="Register_button" onclick="document.location='./register'">Регистрация</button>
-      <button class="tablinks" id="Login_button" onclick="document.location='./login'">Логин</button>
-    </div>
-    {% endif %}
-  </nav>
-</header>
+{% extends 'base.html' %}
 
-<div class="order">
-  <label>
-    <input type="checkbox">
-    <span>Заполнить таблицу "Предметы"</span>
-  </label>
-  <label>
-    <input type="checkbox">
-    <span>Заполнить таблицу "Аудитории"</span>
-  </label>
-  <label>
-    <input type="checkbox">
-    <span>Заполнить таблицу "Учебные планы"</span>
-  </label>
-  <label>
-    <input type="checkbox">
-    <span>Заполнить таблицу "Группы"</span>
-  </label>
-  <img src="../static/images/order.png" alt="">
-  <input type="submit" value="Сгенерировать">
-</div>
-
-<footer>
-  <span><a href="/main">© Schedule maker</a></span>
-  <span><a href="/static-pages/about-authors">Контакты</a></span>
-  <span><a href="/static-pages/about-site">О сайте</a></span>
-</footer>
-</body>
-</html>
+{% block content %}
+  <div class="order">
+    <label>
+      <input type="checkbox">
+      <span>Заполнить таблицу "Предметы"</span>
+    </label>
+    <label>
+      <input type="checkbox">
+      <span>Заполнить таблицу "Аудитории"</span>
+    </label>
+    <label>
+      <input type="checkbox">
+      <span>Заполнить таблицу "Учебные планы"</span>
+    </label>
+    <label>
+      <input type="checkbox">
+      <span>Заполнить таблицу "Группы"</span>
+    </label>
+    <img src="../static/images/order.png" alt="">
+    <a href="http://127.0.0.1:8000/schedule/download"><input value="Сгенерировать"></a>
+  </div>
+  <footer>
+    <span><a href="/main">© Schedule maker</a></span>
+    <span><a href="/static-pages/about-authors">Контакты</a></span>
+    <span><a href="/static-pages/about-site">О сайте</a></span>
+  </footer>
+{% endblock %}

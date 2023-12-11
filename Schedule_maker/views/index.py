@@ -1,9 +1,7 @@
-from fastapi import APIRouter, Request, Depends
-from typing import Annotated
+from fastapi import APIRouter, Request
 
 from Schedule_maker.config import settings
-
-from Schedule_maker.views.auth import verify_token
+from Schedule_maker.cruds.UserManager import user_manager
 
 router = APIRouter()
 
@@ -15,8 +13,9 @@ class IndexView:
             request: Request,
     ):
         return settings.templates.TemplateResponse('main.html', {
+            'title': 'Schedule Maker',
             'request': request,
-            'user': None
+            'user': await user_manager.get_user_or_none(request.cookies)
         })
 
 

@@ -11,10 +11,11 @@
     <h1><a href="/main">Schedule maker</a></h1>
     <nav class="tabs">
         <div class="tab">
-            <button class="tablinks" id="Classes_button">Классы</button>
-            <button class="tablinks" id="Lessons_button">Уроки</button>
-            <button class="tablinks" id="Teachers_button">Учителя</button>
-            <button class="tablinks" id="Subjects_button">Предметы</button>
+          <button class="tablinks" onclick="document.location='/tables/classroom'">Аудитории</button>
+          <button class="tablinks" onclick="document.location='/tables/curriculum'" >Учебные планы</button>
+          <button class="tablinks" onclick="document.location='tables/group'">Группы</button>
+          <button class="tablinks" onclick="document.location='/tables/subject'">Предметы</button>
+            <button class="tablinks" onclick="document.location='/logout'">Выйти</button>
         </div>
     </nav>
 </header>
@@ -51,7 +52,7 @@
                 <label>
                     <select name="subject">
                         {% for subject in subjects%}
-                            <option>{{subject.subject_name}}</option>
+                            <option>{{subject}}</option>
                         {% endfor %}
                     </select>
                 </label>
@@ -65,8 +66,8 @@
 
 <footer>
     <span><a href="/main">© Schedule maker</a></span>
-    <span><a href="./about_authors.html">Контакты</a></span>
-    <span><a href="./about_site.html">О сайте</a></span>
+    <span><a href="/static-pages/about-authors">Контакты</a></span>
+    <span><a href="/static-pages/about-site">О сайте</a></span>
 </footer>
 </body>
 </html>

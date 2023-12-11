@@ -3,8 +3,6 @@ import random
 import asyncio
 
 import controller.xlsx.createXLSX as xlsx
-from controller.containers import Course
-from serializer.Serializer import serializer
 
 
 def is_end_lab(s):
@@ -34,11 +32,6 @@ class ScheduleGenerator:
         print(groups)
         # {subject name: Course object}
         self.plans = plans
-        for plan in plans:
-            print(plan, ":")
-            for subject in plans[plan]:
-                print(subject, ":", plans[plan][subject].lectures, plans[plan][subject].practicals,
-                        plans[plan][subject].labs, plans[plan][subject].stream)
 
         self.classrooms = classrooms
         for classroom in classrooms:
@@ -283,8 +276,6 @@ class ScheduleGenerator:
                                 schedule[group][i][1][1] = list(lesson.values())[0][1]
                                 schedule[group][i][1][2] = classroom.name
 
-                                # print('accepted:', group, schedule[group][i], i)
-
                                 all_lessons.remove(lesson)
                                 free_classrooms[i].remove(classroom)
 
@@ -292,20 +283,10 @@ class ScheduleGenerator:
 
         return schedule, free_time, teachers
 
-    def main(self):
+    def main(self, path: str):
         lessons = self.generate_all_lessons()
 
         schedule, free_time, teachers = self.generate_schedule(lessons)
         print(schedule)
 
-        xlsx.schedule_to_xlsx(schedule, free_time, teachers)
-
-
-if __name__ == '__main__':
-    generator = ScheduleGenerator(
-        asyncio.run(serializer.get_subject()),
-        asyncio.run(serializer.get_group()),
-        asyncio.run(serializer.get_curriculum()),
-        asyncio.run(serializer.get_classroom())
-    )
-    generator.main()
+        xlsx.schedule_to_xlsx(schedule, free_time, teachers, path)

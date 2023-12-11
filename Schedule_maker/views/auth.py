@@ -107,6 +107,7 @@ class RegistrationView:
             }
         )
 
+    # noinspection PyUnresolvedReferences
     @staticmethod
     @router.post('/register')
     async def register(
@@ -168,6 +169,7 @@ class GoogleAuthenticationView:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
+    # noinspection PyUnresolvedReferences
     @staticmethod
     @router.get('/google-register')
     async def google_register(code: str, db_: Session = Depends(db.get_db)):
@@ -202,6 +204,7 @@ class GoogleAuthenticationView:
         )
 
 
+# noinspection PyUnresolvedReferences
 class EmailVerificationView:
     @staticmethod
     @router.get('/verification')

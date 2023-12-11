@@ -1,10 +1,6 @@
-from asyncio import run
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from Schedule_maker.config.settings import Settings, settings
-from Schedule_maker.models.db import Database, db
-from Schedule_maker.security.PasswordManager import PasswordManager, password_manager
+from Schedule_maker.models.db import Database
 from Schedule_maker.models.core import (Group, Curriculum, CurriculumSubject, Subject, Classroom, ClassroomSubject,
                                         SubjectTeacher, Teacher)
 
@@ -15,13 +11,9 @@ from controller.containers import Classroom as ContainerClassroom
 class Serializer:
     def __init__(self,
                  _db: Database,
-                 _password_manager: PasswordManager,
-                 _settings: Settings,
                  user_id: str
                  ):
         self.db = _db
-        self.password_manager = _password_manager
-        self.settings = _settings
         self.user_id = user_id
 
     async def get_group(self):
@@ -79,7 +71,6 @@ class Serializer:
                     plans[plan][list(subject.keys())[0]] = list(subject.values())[0]
 
             return plans
-
 
     async def get_classroom(self):
         async with self.db.engine.begin() as session:
@@ -147,13 +138,3 @@ class Serializer:
                     subjects[taken_subject.subject_name] = [teachers[index].full_name]
 
             return subjects
-
-
-serializer = Serializer(
-    _db=db,
-    _settings=settings,
-    _password_manager=password_manager,
-    user_id="fd554f73-fb51-4148-8b3e-a96b897d98c3"
-)
-
-run(serializer.get_curriculum())

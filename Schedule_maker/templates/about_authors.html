@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Schedule makers: Authors</title>
-    <link rel="stylesheet" href="../static/css/main.css">
-    <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
-</head>
-<body>
-<header id="header">
-    <h1><a href="/main">Schedule maker</a></h1>
-    <nav class="tabs">
-        <div class="tab">
-            <button class="tablinks" id="Classes_button" onclick="">Классы</button>
-            <button class="tablinks" id="Lessons_button" onclick="">Уроки</button>
-            <button class="tablinks" id="Teachers_button" onclick="">Учителя</button>
-            <button class="tablinks" id="Subjects_button" onclick="">Предметы</button>
-            <button class="tablinks" id="Register_button" onclick="document.location='./registration.html'">Регистрация</button>
-            <button class="tablinks" id="Login_button" onclick="document.location='./login.html'">Логин</button>
-        </div>
-    </nav>
-</header>
+{% extends 'base.html' %}
 
+{% block content %}
 <div class="authors">
     <div class="person">
         <img src="../static/images/author1.jpg" alt="Фото автора">
@@ -39,9 +19,9 @@
 </div>
 <footer>
     <span><a href="/main">© Schedule maker</a></span>
-    <span><a href="./about_authors.html">Контакты</a></span>
-    <span><a href="./about_site.html">О сайте</a></span>
+    <span><a href="/static-pages/about-authors">Контакты</a></span>
+    <span><a href="/static-pages/about-site">О сайте</a></span>
 </footer>
-</body>
 <script src="../static/js/index.js"></script>
-</html>
+
+{% endblock %}

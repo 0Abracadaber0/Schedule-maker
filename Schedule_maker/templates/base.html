@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ Title }}</title>
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
+</head>
+<body>
+<header id="header">
+  <h1><a href="/main">Schedule maker</a></h1>
+  <nav class="tabs">
+    {% if user.is_verified %}
+        <div class="tab">
+            <a href="http://127.0.0.1:8000/tables/classroom"><button class="tablinks">Аудитории</button></a>
+            <a href="http://127.0.0.1:8000/tables/curriculum"><button class="tablinks">Учебные планы</button></a>
+            <a href="http://127.0.0.1:8000/tables/group"><button class="tablinks">Группы</button></a>
+            <a href="http://127.0.0.1:8000/tables/subject"><button class="tablinks" >Предметы</button></a>
+            <a href="http://127.0.0.1:8000/logout"><button class="tablinks">Выйти</button></a>
+        </div>
+    {% else %}
+        <div class="tab">
+          <button class="tablinks" id="Register_button" onclick="document.location='./register'">Регистрация</button>
+          <button class="tablinks" id="Login_button" onclick="document.location='./login'">Логин</button>
+        </div>
+    {% endif %}
+  </nav>
+</header>
+{% block content %}
+{% endblock %}
+</body>
+</html>

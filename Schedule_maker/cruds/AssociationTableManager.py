@@ -3,10 +3,8 @@ from abc import abstractmethod
 from sqlalchemy import select, delete
 from sqlalchemy.dialects.postgresql import insert
 
-from Schedule_maker.config.settings import Settings, settings
 from Schedule_maker.models.db import Database, db
 from Schedule_maker.models.core import ClassroomSubject, SubjectTeacher, CurriculumSubject
-from Schedule_maker.security.PasswordManager import PasswordManager, password_manager
 from Schedule_maker.cruds.TableObjectManager import (
     classroom_manager, subject_manager, teacher_manager, curriculum_manager
 )
@@ -15,15 +13,11 @@ from Schedule_maker.cruds.TableObjectManager import (
 class BaseAssociationTableManager:
     def __init__(self,
                  _db: Database,
-                 _password_manager: PasswordManager,
-                 _settings: Settings,
                  association_object,
                  first_manger,
                  second_manger
                  ):
         self.db = _db
-        self.password_manager = _password_manager
-        self.settings = _settings
         self.association_object = association_object
         self.first_manger = first_manger
         self.second_manger = second_manger
@@ -183,8 +177,6 @@ class SubjectCurriculumAssociationManager(BaseAssociationTableManager):
 
 subject_classroom_manager = SubjectClassroomAssociationManger(
     _db=db,
-    _password_manager=password_manager,
-    _settings=settings,
     association_object=ClassroomSubject,
     first_manger=subject_manager,
     second_manger=classroom_manager
@@ -192,8 +184,6 @@ subject_classroom_manager = SubjectClassroomAssociationManger(
 
 subject_teacher_manager = SubjectTeacherAssociationManager(
     _db=db,
-    _password_manager=password_manager,
-    _settings=settings,
     association_object=SubjectTeacher,
     first_manger=subject_manager,
     second_manger=teacher_manager
@@ -201,8 +191,6 @@ subject_teacher_manager = SubjectTeacherAssociationManager(
 
 subject_curriculum_manager = SubjectCurriculumAssociationManager(
     _db=db,
-    _password_manager=password_manager,
-    _settings=settings,
     association_object=CurriculumSubject,
     first_manger=subject_manager,
     second_manger=curriculum_manager

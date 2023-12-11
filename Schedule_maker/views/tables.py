@@ -109,7 +109,7 @@ class ClassroomTableView:
             'classroom_table.html',
             {
                 'request': request,
-                'subjects': subjects,
+                'subjects': set([subject.subject_name for subject in subjects]),
                 'classrooms': classrooms,
                 'subjects_classrooms': subjects_classrooms
             }
@@ -179,7 +179,6 @@ class CurriculumTableView:
             request: Request,
             current_user: Annotated[User, Depends(user_manager.get_current_verified_user)]
     ):
-        print(f'\n\n\n\n{current_user.id}\n\n\n\n')
         subjects_curriculums = await subject_curriculum_manager.get_all_associations_by_user_id(
             user_id=current_user.id
         )
@@ -191,7 +190,7 @@ class CurriculumTableView:
             {
                 'request': request,
                 'subjects_curriculums': subjects_curriculums,
-                'subjects': subjects
+                'subjects': set([subjects.subject_name for subjects in subjects])
             }
         )
 

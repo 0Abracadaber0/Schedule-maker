@@ -73,6 +73,14 @@ class UserManager:
             )
         return user
 
+    async def get_user_or_none(self, cookies):
+        data = cookies.get('access_token')
+        if data:
+            token = data.split(' ')[1]
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=settings.ALGORITHM)
+            return await self.get_user_by_id(payload['id'])
+        return None
+
 
 user_manager = UserManager(
     _db=db,
