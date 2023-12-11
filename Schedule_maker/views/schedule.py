@@ -1,19 +1,15 @@
-import asyncio
 import uuid
+from typing import Annotated
 
 from fastapi import APIRouter, Depends
 from fastapi.responses import FileResponse
 
-from typing import Annotated
-
+from Schedule_maker.cruds.TableObjectManager import schedule_manager
+from Schedule_maker.cruds.UserManager import user_manager
 from Schedule_maker.models.core import User
 from Schedule_maker.models.db import db
-from Schedule_maker.cruds.UserManager import user_manager
-from Schedule_maker.cruds.TableObjectManager import schedule_manager
-
-from controller.serializer.Serializer import Serializer
 from controller.main import ScheduleGenerator
-
+from controller.serializer.Serializer import Serializer
 
 router = APIRouter()
 
@@ -42,6 +38,9 @@ class ScheduleView:
             }
         )
         schedule_generator.main(
-            path=f'/home/azazel/Schedule-maker/controller/schedules/{current_schedule_id}.xlsx'
+
+            path=f'/home/yauheni/WebstormProjects/Schedule-maker/controller/schedules/{current_schedule_id}.xlsx'
         )
-        return FileResponse(f'/home/azazel/Schedule-maker/controller/schedules/{current_schedule_id}.xlsx')
+        return FileResponse(
+            f'/home/yauheni/WebstormProjects/Schedule-maker/controller/schedules/{current_schedule_id}.xlsx'
+        )

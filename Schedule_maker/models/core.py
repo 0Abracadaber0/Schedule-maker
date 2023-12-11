@@ -92,7 +92,7 @@ class Classroom(Base):
 
 
 class Curriculum(Base):
-    name: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str]
     stream: Mapped[str]
 
     amount_lectures: Mapped[int]

@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .button_generate {
+      width: 100%;
+
+      font-size: 25px;
+
+      border-radius: 5px;
+      border-width: 0;
+      background-color: #d7d7d7;
+    }
+
+    .button_generate:hover {
+        transition: background-color 0.3s ease-in;
+        background-color: #838383;
+    }
+</style>
   <div class="order">
     <label>
       <input type="checkbox">
@@ -19,7 +35,7 @@
       <span>Заполнить таблицу "Группы"</span>
     </label>
     <img src="../static/images/order.png" alt="">
-    <a href="http://127.0.0.1:8000/schedule/download"><input value="Сгенерировать"></a>
+    <a href="http://127.0.0.1:8000/schedule/download"><button class="button_generate">Сгенерировать</button></a>
   </div>
   <footer>
     <span><a href="/main">© Schedule maker</a></span>

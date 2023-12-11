@@ -278,7 +278,7 @@ class GroupTableView:
             'group_table.html',
             {
                 'request': request,
-                'curriculums': curriculums,
+                'curriculums': set([curriculum.name for curriculum in curriculums]),
                 'groups_curriculums': groups_curriculums
             }
         )
