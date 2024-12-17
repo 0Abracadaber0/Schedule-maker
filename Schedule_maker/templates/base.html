@@ -18,6 +18,7 @@
             <a href="https://classify.by/tables/group"><button class="tablinks" data-ru="Группы" data-en="Groups">Группы</button></a>
             <a href="https://classify.by/tables/subject"><button class="tablinks" data-ru="Предметы" data-en="Subjects">Предметы</button></a>
             <a href="https://classify.by/logout"><button class="tablinks" data-ru="Выйти" data-en="Logout">Выйти</button></a>
+            <button class="tablinks --white" id="langToggle" onclick="toggleLanguage()" data-ru="En" data-en="Ru">En</button>
         </div>
     {% else %}
         <div class="tab">
@@ -25,8 +26,6 @@
           <button class="tablinks" id="Login_button" onclick="document.location='./login'" data-ru="Логин" data-en="Login">Логин</button>
         </div>
     {% endif %}
-    <!-- Кнопка для переключения языка -->
-    <button class="tablinks --white" id="langToggle" onclick="toggleLanguage()" data-ru="En" data-en="Ru">En</button>
   </nav>
 </header>
 
