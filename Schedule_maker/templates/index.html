@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Schedule maker</title>
     <link rel="stylesheet" href="../static/css/splash_screen.css">
     <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
+
+    
 </head>
 <body>
 <div class="container">
-    <h3 class="university">Белорусский национальный технический университет</h3>
-    <h4>Факультет информационнных технологий и робототехники</h4>
-    <h4>Кафедра программного обеспечения информационных систем и технологий</h4>
+    
+    <h3 class="university" data-ru="Белорусский национальный технический университет" data-en="Belarusian National Technical University">Белорусский национальный технический университет</h3>
+    <h4 data-ru="Факультет информационнных технологий и робототехники" data-en="Faculty of Information Technologies and Robotics">Факультет информационнных технологий и робототехники</h4>
+    <h4 data-ru="Кафедра программного обеспечения информационных систем и технологий" data-en="Department of Software Engineering for Information Systems and Technologies">Кафедра программного обеспечения информационных систем и технологий</h4>
 
-    <h2>Курсовая работа</h2>
-    <h4>по дисциплине языки программирования</h4>
-    <h1>Генератор расписания</h1>
+    <h2 data-ru="Курсовая работа" data-en="Coursework">Курсовая работа</h2>
+    <h4 data-ru="по дисциплине языки программирования" data-en="in Programming Languages">по дисциплине языки программирования</h4>
+    <h1 data-en="Schedule Maker">Schedule Maker</h1>
 
     <div class="under">
         <div class="img">
@@ -22,31 +26,26 @@
         </div>
 
         <div class="who">
-            <h4>Выполнили: студенты группы 10701122</h4>
-            <h4 class="person">Давыдовский Иван Юрьевич</h4>
-            <h4 class="person">Ханяк Евгений Дмитриевич</h4>
+            <h4 data-ru="Выполнили: студенты группы 10701122" data-en="Performed by: Students of group 10701122">Выполнили: студенты группы 10701122</h4>
+            <h4 class="person" data-ru="Давыдовский Иван Юрьевич" data-en="Davyidovsky Ivan Yurievich">Давыдовский Иван Юрьевич</h4>
+            <h4 class="person" data-ru="Ханяк Евгений Дмитриевич" data-en="Khanyak Evgeny Dmitrievich">Ханяк Евгений Дмитриевич</h4>
+            <h4 class="person" data-ru="Серафимов Игорь Васильевич" data-en="Serafimov Igor Vasilievich">Serafimov Igor Vasilievich</h4>
+            <h4 class="person" data-ru="Царук Максим Русланович" data-en="Tsaruk Maxim Ruslanovich">Tsaruk Maxim Ruslanovich</h4>
 
-            <h4 class="teacher">Преподаватель: к.ф.-м.н., доц.</h4>
-            <h4 class="person">Сидорик Валерий Владимирович</h4>
+            <h4 class="teacher" data-ru="Преподаватель: " data-en="Teacher: ">Преподаватель: </h4>
+            <h4 class="person" data-ru="Станкевич Сергей Николаевич" data-en="Stankevich Sergey Nikolaevich">Sidorkevich Sergey Nikolaevich</h4>
+
         </div>
     </div>
 
     <div class="actions">
-        <button onclick="document.location='/main'">Далее</button>
-        <button onclick="window.open('','_self').close()">Выход</button>
+        <button id="langToggle" data-en="En" data-ru="Ru" onclick="toggleLanguage()">En</button>
+        <button onclick="document.location='/main'" data-ru="Далее" data-en="Enter">Далее</button>
+        <button onclick="window.open('','_self').close()" data-ru="Выход" data-en="Exit">Выход</button>
     </div>
 </div>
+
+
+<script src="../static/js/languageSwitcher.js"></script>
 </body>
-<script>
-    let idleTime = 0;
-    setInterval(timerIncrement, 1000); // 1 second
-
-    function timerIncrement() {
-        idleTime = idleTime + 1;
-        if (idleTime > 60) { // 60 seconds
-            window.close();
-        }
-    }
-
-</script>
 </html>

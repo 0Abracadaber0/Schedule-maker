@@ -5,6 +5,7 @@
     <title>Schedule maker: Вход</title>
     <link rel="stylesheet" type="text/css" href="../static/css/register.css">
     <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
+    <script src="../static/js/languageSwitcher.js" defer></script>
 </head>
 
 <body>
@@ -12,38 +13,44 @@
     <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
         <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
             <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-                <h1><a href="/main" rel="dofollow">Schedule maker</a></h1>
+                <h1><a href="/main" rel="dofollow" data-ru="Schedule maker" data-en="Schedule maker">Schedule maker</a></h1>
             </div>
             <div class="formbg-outer">
                 <div class="formbg">
                     <div class="formbg-inner padding-horizontal--48">
-                        <span class="padding-bottom--15">Вход в аккаунт</span>
+                        <span class="padding-bottom--15" data-ru="Вход в аккаунт" data-en="Login to your account">Вход в аккаунт</span>
                         <form id="stripe-login" method="post">
                             <div class="field padding-bottom--24">
-                                <label for="email">Email</label>
+                                <label for="email" data-ru="Email" data-en="Email">Email</label>
                                 <input type="text" name="email" id="email" required>
                             </div>
                             <div class="field padding-bottom--24">
                                 <div class="grid--50-50">
-                                    <label for="password">Пароль</label>
+                                    <label for="password" data-ru="Пароль" data-en="Password">Пароль</label>
                                 </div>
                                 <input type="password" name="password" id="password" required>
                             </div>
                             <div class="field padding-bottom--24">
-                                <input type="submit" name="submit" value="Продолжить" onclick="">
+                                <input type="submit" name="submit" value="Продолжить" 
+                                       data-ru="Продолжить" data-en="Continue">
                             </div>
-                            <div class="field">
-                                <a class="ssolink" href="{{ url }}">Войти с помощью Google</a>
+                            
+                            
+                            <div class="field --en">
+                                <a class="ssolink" href="{{ url }}" data-ru="Войти с помощью Google" data-en="Login with Google">Войти с помощью Google</a>
+                                <button id="langToggle" onclick="toggleLanguage()">En</button>
                             </div>
+                            
                         </form>
                     </div>
                 </div>
                 <div class="footer-link padding-top--24">
-                    <span>Нет аккаунта? <a href="/register">Регистрация</a></span>
+                    <span data-ru="Нет аккаунта? Регистрация" data-en="Don't have an account? Sign up">Нет аккаунта? <a href="/register" data-ru="Регистрация" data-en="Sign up">Регистрация</a></span>
+                    
                     <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
-                        <span><a href="/main">© Schedule maker</a></span>
-                        <span><a href="/static-pages/about-authors">Контакты</a></span>
-                        <span><a href="/static-pages/about-site">О сайте</a></span>
+                        <span><a href="/main" data-ru="© Schedule maker" data-en="© Schedule maker">© Schedule maker</a></span>
+                        <span><a href="/static-pages/about-authors" data-ru="Контакты" data-en="Contacts">Контакты</a></span>
+                        <span><a href="/static-pages/about-site" data-ru="О сайте" data-en="About the site">О сайте</a></span>
                     </div>
                 </div>
             </div>

@@ -71,6 +71,10 @@ a {
 .tab {
     overflow: hidden;
     background-color: #333;
+    display: flex;               
+    justify-content: center;        
+    align-items: center;          
+    flex-wrap: wrap;               
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -368,4 +372,21 @@ input[type="checkbox"] {
 
 input[type="checkbox"]:checked + span {
     text-decoration: line-through;
+}
+
+#langToggle.--white {
+    background-color: #cccccc;
+    color: #333333;
+    border-radius: 5px;
+    border-width: 0;
+    transition: background-color 0.3s ease-in;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap; /* Чтобы текст в кнопке не переносился */
+}
+
+#langToggle.--white:hover {
+    background-color: #9b9b9b;
+    color: #333333;
 }

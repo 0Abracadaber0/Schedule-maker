@@ -1,27 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+
 <div class="authors">
     <div class="person">
-        <img src="../static/images/author1.jpg" alt="Фото автора">
-        <h3>Автор</h3>
-        <h3>Студент группы 10701122</h3>
-        <h3>Ханяк Евгений Дмитриевич</h3>
-        <h3>yauhenbelarus@gmail.com</h3>
+        <img src="../static/images/Yauhen.jpg" alt="Фото автора">
+        <h3 data-ru="Автор" data-en="Author">Автор</h3>
+        <h3 data-ru="Студент группы 10701122" data-en="Student of group 10701122">Студент группы 10701122</h3>
+        <h3 data-ru="Ханяк Евгений Дмитриевич" data-en="Yauhen Khanyak">Ханяк Евгений Дмитриевич</h3>
+        <h3 data-ru="yauhenbelarus@gmail.com" data-en="yauhenbelarus@gmail.com">yauhenbelarus@gmail.com</h3>
     </div>
     <div class="person">
-        <img src="../static/images/author11.jpg" alt="Фото автора">
-        <h3>Автор</h3>
-        <h3>Студент группы 10701122</h3>
-        <h3>Давыдовский Иван Юрьевич</h3>
-        <h3>davydovskiyivan@gmail.com</h3>
+        <img src="../static/images/Ivan.jpg" alt="Фото автора">
+        <h3 data-ru="Автор" data-en="Author">Автор</h3>
+        <h3 data-ru="Студент группы 10701122" data-en="Student of group 10701122">Студент группы 10701122</h3>
+        <h3 data-ru="Давыдовский Иван Юрьевич" data-en="Ivan Davydovskiy">Давыдовский Иван Юрьевич</h3>
+        <h3 data-ru="davydovskiyivan@gmail.com" data-en="davydovskiyivan@gmail.com">davydovskiyivan@gmail.com</h3>
+    </div>
+
+    <div class="person">
+        <img src="../static/images/Igor.jpg" alt="Фото автора">
+        <h3 data-ru="Автор" data-en="Author">Автор</h3>
+        <h3 data-ru="Студент группы 10701122" data-en="Student of group 10701122">Студент группы 10701122</h3>
+        <h3 data-ru="Серафимов Игорь Васильевич" data-en="Igor Serafimov">Серафимов Игорь Васильевич</h3>
+        <h3 data-ru="serafimovigor@mail.com" data-en="serafimovigor@mail.com">serafimovigor@mail.com</h3>
+    </div>
+    <div class="person">
+        <img src="../static/images/Maks.jpg" alt="Фото автора">
+        <h3 data-ru="Автор" data-en="Author">Автор</h3>
+        <h3 data-ru="Студент группы 10701122" data-en="Student of group 10701122">Студент группы 10701122</h3>
+        <h3 data-ru="Царук Максим Русланович" data-en="Maxim Tsaruk">Царук Максим Русланович</h3>
+        <h3 data-ru="tsarukmaxim@mail.com" data-en="tsarukmaxim@mail.com">tsarukmaxim@mail.com</h3>
     </div>
 </div>
-<footer>
-    <span><a href="/main">© Schedule maker</a></span>
-    <span><a href="/static-pages/about-authors">Контакты</a></span>
-    <span><a href="/static-pages/about-site">О сайте</a></span>
-</footer>
-<script src="../static/js/index.js"></script>
 
+
+<div class="field --en">
+    <button id="langToggle" onclick="toggleLanguage()">En</button>
+</div>
+
+<footer>
+    <span><a href="/main" data-ru="© Schedule maker" data-en="© Schedule maker">© Schedule maker</a></span>
+    <span><a href="/static-pages/about-authors" data-ru="Контакты" data-en="Contacts">Контакты</a></span>
+    <span><a href="/static-pages/about-site" data-ru="О сайте" data-en="About the site">О сайте</a></span>
+</footer>
+
+<script src="../static/js/index.js"></script>
+<script src="../static/js/languageSwitcher.js"></script>
 {% endblock %}

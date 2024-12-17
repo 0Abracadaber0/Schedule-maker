@@ -1,35 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 class="title">Генератор расписания</h2>
+
+<h2 class="title" data-ru="Генератор расписания" data-en="Schedule Generator">Генератор расписания</h2>
+
 <div class="about">
     <div>
-        <img src="../static/images/img.png" alt="">
+        <img src="../static/images/img.png" alt="Изображение программы" />
     </div>
     <div class="p">
-        <p>
+        <p data-ru="Программа позволяет создать расписание для высшего учебного заведения. Для его создания пользователю надо заполнить 4 таблиц:"
+           data-en="The program allows you to create a schedule for higher education institutions. To create it, the user needs to fill out 4 tables:">
             Программа позволяет создать расписание для высшего учебного заведения. Для его создания пользователю надо
             заполнить 4 таблиц:
         </p>
         <ul>
-            <li>Таблица предметов</li>
-            <li>Таблица аудиторий</li>
-            <li>Таблица учебных планов</li>
-            <li>Таблица групп</li>
+            <li data-ru="Таблица предметов" data-en="Subject Table">Таблица предметов</li>
+            <li data-ru="Таблица аудиторий" data-en="Classroom Table">Таблица аудиторий</li>
+            <li data-ru="Таблица учебных планов" data-en="Curriculum Table">Таблица учебных планов</li>
+            <li data-ru="Таблица групп" data-en="Group Table">Таблица групп</li>
         </ul>
 
-        <p>
-            Каждая из таблиц привязана к базе данных, которая в свою очередь привязана к каждому отдельному
-            пользователю.
+        <p data-ru="Каждая из таблиц привязана к базе данных, которая в свою очередь привязана к каждому отдельному пользователю." 
+           data-en="Each table is linked to a database, which in turn is linked to each individual user.">
+            Каждая из таблиц привязана к базе данных, которая в свою очередь привязана к каждому отдельному пользователю.
         </p>
-
     </div>
 </div>
 
+
+<div class="field --en">
+    <button id="langToggle" onclick="toggleLanguage()" data-ru="En" data-en="Ru">En</button>
+</div>
+
 <footer>
-    <span><a href="/main">© Schedule maker</a></span>
-    <span><a href="/static-pages/about-authors">Контакты</a></span>
-    <span><a href="/static-pages/about-site">О сайте</a></span>
+    <span><a href="/main" data-ru="© Schedule maker" data-en="© Schedule maker">© Schedule maker</a></span>
+    <span><a href="/static-pages/about-authors" data-ru="Контакты" data-en="Contacts">Контакты</a></span>
+    <span><a href="/static-pages/about-site" data-ru="О сайте" data-en="About the site">О сайте</a></span>
 </footer>
+
 <script src="../static/js/index.js"></script>
+<script src="../static/js/languageSwitcher.js"></script>
+
 {% endblock %}

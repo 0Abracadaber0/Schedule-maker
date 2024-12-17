@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Schedule maker</title>
@@ -8,14 +8,16 @@
 </head>
 <body>
 <header id="header">
-    <h1><a href="/main">Schedule maker</a></h1>
+    <h1><a href="/main" data-ru="Schedule maker" data-en="Schedule maker">Schedule maker</a></h1>
     <nav class="tabs">
         <div class="tab">
-            <a href="http://127.0.0.1:8000/tables/classroom"><button class="tablinks">Аудитории</button></a>
-            <a href="http://127.0.0.1:8000/tables/curriculum"><button class="tablinks">Учебные планы</button></a>
-            <a href="http://127.0.0.1:8000/tables/group"><button class="tablinks">Группы</button></a>
-            <a href="http://127.0.0.1:8000/tables/subject"><button class="tablinks" >Предметы</button></a>
-            <a href="http://127.0.0.1:8000/logout"><button class="tablinks">Выйти</button></a>
+            <a href="http://127.0.0.1:8000/tables/classroom"><button class="tablinks" data-ru="Аудитории" data-en="Classrooms">Аудитории</button></a>
+            <a href="http://127.0.0.1:8000/tables/curriculum"><button class="tablinks" data-ru="Учебные планы" data-en="Curriculums">Учебные планы</button></a>
+            <a href="http://127.0.0.1:8000/tables/group"><button class="tablinks" data-ru="Группы" data-en="Groups">Группы</button></a>
+            <a href="http://127.0.0.1:8000/tables/subject"><button class="tablinks" data-ru="Предметы" data-en="Subjects">Предметы</button></a>
+            <a href="http://127.0.0.1:8000/logout"><button class="tablinks" data-ru="Выйти" data-en="Logout">Выйти</button></a>
+            <button class="tablinks --white" id="langToggle" onclick="toggleLanguage()" data-ru="En" data-en="Ru">En</button>
+
         </div>
     </nav>
 </header>
@@ -23,15 +25,17 @@
 <div class="table">
     <table>
         <tr>
-            <th>Группа</th>
-            <th>Учебный план</th>
+            <th data-ru="Группа" data-en="Group">Группа</th>
+            <th data-ru="Учебный план" data-en="Curriculum">Учебный план</th>
         </tr>
         {% for group_curriculum in groups_curriculums %}
         <tr>
             <td>{{ group_curriculum[0].group_name }}</td>
             <td>{{ group_curriculum[1].name }}</td>
             <td class="buttons">
-                <a href="http://127.0.0.1:8000/tables/group-delete/{{group_curriculum[0].id}}"><button>Удалить</button></a>
+                <a href="http://127.0.0.1:8000/tables/group-delete/{{group_curriculum[0].id}}">
+                    <button data-ru="Удалить" data-en="Delete">Удалить</button>
+                </a>
             </td>
         </tr>
         {% endfor %}
@@ -48,17 +52,20 @@
                         </select>
                     </label>
                 </td>
-                <td class="buttons"><button type="submit">Добавить</button></td>
+                <td class="buttons"><button type="submit" data-ru="Добавить" data-en="Add">Добавить</button></td>
             </form>
         </tr>
     </table>
 </div>
 
 
+
 <footer>
-    <span><a href="/main">© Schedule maker</a></span>
-    <span><a href="/static-pages/about-authors">Контакты</a></span>
-    <span><a href="/static-pages/about-site">О сайте</a></span>
+    <span><a href="/main" data-ru="© Schedule maker" data-en="© Schedule maker">© Schedule maker</a></span>
+    <span><a href="/static-pages/about-authors" data-ru="Контакты" data-en="Contacts">Контакты</a></span>
+    <span><a href="/static-pages/about-site" data-ru="О сайте" data-en="About the site">О сайте</a></span>
 </footer>
+
+<script src="../static/js/languageSwitcher.js" defer></script>
 </body>
 </html>

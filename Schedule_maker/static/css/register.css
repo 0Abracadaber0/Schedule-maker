@@ -223,3 +223,28 @@ a.ssolink {
     color: red;
     margin-top: 10px;
 }
+
+
+.field.--en {
+    display: flex; /* Используем flexbox для удобного выравнивания */
+    align-items: center; /* Вертикальное выравнивание по центру */
+    justify-content: center; /* Горизонтальное выравнивание по центру */
+    gap: 10px; /* Пространство между элементами */
+}
+
+#langToggle {
+    background-color: #333333;
+    color: #cccccc;
+    border-radius: 5px;
+    border-width: 0;
+    transition: background-color 0.3s ease-in;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap; /* Чтобы текст в кнопке не переносился */
+}
+
+a.ssolink {
+    font-weight: 600;
+    display: block;
+}

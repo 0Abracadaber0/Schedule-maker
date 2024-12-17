@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<html lang="ru">
+
 <style>
     .button_generate {
       width: 100%;
-
       font-size: 25px;
-
       border-radius: 5px;
       border-width: 0;
       background-color: #d7d7d7;
@@ -16,30 +16,57 @@
         transition: background-color 0.3s ease-in;
         background-color: #838383;
     }
+
+    #langToggle.--white {
+        background-color: #cccccc;
+        color: #333333;
+        border-radius: 5px;
+        border-width: 0;
+        transition: background-color 0.3s ease-in;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-size: 14px;
+        white-space: nowrap; /* Чтобы текст в кнопке не переносился */
+    }
+
+    #langToggle.--white:hover {
+        background-color: #9b9b9b;
+        color: #333333;
+    }
 </style>
-  <div class="order">
+
+<div class="order">
     <label>
-      <input type="checkbox">
-      <span>Заполнить таблицу "Предметы"</span>
+        <input type="checkbox">
+        <span data-ru="Заполнить таблицу 'Предметы'" data-en="Fill the 'Subjects' table">Заполнить таблицу "Предметы"</span>
     </label>
     <label>
-      <input type="checkbox">
-      <span>Заполнить таблицу "Аудитории"</span>
+        <input type="checkbox">
+        <span data-ru="Заполнить таблицу 'Аудитории'" data-en="Fill the 'Classrooms' table">Заполнить таблицу "Аудитории"</span>
     </label>
     <label>
-      <input type="checkbox">
-      <span>Заполнить таблицу "Учебные планы"</span>
+        <input type="checkbox">
+        <span data-ru="Заполнить таблицу 'Учебные планы'" data-en="Fill the 'Curriculums' table">Заполнить таблицу "Учебные планы"</span>
     </label>
     <label>
-      <input type="checkbox">
-      <span>Заполнить таблицу "Группы"</span>
+        <input type="checkbox">
+        <span data-ru="Заполнить таблицу 'Группы'" data-en="Fill the 'Groups' table">Заполнить таблицу "Группы"</span>
     </label>
-    <img src="../static/images/order.png" alt="">
-    <a href="http://127.0.0.1:8000/schedule/download"><button class="button_generate">Сгенерировать</button></a>
-  </div>
-  <footer>
-    <span><a href="/main">© Schedule maker</a></span>
-    <span><a href="/static-pages/about-authors">Контакты</a></span>
-    <span><a href="/static-pages/about-site">О сайте</a></span>
-  </footer>
+
+    <img src="../static/images/order.png" alt="" />
+
+    <a href="http://127.0.0.1:8000/schedule/download">
+        <button class="button_generate" data-ru="Сгенерировать" data-en="Generate">Сгенерировать</button>
+    </a>
+    
+    <!-- Переключатель языка -->
+    <button class="tablinks --white" id="langToggle" onclick="toggleLanguage()" data-ru="En" data-en="Ru">En</button>
+</div>
+
+<footer>
+    <span><a href="/main" data-ru="© Schedule maker" data-en="© Schedule maker">© Schedule maker</a></span>
+    <span><a href="/static-pages/about-authors" data-ru="Контакты" data-en="Contacts">Контакты</a></span>
+    <span><a href="/static-pages/about-site" data-ru="О сайте" data-en="About the site">О сайте</a></span>
+</footer>
+<script src="../static/js/languageSwitcher.js" defer></script>
 {% endblock %}

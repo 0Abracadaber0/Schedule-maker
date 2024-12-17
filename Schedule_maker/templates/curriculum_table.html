@@ -8,14 +8,25 @@
 </head>
 <body>
 <header id="header">
-    <h1><a href="/main">Schedule maker</a></h1>
+    <h1><a href="/main" data-ru="Schedule maker" data-en="Schedule maker">Schedule maker</a></h1>
     <nav class="tabs">
         <div class="tab">
-            <a href="http://127.0.0.1:8000/tables/classroom"><button class="tablinks">Аудитории</button></a>
-            <a href="http://127.0.0.1:8000/tables/curriculum"><button class="tablinks">Учебные планы</button></a>
-            <a href="http://127.0.0.1:8000/tables/group"><button class="tablinks">Группы</button></a>
-            <a href="http://127.0.0.1:8000/tables/subject"><button class="tablinks" >Предметы</button></a>
-            <a href="http://127.0.0.1:8000/logout"><button class="tablinks">Выйти</button></a>
+            <a href="http://127.0.0.1:8000/tables/classroom">
+                <button class="tablinks" data-ru="Аудитории" data-en="Classrooms">Аудитории</button>
+            </a>
+            <a href="http://127.0.0.1:8000/tables/curriculum">
+                <button class="tablinks" data-ru="Учебные планы" data-en="Curriculums">Учебные планы</button>
+            </a>
+            <a href="http://127.0.0.1:8000/tables/group">
+                <button class="tablinks" data-ru="Группы" data-en="Groups">Группы</button>
+            </a>
+            <a href="http://127.0.0.1:8000/tables/subject">
+                <button class="tablinks" data-ru="Предметы" data-en="Subjects">Предметы</button>
+            </a>
+            <a href="http://127.0.0.1:8000/logout">
+                <button class="tablinks" data-ru="Выйти" data-en="Logout">Выйти</button>
+            </a>
+            <button class="tablinks --white" id="langToggle" onclick="toggleLanguage()" data-ru="En" data-en="Ru">En</button>
         </div>
     </nav>
 </header>
@@ -23,27 +34,27 @@
 <div class="curriculum_table">
     <table>
         <tr>
-            <th>Учебный план</th>
-            <th>Предмет</th>
-            <th>Кол-во лекций</th>
-            <th>Кол-во практик</th>
-            <th>Кол-во лабораторных</th>
-            <th>Поток</th>
+            <th data-ru="Учебный план" data-en="Curriculum">Учебный план</th>
+            <th data-ru="Предмет" data-en="Subject">Предмет</th>
+            <th data-ru="Кол-во лекций" data-en="Lectures">Кол-во лекций</th>
+            <th data-ru="Кол-во практик" data-en="Practices">Кол-во практик</th>
+            <th data-ru="Кол-во лабораторных" data-en="Labs">Кол-во лабораторных</th>
+            <th data-ru="Поток" data-en="Stream">Поток</th>
         </tr>
         {% for subject_curriculum in subjects_curriculums %}
-            <tr>
-                <td>{{ subject_curriculum[1].name}}</td>
-                <td>{{ subject_curriculum[0].subject_name}}</td>
-                <td>{{ subject_curriculum[1].amount_lectures}}</td>
-                <td>{{ subject_curriculum[1].amount_practices}}</td>
-                <td>{{ subject_curriculum[1].amount_labs}}</td>
-                <td>{{ subject_curriculum[1].stream}}</td>
-                <td class="buttons">
-                    <a href="http://127.0.0.1:8000/tables/curriculum-delete/{{subject_curriculum[0].id}}/{{subject_curriculum[1].id}}">
-                        <button>Удалить</button>
-                    </a>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ subject_curriculum[1].name}}</td>
+            <td>{{ subject_curriculum[0].subject_name}}</td>
+            <td>{{ subject_curriculum[1].amount_lectures}}</td>
+            <td>{{ subject_curriculum[1].amount_practices}}</td>
+            <td>{{ subject_curriculum[1].amount_labs}}</td>
+            <td>{{ subject_curriculum[1].stream}}</td>
+            <td class="buttons">
+                <a href="http://127.0.0.1:8000/tables/curriculum-delete/{{subject_curriculum[0].id}}/{{subject_curriculum[1].id}}">
+                    <button data-ru="Удалить" data-en="Delete">Удалить</button>
+                </a>
+            </td>
+        </tr>
         {% endfor %}
 
         <tr class="add_new">
@@ -63,17 +74,18 @@
                 <td><label><input type="text" name="labs" placeholder="Лабораторные" required></label></td>
                 <td><label><input type="text" name="stream" placeholder="Поток" required></label></td>
 
-                <td class="buttons"><input type="submit" value="Добавить"></td>
+                <td class="buttons"><input type="submit" value="Добавить" data-ru="Добавить" data-en="Add"></td>
             </form>
         </tr>
     </table>
 </div>
 
-
 <footer>
-    <span><a href="/main">© Schedule maker</a></span>
-    <span><a href="/static-pages/about-authors">Контакты</a></span>
-    <span><a href="/static-pages/about-site">О сайте</a></span>
+    <span><a href="/main" data-ru="© Schedule maker" data-en="© Schedule maker">© Schedule maker</a></span>
+    <span><a href="/static-pages/about-authors" data-ru="Контакты" data-en="Contacts">Контакты</a></span>
+    <span><a href="/static-pages/about-site" data-ru="О сайте" data-en="About the site">О сайте</a></span>
 </footer>
+
+<script src="../static/js/languageSwitcher.js" defer></script>
 </body>
 </html>
