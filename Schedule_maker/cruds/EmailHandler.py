@@ -37,7 +37,7 @@ class EmailHandler:
 
                     <a style="margin-top:1rem; padding: 1rem; border-radius: 0.5rem; font-size: 1rem;
                      text-decoration: none; background: #0275d8; color: white;"
-                     href="http://localhost:8000/verification/?token={token}">
+                     href="https://classify.by/verification/?token={token}">
                         Verify your email
                     <a>
 

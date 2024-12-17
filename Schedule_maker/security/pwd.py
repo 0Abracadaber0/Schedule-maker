@@ -23,7 +23,7 @@ oauth.register(
     client_secret=settings.CLIENT_SECRET,
     client_kwargs={
         'scope': 'email openid profile',
-        'redirect_url': 'http://localhost:8000/google-login'
+        'redirect_url': 'https://classify.by/google-login'
     }
 )
 
