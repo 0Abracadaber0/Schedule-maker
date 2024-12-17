@@ -63,7 +63,7 @@ class LoginView:
             'login.html', {
                 'request': request,
                 "url": f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={settings.CLIENT_ID}"
-                       f"&redirect_uri=http://127.0.0.1:8000/google-login&scope=openid%20profile%20email&"
+                       f"&redirect_uri=https://classify.by/google-login&scope=openid%20profile%20email&"
                        f"access_type=offline"
             }
         )
@@ -102,7 +102,7 @@ class RegistrationView:
             'registration.html', {
                 'request': request,
                 "url": f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={settings.CLIENT_ID}"
-                       f"&redirect_uri=http://127.0.0.1:8000/google-register&scope=openid%20profile%20email&"
+                       f"&redirect_uri=https://classify.by/google-register&scope=openid%20profile%20email&"
                        f"access_type=offline"
             }
         )
@@ -147,7 +147,7 @@ class GoogleAuthenticationView:
     @staticmethod
     @router.get('/google-login')
     async def google_login(code: str):
-        user_info = await get_google_user_info(code, 'http://127.0.0.1:8000/google-login')
+        user_info = await get_google_user_info(code, 'https://classify.by/google-login')
         user_json = user_info.json()
         user = await user_manager.get_user_by_email(user_json['email'])
         if user:
@@ -173,7 +173,7 @@ class GoogleAuthenticationView:
     @staticmethod
     @router.get('/google-register')
     async def google_register(code: str, db_: Session = Depends(db.get_db)):
-        user_info = await get_google_user_info(code, 'http://127.0.0.1:8000/google-register')
+        user_info = await get_google_user_info(code, 'https://classify.by/google-register')
         user_json = user_info.json()
         user_exists = await user_manager.get_user_by_id(user_json['id'])
         if not user_exists:
