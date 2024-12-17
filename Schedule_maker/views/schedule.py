@@ -39,8 +39,8 @@ class ScheduleView:
         )
         schedule_generator.main(
 
-            path=f'/home/yauheni/WebstormProjects/Schedule-maker/controller/schedules/{current_schedule_id}.xlsx'
+            path=f'/home/ubuntu/Schedule-maker/controller/schedules/{current_schedule_id}.xlsx'
         )
         return FileResponse(
-            f'/home/yauheni/WebstormProjects/Schedule-maker/controller/schedules/{current_schedule_id}.xlsx'
+            f'/home/ubuntu/Schedule-maker/controller/schedules/{current_schedule_id}.xlsx'
         )
