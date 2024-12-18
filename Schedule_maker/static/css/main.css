@@ -284,7 +284,7 @@ th {
 }
 
 .add_new input[type="submit"] {
-    min-width: 200px;
+    min-width: 150px;
     min-height: 30px;
 
     font-size: 15px;
@@ -360,12 +360,13 @@ select option {
 button {
     cursor: pointer;
 }
+
 td input {
     font-size: 25px;
 
     border: 0;
-    color: var(--text-color);
-    background-color: var(--accent);
+    color: var(--black);
+    background-color: var(--text-color);
 }
 
 td select {
