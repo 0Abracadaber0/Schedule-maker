@@ -293,16 +293,14 @@ th {
     border-width: 0;
     background-color: var(--accent); 
     color: var(--white);
+    transition: background-color 0.3s ease-in;
 }
 
 .add_new input[type="submit"]:hover {
     background-color: var(--light-accent); 
 }
 
-.add_new input[type="submit"]:hover {
-    transition: background-color 0.3s ease-in;
-    background-color: #838383;
-}
+
 
 /* Убираем стрелки */
 ::-webkit-scrollbar-button {
