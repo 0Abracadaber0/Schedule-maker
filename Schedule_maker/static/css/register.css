@@ -1,24 +1,63 @@
+:root {
+    --black: #171718;
+    --black-border: #26292D;
+    --white: #ffffff;
+    --purple: #5C62EC;
+    --light-purple: #5c61ecc4;
+
+    --text-color: var(--black);
+    --dark-bg: var(--black);
+    --dark-border: var(--black-border);
+    --header-text: var(--white);
+    --accent: var(--purple);
+    --light-accent: var(--light-purple);
+
+    /* Dark mode */
+    --page-bg: #252526;
+    --text-color: var(--white);
+
+    --title-1: var(--white);
+
+    --project-card-bg: var(--black);
+    --project-card-text: var(--white);
+    --box-shadow: 0px 5px 35px  rgba(0, 0, 0, 0.8);
+}
+
+
 * {
     padding: 0;
     margin: 0;
-    color: #1a1f36;
+    color: var(--text-color);
     box-sizing: border-box;
     word-wrap: break-word;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif;
+    /* font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue, Ubuntu, sans-serif; */
+    font-family: "Open Sans", sans-serif;
+    letter-spacing: 0.2px;
 }
+html, body {
+    /* Color mode */
+    background-color: var(--page-bg);
+    color: var(--text-color);
+
+    height: 100%;
+    width: 100%;
+}
+
 body {
-    min-height: 100%;
-    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
+
 h1 {
     letter-spacing: -1px;
 }
 a {
-    color: #737373;
+    color: #c5c3c3;
     text-decoration: unset;
 }
 .login-root {
-    background-color: #f0f0f0;
+    background-color: var(--black);
     display: flex;
     width: 100%;
     min-height: 100vh;
@@ -90,15 +129,15 @@ a {
     margin: 0 auto;
     width: 100%;
     max-width: 448px;
-    background: white;
-    border-radius: 4px;
+    background: var(--page-bg);
+    border-radius: 14px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 span {
     display: block;
     font-size: 20px;
     line-height: 28px;
-    color: #1a1f36;
+    color: var(--text-color);
 }
 label {
     margin-bottom: 10px;
@@ -123,10 +162,11 @@ label {
     line-height: 28px;
     padding: 8px 16px;
     width: 100%;
+    color: var(--black);
     min-height: 44px;
     border: unset;
     border-radius: 4px;
-    outline-color: rgb(84 105 212 / 0.5);
+    outline-color: var(--accent);
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(0, 0, 0, 0) 0 0 0 0,
     rgba(0, 0, 0, 0) 0 0 0 0,
@@ -142,7 +182,7 @@ input[type="checkbox"] {
 }
 
 input[type="submit"] {
-    background-color: rgb(49, 49, 49);
+    background-color: var(--accent);
     color: #fff;
     font-weight: 600;
     cursor: pointer;
@@ -151,7 +191,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #737373;
+    background-color: var(--light-accent);
 }
 
 .field-checkbox input {
@@ -176,7 +216,7 @@ a.ssolink {
     text-align: center;
 }
 .listing a {
-    color: #697386;
+    color: #c5c3c3;
     font-weight: 600;
     margin: 0 10px;
 }
@@ -233,8 +273,8 @@ a.ssolink {
 }
 
 #langToggle {
-    background-color: #333333;
-    color: #cccccc;
+    background-color: var(--accent);
+    color: var(--text-color);
     border-radius: 5px;
     border-width: 0;
     transition: background-color 0.3s ease-in;
@@ -243,6 +283,12 @@ a.ssolink {
     font-size: 14px;
     white-space: nowrap; /* Чтобы текст в кнопке не переносился */
 }
+
+#langToggle:hover {
+    background-color: var(--light-accent);
+}
+
+
 
 a.ssolink {
     font-weight: 600;

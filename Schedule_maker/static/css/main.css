@@ -1,14 +1,44 @@
+:root {
+    --black: #171718;
+    --black-border: #26292D;
+    --white: #ffffff;
+    --purple: #5C62EC;
+    --light-purple: #5c61ecc4;
+
+    --text-color: var(--black);
+    --dark-bg: var(--black);
+    --dark-border: var(--black-border);
+    --header-text: var(--white);
+    --accent: var(--purple);
+    --light-accent: var(--light-purple);
+
+    /* Dark mode */
+    --page-bg: #252526;
+    --text-color: var(--white);
+
+    --title-1: var(--white);
+
+    --project-card-bg: var(--black);
+    --project-card-text: var(--white);
+    --box-shadow: 0px 5px 35px  rgba(0, 0, 0, 0.8);
+}
+
+
 * {
     padding: 0;
     margin: 0;
-    color: #1a1f36;
+    color: var(--text-color);
     box-sizing: border-box;
     word-wrap: break-word;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif;
+    /* font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue, Ubuntu, sans-serif; */
+    font-family: "Open Sans", sans-serif;
+    letter-spacing: 0.2px;
 }
 
 html, body {
-    background-color: #f2f2f2;
+    /* Color mode */
+    background-color: var(--page-bg);
+    color: var(--text-color);
 
     height: 100%;
     width: 100%;
@@ -21,15 +51,15 @@ body {
 }
 
 a {
-    color: #737373;
+    color: var(--text-color);
     text-decoration: unset;
 }
 
 #header {
     font-family: "Raleway", Helvetica, sans-serif;
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
+    background-color: var(--black);
+    color: var(--text-color);
+    padding: 20px 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -41,7 +71,7 @@ a {
 }
 
 #header h1 a {
-    color: #fff;
+    color: var(--text-color);
     text-decoration: none;
 }
 
@@ -54,7 +84,7 @@ a {
 
 #header .tabs ul li {
     margin-right: 10px;
-    border-right: 1px solid #fff;
+    border-right: 1px solid var(--accent);
     padding-right: 10px;
 }
 
@@ -64,13 +94,13 @@ a {
 }
 
 #header .tabs ul li a {
-    color: #fff;
+    background-color: var(--black);
     text-decoration: none;
 }
 
 .tab {
     overflow: hidden;
-    background-color: #333;
+    background-color: var(--black);
     display: flex;               
     justify-content: center;        
     align-items: center;          
@@ -81,7 +111,7 @@ a {
 .tab button {
 
     background-color: inherit;
-    color: #fff;
+    color: var(--text-color);
     float: left;
     border: none;
     outline: none;
@@ -91,7 +121,7 @@ a {
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-    background-color: #535353;
+    background-color: var(--page-bg);
 }
 
 /* Create an active/current tablink class */
@@ -134,7 +164,8 @@ a {
 
 footer {
     margin-top: auto;
-
+    padding-top: 20px;
+    background-color: var(--black);
     height: 5%;
 
     display: flex;
@@ -142,7 +173,7 @@ footer {
 }
 
 footer a {
-    color: #697386;
+    color: var(--text-color);
     font-weight: 600;
     margin: 0 10px;
 }
@@ -189,8 +220,8 @@ footer span {
     display: flex;
     justify-content: center;
     height: 83vh;
-
     overflow: auto;
+    padding: 40px 150px 20px;
 }
 
 table {
@@ -202,8 +233,8 @@ table {
 }
 
 tr {
-    border-bottom: 1px solid #333;
-    height: 50px;
+    border-bottom: 1px solid var(--text-color);
+    height: 70px;
 }
 
 th {
@@ -219,18 +250,19 @@ th {
 }
 
 .buttons button {
-    width: 150px;
+    min-width: 150px;
+    min-height: 35px;
 
-    font-size: 25px;
-
+    font-size: 15px;
+    
     border-radius: 5px;
     border-width: 0;
-    background-color: #d7d7d7;
+    background-color: var(--accent);
 }
 
 .buttons button:hover {
     transition: background-color 0.3s ease-in;
-    background-color: #838383;
+    background-color: var(--light-accent);
 }
 
 .add_new {
@@ -238,18 +270,20 @@ th {
 }
 
 .add_new input[type="text"] {
-    width: 200px;
+    min-width: 200px;
+    min-height: 30px;
 
-    font-size: 25px;
-
+    font-size: 15px;
+    padding-left: 10px;
     border-radius: 5px;
     border-width: 0;
 }
 
 .add_new input[type="submit"] {
-    width: 150px;
+    min-width: 200px;
+    min-height: 30px;
 
-    font-size: 25px;
+    font-size: 15px;
 
     border-radius: 5px;
     border-width: 0;
@@ -269,12 +303,12 @@ th {
 /* Закругляем углы и задаем цвет полосы прокрутки */
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: #888;
+    background-color: var(--black);
 }
 
 /* Задаем цвет трека полосы прокрутки */
 ::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
+    background-color: var(--page-bg);
 }
 
 /* Задаем ширину полосы прокрутки */
@@ -300,11 +334,15 @@ th {
 }
 
 select {
-    border: 0;
 
-    font-size: 25px;
+    background-color: #333333;
+    min-width: 200px;
+    min-height: 30px;
 
-    background-color: #f2f2f2;
+    font-size: 15px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border-width: 0;
 }
 
 button {
@@ -314,8 +352,16 @@ td input {
     font-size: 25px;
 
     border: 0;
+    color:#252526;
+    background-color: var(--text-color);
+}
 
-    background-color: #f2f2f2;
+td select {
+    font-size: 15px;
+
+    border: 0;
+    color:#252526;
+    background-color: var(--text-color);
 }
 
 td, th {
@@ -375,8 +421,8 @@ input[type="checkbox"]:checked + span {
 }
 
 #langToggle.--white {
-    background-color: #cccccc;
-    color: #333333;
+    background-color: var(--accent);
+    color: var(--text-color);
     border-radius: 5px;
     border-width: 0;
     transition: background-color 0.3s ease-in;
@@ -387,6 +433,5 @@ input[type="checkbox"]:checked + span {
 }
 
 #langToggle.--white:hover {
-    background-color: #9b9b9b;
-    color: #333333;
+    background-color: var(--light-accent);
 }

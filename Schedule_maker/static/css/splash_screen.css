@@ -1,22 +1,65 @@
-* {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif;
+:root {
+    --black: #171718;
+    --black-border: #26292D;
+    --white: #ffffff;
+    --purple: #5C62EC;
+    --light-purple: #5c61ecc4;
+
+    --text-color: var(--black);
+    --dark-bg: var(--black);
+    --dark-border: var(--black-border);
+    --header-text: var(--white);
+    --accent: var(--purple);
+    --light-accent: var(--light-purple);
+
+    /* Dark mode */
+    --page-bg: #252526;
+    --text-color: var(--white);
+
+    --title-1: var(--white);
+
+    --project-card-bg: var(--black);
+    --project-card-text: var(--white);
+    --box-shadow: 0px 5px 35px  rgba(0, 0, 0, 0.8);
 }
 
+
+* {
+    padding: 0;
+    margin: 0;
+    color: var(--text-color);
+    box-sizing: border-box;
+    word-wrap: break-word;
+    /* font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue, Ubuntu, sans-serif; */
+    font-family: "Open Sans", sans-serif;
+    letter-spacing: 0.2px;
+}
 html, body {
-    width: 100%;
+    /* Color mode */
+    background-color: var(--black);
+    color: var(--text-color);
+
     height: 100%;
+    width: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #f0f0f0;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--black);
+}
+
+
 .container {
-    width: 40%;
-    height: 70%;
-    background-color: #fff;
+    min-width: 40%;
+    min-height: 70%;
+    background-color: var(--page-bg);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -53,8 +96,11 @@ h1 {
     display: inline-block;
     position: relative;
     left: 20%;
-    height: 100%;
+    height: auto; /* убираем жесткое ограничение по высоте */
+    max-width: 100%; /* ограничиваем ширину */
+    word-wrap: break-word; /* обтекание длинных слов */
 }
+
 
 .who h4 {
     text-align: left;
@@ -77,10 +123,11 @@ img {
     margin-top: 7%;
     vertical-align: top;
     height: 35%;
+    margin-right: 70px;
 }
 
 .actions {
-    margin-top: 5%;
+    margin-top: 45px;
     display: flex;
     justify-content: space-evenly;
 
@@ -93,7 +140,7 @@ img {
 .actions button {
     width: 25%;
 
-    background-color: #333333;
+    background-color: var(--accent);
     color: #cccccc;
 
     border-radius: 5px;
@@ -105,7 +152,7 @@ img {
 .actions button:hover {
     cursor: pointer;
 
-    background-color: #cccccc;
+    background-color: var(--light-accent);
     color: #333333;
 }
 
