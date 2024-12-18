@@ -359,8 +359,8 @@ td input {
     font-size: 25px;
 
     border: 0;
-    color:#252526;
-    background-color: var(--text-color);
+    color: var(--text-color);
+    background-color: var(--accent);
 }
 
 td select {
