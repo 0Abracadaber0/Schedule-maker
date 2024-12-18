@@ -430,8 +430,10 @@ input[type="checkbox"]:checked + span {
     cursor: pointer;
     font-size: 14px;
     white-space: nowrap; /* Чтобы текст в кнопке не переносился */
+    margin-left: 10px; /* Добавляем отступ */
 }
 
 #langToggle.--white:hover {
     background-color: var(--light-accent);
 }
+

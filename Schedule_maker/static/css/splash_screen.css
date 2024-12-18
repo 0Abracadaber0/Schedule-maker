@@ -76,10 +76,15 @@ h1, h2, h3, h4, h5, h6 {
 
 h2 {
     margin-top: 9%;
+    margin-bottom: 7px;
 }
 
 h1 {
-    margin-top: 1%;
+    margin-top: 18px;
+}
+
+h4 {
+    margin-top: 7px;
 }
 
 .img {
@@ -141,7 +146,7 @@ img {
     width: 25%;
 
     background-color: var(--accent);
-    color: #cccccc;
+    color: var(--text-color);
 
     border-radius: 5px;
     border-width: 0;
@@ -156,4 +161,20 @@ img {
     color: #333333;
 }
 
+#langToggle {
+    background-color: var(--black);
+    color: var(--text-color);
+    max-width: 60px;
+    border-radius: 5px;
+    border-width: 0;
+    transition: background-color 0.3s ease-in;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap; /* Чтобы текст в кнопке не переносился */
+}
+
+#langToggle:hover {
+    background-color: #333333;
+}
 
