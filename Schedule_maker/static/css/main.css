@@ -249,6 +249,8 @@ th {
 
 }
 
+
+
 .buttons button {
     min-width: 150px;
     min-height: 35px;
@@ -335,14 +337,19 @@ th {
 
 select {
 
-    background-color: #333333;
+    background-color: var(--white);  
+    color: var(--black);  
     min-width: 200px;
     min-height: 30px;
-
     font-size: 15px;
     padding-left: 10px;
     border-radius: 5px;
     border-width: 0;
+}
+
+select option {
+    background-color: var(--white);  
+    color: var(--black);            
 }
 
 button {
