@@ -294,3 +294,23 @@ a.ssolink {
     font-weight: 600;
     display: block;
 }
+
+/* Ошибка для полей */
+.field input.error {
+    border: 2px solid red; /* Красная рамка */
+    background-color: #ffe6e6; /* Светлый фон для поля с ошибкой */
+  }
+  
+  /* Сообщение об ошибке */
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: none; /* Скрыто по умолчанию */
+  }
+  
+  /* Когда есть ошибка, показываем сообщение */
+  .error-message.show {
+    display: block; /* Показываем сообщение */
+  }
+  

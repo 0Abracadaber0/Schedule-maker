@@ -6,63 +6,61 @@
   <link rel="stylesheet" type="text/css" href="../static/css/register.css">
   <link rel="shortcut icon" href="../static/images/Logo_BNTU.png"/>
   <script src="../static/js/languageSwitcher.js" defer></script>
+  <script src="../static/js/validate.js" defer></script>
 </head>
 
 <body>
-<div class="login-root">
-  <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh; flex-grow: 1;">
-    <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
-      <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-        <h1><a href="/main" rel="dofollow" data-ru="Schedule maker" data-en="Schedule maker">Schedule maker</a></h1>
-      </div>
-      <div class="formbg-outer">
-        <div class="formbg">
-          <div class="formbg-inner padding-horizontal--48">
-            <span class="padding-bottom--15" data-ru="Регистрация" data-en="Register">Регистрация</span>
-            <form id="stripe-login" method="post">
-              <div class="field padding-bottom--24">
-                <label for="email" data-ru="Email" data-en="Email">Email</label>
-                <input type="email" name="email" id="email" required>
-              </div>
-              <div class="field padding-bottom--24">
-                <div class="grid--50-50">
-                  <label for="password" data-ru="Пароль" data-en="Password">Пароль</label>
-                </div>
-                <input type="password" name="password" id="password" required>
-              </div>
-              <div class="field padding-bottom--24">
-                <div class="grid--50-50">
-                  <label for="password_confirm" data-ru="Подтверждение пароля" data-en="Confirm Password">Подтверждение пароля</label>
-                </div>
-                <input type="password" name="password_confirm" id="password_confirm" required>
-                <div id="alert">
-                  <span data-ru="Пароли не совпадают. Пожалуйста, попробуйте еще раз." data-en="Passwords do not match. Please try again.">Пароли не совпадают. Пожалуйста, попробуйте еще раз.</span>
-                </div>
-              </div>
-              <div class="field padding-bottom--24">
-                <input type="submit" name="submit" value="Продолжить" data-ru="Продолжить" data-en="Continue">
-              </div>
-              <div class="field --en">
-                <a class="ssolink" href="{{ url }}" data-ru="Войти с помощью Google" data-en="Login with Google">Войти с помощью Google</a>
-                <button id="langToggle" onclick="toggleLanguage()">En</button>
-              </div>
-            </form>
-          </div>
+  <div class="login-root">
+    <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh; flex-grow: 1;">
+      <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
+        <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
+          <h1><a href="/main" rel="dofollow" data-ru="Schedule maker" data-en="Schedule maker">Schedule maker</a></h1>
         </div>
-        <div class="footer-link padding-top--24">
-          <span data-ru="Есть аккаунт?" data-en="Already have an account?">Есть аккаунт? <a href="/login" data-ru="Вход в аккаунт" data-en="Login">Вход в аккаунт</a></span>
-          <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
-            <span><a href="/main" data-ru="© Schedule maker" data-en="© Schedule maker">© Schedule maker</a></span>
-            <span><a href="/static-pages/about-authors" data-ru="Контакты" data-en="Contacts">Контакты</a></span>
-            <span><a href="/static-pages/about-site" data-ru="О сайте" data-en="About the site">О сайте</a></span>
+        <div class="formbg-outer">
+          <div class="formbg">
+            <div class="formbg-inner padding-horizontal--48">
+              <span class="padding-bottom--15" data-ru="Регистрация" data-en="Register">Регистрация</span>
+              <form id="stripe-login" method="post" novalidate>
+                <div class="field padding-bottom--24">
+                  <label for="email" data-ru="Email" data-en="Email">Email</label>
+                  <input type="email" name="email" id="email" required>
+                  <div id="email-error-message" class="error-message"></div> <!-- Сообщение об ошибке для email -->
+                </div>
+                <div class="field padding-bottom--24">
+                  <div class="grid--50-50">
+                    <label for="password" data-ru="Пароль" data-en="Password">Пароль</label>
+                  </div>
+                  <input type="password" name="password" id="password" required>
+                </div>
+                <div class="field padding-bottom--24">
+                  <div class="grid--50-50">
+                    <label for="password_confirm" data-ru="Подтверждение пароля" data-en="Confirm Password">Подтверждение пароля</label>
+                  </div>
+                  <input type="password" name="password_confirm" id="password_confirm" required>
+                  <div id="password-confirm-error-message" class="error-message"></div> <!-- Сообщение об ошибке для подтверждения пароля -->
+                </div>
+                <div class="field padding-bottom--24">
+                  <input type="submit" name="submit" value="Продолжить" data-ru="Продолжить" data-en="Continue">
+                </div>
+                <div class="field --en">
+                  <a class="ssolink" href="{{ url }}" data-ru="Войти с помощью Google" data-en="Login with Google">Войти с помощью Google</a>
+                  <button id="langToggle" onclick="toggleLanguage()">En</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="footer-link padding-top--24">
+            <span data-ru="Есть аккаунт?" data-en="Already have an account?">Есть аккаунт? <a href="/login" data-ru="Вход в аккаунт" data-en="Login">Вход в аккаунт</a></span>
+            <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
+              <span><a href="/main" data-ru="© Schedule maker" data-en="© Schedule maker">© Schedule maker</a></span>
+              <span><a href="/static-pages/about-authors" data-ru="Контакты" data-en="Contacts">Контакты</a></span>
+              <span><a href="/static-pages/about-site" data-ru="О сайте" data-en="About the site">О сайте</a></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-
 </body>
 <script src="../static/js/index.js"></script>
 </html>
